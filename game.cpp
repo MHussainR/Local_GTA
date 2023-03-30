@@ -6,7 +6,8 @@
 
 // Game::~Game(){}
 
-GameObject* tree;
+GameObject* tree1;
+GameObject* tree2;
 
 void Game::init(const char* title, int x_pos, int y_pos, int height, int width, bool fullscreen)
 {
@@ -33,7 +34,8 @@ void Game::init(const char* title, int x_pos, int y_pos, int height, int width, 
     // SDL_Surface* tmpSurface = IMG_Load("Trees.png");
     // block = SDL_CreateTextureFromSurface(renderer, tmpSurface);
     // SDL_FreeSurface(tmpSurface);
-    tree = new GameObject("Trees.png", renderer);
+    tree1 = new GameObject("Trees.png", renderer, 0, 0);
+    tree2 = new GameObject("Trees.png", renderer, 100, 0);
     
 }
 
@@ -54,15 +56,17 @@ void Game::handleEvents()
 }
 void Game::update()
 {
-    tree->Update();
-    tree->moverRect.x = move;
-    move ++;
+    tree1->Update();
+    tree2->Update();
+    // tree->moverRect.x = move;
+    // move ++;
 
 }
 void Game::render()
 {
     SDL_RenderClear(renderer);
-    tree->Render();
+    tree1->Render();
+    tree2->Render();
     SDL_RenderPresent(renderer);
 }
 void Game::clean()
