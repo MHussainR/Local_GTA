@@ -11,10 +11,10 @@ GameObject::GameObject(const char* textursheet, SDL_Renderer* ren, int x, int y)
 
 void GameObject::Update()
 {
-    x_pos++;
-    y_pos++;
+    // x_pos++;
+    // y_pos++;
 
-    srcRect = {771, 48, 136, 192};
+    // srcRect = {771, 48, 136, 192};
     moverRect = {x_pos, y_pos, srcRect.w, srcRect.h};
 
 }

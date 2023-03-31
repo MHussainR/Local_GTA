@@ -6,12 +6,12 @@ class GameObject{
         GameObject(const char* texturesheet, SDL_Renderer* ren, int x, int y);
         ~GameObject();
 
-        void Update();
-        void Render();
+        virtual void Update();
+        virtual void Render();
         SDL_Rect srcRect, moverRect;
 
 
-    private:
+    protected:
         int x_pos, y_pos;
         SDL_Texture* objTexture;
         // SDL_Rect srcRect, moverRect;
