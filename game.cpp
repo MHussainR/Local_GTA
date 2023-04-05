@@ -50,6 +50,7 @@ void Game::handleEvents()
         case SDL_QUIT:
             isRunning = false;
             break;
+        case SDL_KeyboardEvent.
         // case SDLK_u:
         //     move+=100;
         //     break;
