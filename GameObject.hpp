@@ -13,6 +13,7 @@ public:
     virtual void Render();
     int getXpos();
     int getYpos();
+    SDL_Texture* getObjTexture();
     SDL_Rect srcRect, moverRect;
     bool inside_box_x, inside_box_y;
 

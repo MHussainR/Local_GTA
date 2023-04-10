@@ -2,14 +2,17 @@
 #include "TextureManager.hpp"
 #include "GameObject.hpp"
 #include "mapobject.hpp"
+#include "CarObject.hpp"
+#include "Characters.hpp"
+#include "MainCharacter.hpp"
 
 // Game::Game(){}
 
 // Game::~Game(){}
 SDL_Event Game::event;
 
-GameObject* tree1;
-GameObject* tree2;
+Characters *human;
+CarObject* car;
 MapObject* map;
 MapObject* screen;
 MapObject* instruction;
@@ -29,7 +32,7 @@ void Game::init(const char* title, int x_pos, int y_pos, int height, int width, 
         }
         renderer = SDL_CreateRenderer(window, -1 , 0);
         if (renderer){
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             std::cout << "Renderer Created" << std::endl;
         }
         isRunning = true;
@@ -40,8 +43,8 @@ void Game::init(const char* title, int x_pos, int y_pos, int height, int width, 
     // SDL_Surface* tmpSurface = IMG_Load("Trees.png");
     // block = SDL_CreateTextureFromSurface(renderer, tmpSurface);
     // SDL_FreeSurface(tmpSurface);
-    tree1 = new GameObject("assets/Trees.png", renderer, 600, 400);
-    tree2 = new GameObject("assets/Trees.png", renderer, 100, 0);
+    human = new MainCharacter("assets/players.png", renderer, 600, 400);
+    car = new CarObject("assets/cars.png", renderer, 600, 400);
     map = new MapObject("assets/map6.png", renderer, 0, 0);
     screen = new MapObject("assets/title5.png", renderer, 0, 0);
     instruction = new MapObject("assets/ins2.png", renderer, 0, 0);
@@ -97,6 +100,7 @@ void Game::update()
         }
         loader->load();
     } else if (title){
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         if (Game::event.type == SDL_QUIT){
             isRunning = false;
         }
@@ -129,28 +133,28 @@ void Game::update()
         }
         if (Game::event.type == SDL_KEYDOWN){
             if (Game::event.key.keysym.sym == SDLK_UP){
-                map->Update('u', tree1->inside_box_x, tree1->inside_box_y);
-                tree1->Update('u', map->getXpos(), map->getYpos());
+                map->Update('u', human->inside_box_x, human->inside_box_y);
+                human->Update('u', map->getXpos(), map->getYpos());
             }
             if (Game::event.key.keysym.sym == SDLK_DOWN){
-                map->Update('d', tree1->inside_box_x, tree1->inside_box_y);
-                tree1->Update('d', map->getXpos(), map->getYpos());
+                map->Update('d', human->inside_box_x, human->inside_box_y);
+                human->Update('d', map->getXpos(), map->getYpos());
             }
             if (Game::event.key.keysym.sym == SDLK_LEFT){
-                map->Update('l', tree1->inside_box_x, tree1->inside_box_y);
-                tree1->Update('l', map->getXpos(), map->getYpos());
+                map->Update('l', human->inside_box_x, human->inside_box_y);
+                human->Update('l', map->getXpos(), map->getYpos());
             }
             if (Game::event.key.keysym.sym == SDLK_RIGHT){
-                map->Update('r', tree1->inside_box_x, tree1->inside_box_y);
-                tree1->Update('r', map->getXpos(), map->getYpos());
+                map->Update('r', human->inside_box_x, human->inside_box_y);
+                human->Update('r', map->getXpos(), map->getYpos());
             }
             if (Game::event.key.keysym.sym == SDLK_r){
                 title = true;
             }
         }
         map->Update();
-        tree1->Update();
-        tree1->srcRect = {771, 48, 136, 192};
+        human->Update();
+        // car->srcRect = {616, 51, 200, 390};
         // tree1->moverRect = {600, 400, 136, 192};
         // tree2->Update();
         // tree2->srcRect = {544, 3, 204, 237};
@@ -173,9 +177,8 @@ void Game::render()
     else if (instructions) {
         instruction->Render();
     } else {
-    map->Render();
-    tree1->Render();
-    tree2->Render();
+        map->Render();
+        human->Render();
     }
     SDL_RenderPresent(renderer);
 }

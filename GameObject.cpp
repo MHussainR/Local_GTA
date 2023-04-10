@@ -2,10 +2,12 @@
 #include "TextureManager.hpp"
 #include<iostream>
 
+
 GameObject::GameObject(const char *textursheet, SDL_Renderer *ren, int x, int y)
 {
     renderer = ren;
     objTexture = TextureManager::LoadTexture(textursheet, ren);
+
 
     x_pos = x;
     y_pos = y;
@@ -53,6 +55,10 @@ int GameObject::getYpos(){
     return y_pos;
 }
 
+SDL_Texture* GameObject::getObjTexture(){
+    return objTexture;
+}
+
 void GameObject::Update(char direction, int x, int y){
     if (x <= 0){
         if (x_pos <= 600){
@@ -69,8 +75,8 @@ void GameObject::Update(char direction, int x, int y){
         if (x_pos >= 600){
             inside_box_x = true;
         } else {
-            if (direction == 'l'){
-                x_pos -= 5;
+            if (direction == 'r'){
+                x_pos += 5;
                 inside_box_x = true;
             }
             inside_box_x = false;
