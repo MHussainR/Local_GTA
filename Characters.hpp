@@ -9,4 +9,5 @@ public:
     // virtual void Update(char) = 0;
     virtual void Update(char, int, int) = 0;
     virtual void Render() = 0;
+    virtual void Run(bool) = 0;
 };

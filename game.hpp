@@ -10,7 +10,7 @@ class Game {
         bool isRunning;
         SDL_Window *window;
         SDL_Renderer *renderer;
-        bool title = false, control = false, instructions = false, loading = true;
+        bool title = false, control = false, instructions = false, loading = true, is_sprinting = false;
     public:
         Game(){}
         ~Game (){}

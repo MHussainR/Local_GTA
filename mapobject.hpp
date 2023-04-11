@@ -13,7 +13,10 @@ class MapObject : public GameObject
         void Update(char direction, bool movex, bool movey);
         void Render();
         void load();
+        void set_speed(int);
         int frame = 0;
+    private:
+        int game_speed;
 };
 
 // class MapObject{

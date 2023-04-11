@@ -7,7 +7,6 @@
 #include "MainCharacter.hpp"
 
 // Game::Game(){}
-// kuch bhi
 // Game::~Game(){}
 SDL_Event Game::event;
 
@@ -147,39 +146,109 @@ void Game::update()
     }
     else
     {
+
         if (Game::event.type == SDL_QUIT)
         {
             isRunning = false;
         }
-        if (Game::event.type == SDL_KEYDOWN)
+        const Uint8 *state = SDL_GetKeyboardState(NULL);
+        if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_UP])
         {
-            if (Game::event.key.keysym.sym == SDLK_UP)
-            {
-                map->Update('u', human->inside_box_x, human->inside_box_y);
-                human->Update('u', map->getXpos(), map->getYpos());
-            }
-            if (Game::event.key.keysym.sym == SDLK_DOWN)
-            {
-                map->Update('d', human->inside_box_x, human->inside_box_y);
-                human->Update('d', map->getXpos(), map->getYpos());
-            }
-            if (Game::event.key.keysym.sym == SDLK_LEFT)
-            {
-                map->Update('l', human->inside_box_x, human->inside_box_y);
-                human->Update('l', map->getXpos(), map->getYpos());
-            }
-            if (Game::event.key.keysym.sym == SDLK_RIGHT)
-            {
-                map->Update('r', human->inside_box_x, human->inside_box_y);
-                human->Update('r', map->getXpos(), map->getYpos());
-            }
-            if (Game::event.key.keysym.sym == SDLK_r)
-            {
-                title = true;
-            }
+            map->Update('u', human->inside_box_x, human->inside_box_y);
+            map->set_speed(5);
+            human->Run(true);
+            human->Update('u', map->getXpos(), map->getYpos());
         }
+        else if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_DOWN])
+        {
+            map->Update('d', human->inside_box_x, human->inside_box_y);
+            map->set_speed(5);
+            human->Run(true);
+            human->Update('d', map->getXpos(), map->getYpos());
+        }
+        else if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_RIGHT])
+        {
+            map->Update('r', human->inside_box_x, human->inside_box_y);
+            map->set_speed(5);
+            human->Run(true);
+            human->Update('r', map->getXpos(), map->getYpos());
+        }
+        else if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_LEFT])
+        {
+            map->Update('l', human->inside_box_x, human->inside_box_y);
+            map->set_speed(5);
+            human->Run(true);
+            human->Update('l', map->getXpos(), map->getYpos());
+        }
+        else if (state[SDL_SCANCODE_LEFT])
+        {
+            map->Update('l', human->inside_box_x, human->inside_box_y);
+            map->set_speed(2);
+            human->Run(false);
+            human->Update('l', map->getXpos(), map->getYpos());
+        }
+        else if (state[SDL_SCANCODE_UP])
+        {
+            map->Update('u', human->inside_box_x, human->inside_box_y);
+            map->set_speed(2);
+            human->Run(false);
+            human->Update('u', map->getXpos(), map->getYpos());
+        }
+        else if (state[SDL_SCANCODE_RIGHT])
+        {
+            map->Update('r', human->inside_box_x, human->inside_box_y);
+            map->set_speed(2);
+            human->Run(false);
+            human->Update('r', map->getXpos(), map->getYpos());
+        }
+        else if (state[SDL_SCANCODE_DOWN])
+        {
+            map->Update('d', human->inside_box_x, human->inside_box_y);
+            map->set_speed(2);
+            human->Run(false);
+            human->Update('d', map->getXpos(), map->getYpos());
+        }
+        else if (state[SDL_SCANCODE_R])
+        {
+            title = true;
+        }
+
+        // if (Game::event.type == SDL_KEYDOWN)
+        // {
+        //     if (Game::event.key.keysym.sym == SDLK_LSHIFT)
+        //     {
+        //         std::cout << "run";
+        //     }
+        //     if (Game::event.key.keysym.sym == SDLK_UP)
+        //     {
+        //         map->Update('u', human->inside_box_x, human->inside_box_y);
+        //         human->Update('u', map->getXpos(), map->getYpos());
+        //     }
+        //     if (Game::event.key.keysym.sym == SDLK_DOWN)
+        //     {
+        //         map->Update('d', human->inside_box_x, human->inside_box_y);
+        //         human->Update('d', map->getXpos(), map->getYpos());
+        //     }
+        //     if (Game::event.key.keysym.sym == SDLK_LEFT)
+        //     {
+        //         map->Update('l', human->inside_box_x, human->inside_box_y);
+        //         human->Update('l', map->getXpos(), map->getYpos());
+        //     }
+        //     if (Game::event.key.keysym.sym == SDLK_RIGHT)
+        //     {
+        //         map->Update('r', human->inside_box_x, human->inside_box_y);
+        //         human->Update('r', map->getXpos(), map->getYpos());
+        //     }
+        //     if (Game::event.key.keysym.sym == SDLK_r)
+        //     {
+        //         title = true;
+        //     }
+        // }
+       
         map->Update();
         human->Update();
+
+
         // car->srcRect = {616, 51, 200, 390};
         // tree1->moverRect = {600, 400, 136, 192};
         // tree2->Update();
