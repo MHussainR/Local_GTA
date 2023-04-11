@@ -49,7 +49,7 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     // block = SDL_CreateTextureFromSurface(renderer, tmpSurface);
     // SDL_FreeSurface(tmpSurface);
     human = new MainCharacter("assets/players.png", renderer, 600, 400);
-    car = new CarObject("assets/cars.png", renderer, 600, 400);
+    car = new CarObject("assets/cars.png", renderer, 600*2, 400*2);
     map = new MapObject("assets/map6.png", renderer, 0, 0);
     screen = new MapObject("assets/title5.png", renderer, 0, 0);
     instruction = new MapObject("assets/ins2.png", renderer, 0, 0);
@@ -158,6 +158,8 @@ void Game::update()
             map->set_speed(5);
             human->Run(true);
             human->Update('u', map->getXpos(), map->getYpos());
+            car->Update('u', map->getXpos(), map->getYpos(), human->inside_box_x, human->inside_box_y);
+            car->set_speed(5);
         }
         else if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_DOWN])
         {
@@ -165,6 +167,8 @@ void Game::update()
             map->set_speed(5);
             human->Run(true);
             human->Update('d', map->getXpos(), map->getYpos());
+            car->Update('d', map->getXpos(), map->getYpos(), human->inside_box_x, human->inside_box_y);
+            car->set_speed(5);
         }
         else if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_RIGHT])
         {
@@ -172,6 +176,8 @@ void Game::update()
             map->set_speed(5);
             human->Run(true);
             human->Update('r', map->getXpos(), map->getYpos());
+            car->Update('r', map->getXpos(), map->getYpos(), human->inside_box_x, human->inside_box_y);
+            car->set_speed(5);
         }
         else if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_LEFT])
         {
@@ -179,38 +185,83 @@ void Game::update()
             map->set_speed(5);
             human->Run(true);
             human->Update('l', map->getXpos(), map->getYpos());
+            car->Update('l', map->getXpos(), map->getYpos(), human->inside_box_x, human->inside_box_y);
+            car->set_speed(5);
         }
         else if (state[SDL_SCANCODE_LEFT])
         {
             map->Update('l', human->inside_box_x, human->inside_box_y);
-            map->set_speed(2);
+            // map->set_speed(2);
             human->Run(false);
             human->Update('l', map->getXpos(), map->getYpos());
+            car->Update('l', map->getXpos(), map->getYpos(), human->inside_box_x, human->inside_box_y);
+            if (car->getStatus()){
+                map->set_speed(5);
+            } else {
+                map->set_speed(2);
+                car->set_speed(2);
+            }
         }
         else if (state[SDL_SCANCODE_UP])
         {
             map->Update('u', human->inside_box_x, human->inside_box_y);
-            map->set_speed(2);
+            // map->set_speed(2);
             human->Run(false);
             human->Update('u', map->getXpos(), map->getYpos());
+            car->Update('u', map->getXpos(), map->getYpos(), human->inside_box_x, human->inside_box_y);
+            if (car->getStatus()){
+                map->set_speed(5);
+            } else {
+                map->set_speed(2);
+                car->set_speed(2);
+            }
         }
         else if (state[SDL_SCANCODE_RIGHT])
         {
             map->Update('r', human->inside_box_x, human->inside_box_y);
-            map->set_speed(2);
+            // map->set_speed(2);
             human->Run(false);
             human->Update('r', map->getXpos(), map->getYpos());
+            car->Update('r', map->getXpos(), map->getYpos(), human->inside_box_x, human->inside_box_y);
+            if (car->getStatus()){
+                map->set_speed(5);
+            } else {
+                map->set_speed(2);
+                car->set_speed(2);
+            }
         }
         else if (state[SDL_SCANCODE_DOWN])
         {
             map->Update('d', human->inside_box_x, human->inside_box_y);
-            map->set_speed(2);
+            // map->set_speed(2);
             human->Run(false);
             human->Update('d', map->getXpos(), map->getYpos());
+            car->Update('d', map->getXpos(), map->getYpos(), human->inside_box_x, human->inside_box_y);
+            if (car->getStatus()){
+                map->set_speed(5);
+            } else {
+                map->set_speed(2);
+                car->set_speed(2);
+            }
+            // std::cout << car->getStatus();
+            
         }
         else if (state[SDL_SCANCODE_R])
         {
             title = true;
+            map->Reset();
+            car->Reset();
+        }
+        // else if (state[SDL_SCANCODE_F])
+        // {
+            
+        // }
+        else if (Game::event.type == SDL_KEYDOWN)
+        {
+            if (Game::event.key.keysym.sym == SDLK_f)
+            {
+                car->setStatus(human->getXpos(), human->getYpos());
+            }
         }
 
         // if (Game::event.type == SDL_KEYDOWN)
@@ -247,9 +298,9 @@ void Game::update()
        
         map->Update();
         human->Update();
-
-
-        // car->srcRect = {616, 51, 200, 390};
+        car->Update();
+        // car->draw_circle(renderer, 600, 400, 100);
+        car->srcRect = {616, 51, 200, 390};
         // tree1->moverRect = {600, 400, 136, 192};
         // tree2->Update();
         // tree2->srcRect = {544, 3, 204, 237};
@@ -278,7 +329,10 @@ void Game::render()
     else
     {
         map->Render();
-        human->Render();
+        car->Render();
+        if (!car->getStatus()){
+            human->Render();
+        }
     }
     SDL_RenderPresent(renderer);
 }

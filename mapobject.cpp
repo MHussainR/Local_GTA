@@ -213,9 +213,13 @@ void MapObject::load()
     // }
 
     // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-}
 
+}
 void MapObject::set_speed(int speed)
 {
     this->game_speed = speed;
+}
+void MapObject::Reset(){
+    x_pos = 0;
+    y_pos = 0;
 }

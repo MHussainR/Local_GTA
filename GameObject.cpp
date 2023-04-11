@@ -129,3 +129,7 @@ void GameObject::Update(char direction, int x, int y){
 
     // std::cout << x_pos << " " << y_pos << std::endl;
 }
+
+void GameObject::Reset(){
+    
+}

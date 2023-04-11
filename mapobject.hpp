@@ -14,6 +14,7 @@ class MapObject : public GameObject
         void Render();
         void load();
         void set_speed(int);
+        void Reset();
         int frame = 0;
     private:
         int game_speed;
