@@ -7,36 +7,42 @@
 #include "MainCharacter.hpp"
 
 // Game::Game(){}
-
+// kuch bhi
 // Game::~Game(){}
 SDL_Event Game::event;
 
 Characters *human;
-CarObject* car;
-MapObject* map;
-MapObject* screen;
-MapObject* instruction;
-MapObject* loader;
+CarObject *car;
+MapObject *map;
+MapObject *screen;
+MapObject *instruction;
+MapObject *loader;
 
-void Game::init(const char* title, int x_pos, int y_pos, int height, int width, bool fullscreen)
+void Game::init(const char *title, int x_pos, int y_pos, int height, int width, bool fullscreen)
 {
     int flags = 0;
-    if (fullscreen){
+    if (fullscreen)
+    {
         flags = SDL_WINDOW_FULLSCREEN;
     }
-    if (SDL_Init(SDL_INIT_EVERYTHING) == 0){
-            std::cout << "Subsystems initialized" << std::endl;
-            window = SDL_CreateWindow(title, x_pos, y_pos, width, height, flags);
-        if (window){
+    if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
+    {
+        std::cout << "Subsystems initialized" << std::endl;
+        window = SDL_CreateWindow(title, x_pos, y_pos, width, height, flags);
+        if (window)
+        {
             std::cout << "Window Created" << std::endl;
         }
-        renderer = SDL_CreateRenderer(window, -1 , 0);
-        if (renderer){
+        renderer = SDL_CreateRenderer(window, -1, 0);
+        if (renderer)
+        {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             std::cout << "Renderer Created" << std::endl;
         }
         isRunning = true;
-    } else {
+    }
+    else
+    {
         isRunning = false;
     }
 
@@ -49,7 +55,6 @@ void Game::init(const char* title, int x_pos, int y_pos, int height, int width, 
     screen = new MapObject("assets/title5.png", renderer, 0, 0);
     instruction = new MapObject("assets/ins2.png", renderer, 0, 0);
     loader = new MapObject("assets/loader.png", renderer, 0, 0);
-    
 }
 
 void Game::handleEvents()
@@ -69,7 +74,7 @@ void Game::handleEvents()
 void Game::update()
 {
 
-    SDL_PollEvent (&event);
+    SDL_PollEvent(&event);
     // switch (event.type){
     //     case SDL_QUIT:
     //         isRunning = false;
@@ -80,8 +85,10 @@ void Game::update()
     //     default:
     //         break;
     // }
-    if (loading){
-        if (Game::event.type == SDL_QUIT){
+    if (loading)
+    {
+        if (Game::event.type == SDL_QUIT)
+        {
             isRunning = false;
         }
         // if(Game::event.type == SDL_MOUSEBUTTONDOWN){
@@ -94,61 +101,80 @@ void Game::update()
         //         instructions = true;
         //     }
         // }
-        if (loader->frame == 360){
+        if (loader->frame == 360)
+        {
             loading = false;
             title = true;
         }
         loader->load();
-    } else if (title){
+    }
+    else if (title)
+    {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        if (Game::event.type == SDL_QUIT){
+        if (Game::event.type == SDL_QUIT)
+        {
             isRunning = false;
         }
-        if(Game::event.type == SDL_MOUSEBUTTONDOWN){
+        if (Game::event.type == SDL_MOUSEBUTTONDOWN)
+        {
             int xMouse, yMouse;
-            SDL_GetMouseState(&xMouse,&yMouse);
+            SDL_GetMouseState(&xMouse, &yMouse);
             if (xMouse >= 49 && xMouse <= 194 && yMouse >= 337 && yMouse <= 378)
                 title = false;
-            if (xMouse >= 50 && xMouse <= 495 && yMouse >= 508 && yMouse <= 548){
+            if (xMouse >= 50 && xMouse <= 495 && yMouse >= 508 && yMouse <= 548)
+            {
                 title = false;
                 instructions = true;
             }
         }
         screen->Update();
-
-    } else if (instructions){
-        if (Game::event.type == SDL_QUIT){
+    }
+    else if (instructions)
+    {
+        if (Game::event.type == SDL_QUIT)
+        {
             isRunning = false;
         }
-        if(Game::event.type == SDL_KEYDOWN){
-            if (Game::event.key.keysym.sym == SDLK_r){
+        if (Game::event.type == SDL_KEYDOWN)
+        {
+            if (Game::event.key.keysym.sym == SDLK_r)
+            {
                 instructions = false;
                 title = true;
             }
         }
         instruction->Update();
-    } else {
-        if (Game::event.type == SDL_QUIT){
+    }
+    else
+    {
+        if (Game::event.type == SDL_QUIT)
+        {
             isRunning = false;
         }
-        if (Game::event.type == SDL_KEYDOWN){
-            if (Game::event.key.keysym.sym == SDLK_UP){
+        if (Game::event.type == SDL_KEYDOWN)
+        {
+            if (Game::event.key.keysym.sym == SDLK_UP)
+            {
                 map->Update('u', human->inside_box_x, human->inside_box_y);
                 human->Update('u', map->getXpos(), map->getYpos());
             }
-            if (Game::event.key.keysym.sym == SDLK_DOWN){
+            if (Game::event.key.keysym.sym == SDLK_DOWN)
+            {
                 map->Update('d', human->inside_box_x, human->inside_box_y);
                 human->Update('d', map->getXpos(), map->getYpos());
             }
-            if (Game::event.key.keysym.sym == SDLK_LEFT){
+            if (Game::event.key.keysym.sym == SDLK_LEFT)
+            {
                 map->Update('l', human->inside_box_x, human->inside_box_y);
                 human->Update('l', map->getXpos(), map->getYpos());
             }
-            if (Game::event.key.keysym.sym == SDLK_RIGHT){
+            if (Game::event.key.keysym.sym == SDLK_RIGHT)
+            {
                 map->Update('r', human->inside_box_x, human->inside_box_y);
                 human->Update('r', map->getXpos(), map->getYpos());
             }
-            if (Game::event.key.keysym.sym == SDLK_r){
+            if (Game::event.key.keysym.sym == SDLK_r)
+            {
                 title = true;
             }
         }
@@ -159,24 +185,29 @@ void Game::update()
         // tree2->Update();
         // tree2->srcRect = {544, 3, 204, 237};
         // title_screen->Update();
-        
+
         // map->moverRect = {0, 0, }
         // tree->moverRect.x = move;
         // move ++;
-        }
-
+    }
 }
 void Game::render()
 {
     SDL_RenderClear(renderer);
-    if (loading){
+    if (loading)
+    {
         loader->Render();
-    } else if (title){
+    }
+    else if (title)
+    {
         screen->Render();
     }
-    else if (instructions) {
+    else if (instructions)
+    {
         instruction->Render();
-    } else {
+    }
+    else
+    {
         map->Render();
         human->Render();
     }
