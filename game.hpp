@@ -3,13 +3,14 @@
 #include<iostream>
 #include<SDL_image.h>
 
+
 class Game {
  
     private:
         bool isRunning;
         SDL_Window *window;
         SDL_Renderer *renderer;
-        int move = 0;
+        bool title = true, control = false, instructions = false, loading = false, is_sprinting = false;
     public:
         Game(){}
         ~Game (){}
@@ -22,5 +23,7 @@ class Game {
         void clean();
 
         bool running () {return isRunning;}
+
+        static SDL_Event event;
 
 };
