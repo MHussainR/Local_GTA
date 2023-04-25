@@ -1,6 +1,6 @@
 #include "mapobject.hpp"
 #include "TextureManager.hpp"
-#include <iostream>
+// #include <iostream>
 
 MapObject::MapObject(const char *textursheet, SDL_Renderer *ren, int x, int y) : GameObject(textursheet, ren, x, y) {}
 // renderer = ren;
@@ -264,3 +264,12 @@ int MapObject::getMapAllowance(int i, int j)
 // {
 //     return game_speed_y;
 // }
+
+int MapObject::getSpeed(){
+    return game_speed;
+}
+
+void MapObject::set_speed(int val){
+
+    game_speed = val;
+}

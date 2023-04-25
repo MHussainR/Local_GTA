@@ -8,11 +8,16 @@ class MapObject : public GameObject
 
     public:
         MapObject(const char *texturesheet, SDL_Renderer *ren, int x, int y);
-        void Update();
+        // virtual void Update();
         void Update(char direction);
         void Update(char direction, bool movex, bool movey);
         void Update(char direction, bool movex, bool movey, int speedx, int speedy);
         void Render();
+        // MapObject(const char* texturesheet, SDL_Renderer* ren, int x, int y);
+        void Update();
+        // void Update(char direction);
+        // void Update(char direction, bool movex, bool movey);
+        // virtual void Render();
         void load();
         int *getMapCoordinates();
         int getMapAllowance(int, int);
@@ -23,9 +28,12 @@ class MapObject : public GameObject
         // int get_gameSpeedx();
         // int get_gameSpeedy();
 
+        int getSpeed();
+        void set_speed(int);
     private:
         int game_speed_x;
         int game_speed_y;
+        int game_speed;
 
         int gameMap[40][60] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
