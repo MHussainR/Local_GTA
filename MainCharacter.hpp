@@ -1,5 +1,8 @@
 #include "Characters.hpp"
 
+class Physics;
+
+
 class MainCharacter : public Characters
 {
     public:
@@ -10,6 +13,8 @@ class MainCharacter : public Characters
         void Render() override;
         void Animator(char) ;
         void Run(bool) override;
+        SDL_Rect *getMoverRect();
+        friend class Physics;
 
     private:
         int lFrame, rFrame, uFrame, dFrame;

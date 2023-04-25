@@ -20,22 +20,22 @@ void MapObject::Update(char direction)
     if (direction == 'u')
     {
         if (y_pos != 0)
-            y_pos -= game_speed;
+            y_pos += game_speed_y;
     }
     else if (direction == 'd')
     {
         if (y_pos != 3200)
-            y_pos += game_speed;
+            y_pos += game_speed_y;
     }
     else if (direction == 'l')
     {
         if (x_pos != 0)
-            x_pos -= game_speed;
+            x_pos += game_speed_x;
     }
     else if (direction == 'r')
     {
         if (x_pos != 4800)
-            x_pos += game_speed;
+            x_pos += game_speed_x;
     }
     // x_pos++;
     // y_pos++;
@@ -47,32 +47,32 @@ void MapObject::Update(char direction)
 
 void MapObject::Update(char direction, bool movex, bool movey)
 {
-    if (movey == false)
-    {
+    // if (movey == false)
+    // {
         if (direction == 'u')
         {
-            if (y_pos != 0)
-                y_pos -= game_speed;
+            if (y_pos + game_speed_y >= 0)
+                y_pos += game_speed_y;
         }
         else if (direction == 'd')
         {
-            if (y_pos != 3200)
-                y_pos += game_speed;
+            if (y_pos + game_speed_y <= 3200)
+                y_pos += game_speed_y;
         }
-    }
-    if (movex == false)
-    {
+    // }
+    // if (movex == false)
+    // {
         if (direction == 'l')
         {
-            if (x_pos != 0)
-                x_pos -= game_speed;
+            if (x_pos + game_speed_x >= 0)
+                x_pos += game_speed_x;
         }
         else if (direction == 'r')
         {
-            if (x_pos != 4800)
-                x_pos += game_speed;
+            if (x_pos + game_speed_x <= 4800)
+                x_pos += game_speed_x;
         }
-    }
+    // }
     // x_pos++;
     // y_pos++;
     // std::cout << x_pos << " " << y_pos << std::endl;
@@ -80,6 +80,18 @@ void MapObject::Update(char direction, bool movex, bool movey)
     // srcRect = {771, 48, 136, 192};
     srcRect = {x_pos, y_pos, 1200, 800};
     // moverRect = {x_pos, y_pos, srcRect.w, srcRect.h};
+    // std::cout << x_pos << " " << y_pos << std::endl;
+}
+
+void MapObject::Update(char direction, bool movex, bool movey, int speedx, int speedy)
+{
+    this->game_speed_x = speedx;
+    this->game_speed_y = speedy;
+    if (direction != 'n')
+    {
+        Update(direction, movex, movey);
+    }
+    Update();
 }
 
 void MapObject::Render()
@@ -213,13 +225,42 @@ void MapObject::load()
     // }
 
     // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+}
 
-}
-void MapObject::set_speed(int speed)
+// void MapObject::set_speedx(int speed)
+// {
+//     this->game_speed_x = speed;
+// }
+
+// void MapObject::set_speedy(int speed)
+// {
+//     this->game_speed_y = speed;
+// }
+
+void MapObject::Reset()
 {
-    this->game_speed = speed;
-}
-void MapObject::Reset(){
     x_pos = 0;
     y_pos = 0;
 }
+
+int *MapObject::getMapCoordinates()
+{
+    int co_ordinates[2];
+    co_ordinates[0] = x_pos % 100;
+    co_ordinates[1] = y_pos % 100;
+    return co_ordinates;
+}
+int MapObject::getMapAllowance(int i, int j)
+{
+    return gameMap[j][i];
+}
+
+// int MapObject::get_gameSpeedx()
+// {
+//     return game_speed_x;
+// }
+
+// int MapObject::get_gameSpeedy()
+// {
+//     return game_speed_y;
+// }
