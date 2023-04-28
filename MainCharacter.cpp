@@ -1,5 +1,5 @@
 #include "MainCharacter.hpp"
-#include <iostream>
+// #include <iostream>
 
 MainCharacter::MainCharacter(const char *textursheet, SDL_Renderer *ren, int x, int y) : Characters(textursheet, ren, x, y),
                                                                                          lFrame(0), rFrame(0), uFrame(0), dFrame(0),
@@ -8,7 +8,7 @@ MainCharacter::MainCharacter(const char *textursheet, SDL_Renderer *ren, int x, 
                                                                                          transition_from_left_movement(false),
                                                                                          transition_from_down_movement(false),
                                                                                          previous_direction('i'),
-                                                                                         reference(7)
+                                                                                         reference(7), in_car(false)
 {
     srcRect = {111, 52, 29, 49};
     moverRect = {600, 400, 30, 50};
@@ -16,7 +16,31 @@ MainCharacter::MainCharacter(const char *textursheet, SDL_Renderer *ren, int x, 
 
 void MainCharacter::Animator(char direction)
 {
-    if (direction == 'r')
+    if (direction == 'n')
+    {
+        if (this->previous_direction == 'r')
+        {
+            srcRect = {111, 52, 29, 49};
+        }
+        else if (this->previous_direction == 'l')
+        {
+            srcRect = {12, 51, 29, 49};
+        }
+        else if (this->previous_direction == 'u')
+        {
+            srcRect = {51, 13, 49, 29};
+        }
+        else if (this->previous_direction == 'd')
+        {
+            srcRect = {51, 113, 49, 29};
+        }
+        lFrame = 0;
+        rFrame = 0;
+        uFrame = 0;
+        dFrame = 0;
+    }
+
+    else if (direction == 'r')
     {
         if (transition_from_up_movement)
         {
@@ -83,7 +107,8 @@ void MainCharacter::Animator(char direction)
                 GameObject::srcRect = {404, 52, 50, 50};
                 rFrame = 1;
             }
-            else if (rFrame >reference*2){
+            else if (rFrame > reference * 2)
+            {
                 rFrame = 1;
             }
             else
@@ -95,7 +120,8 @@ void MainCharacter::Animator(char direction)
 
     else if (direction == 'l')
     {
-        std::cout << lFrame << std::endl;
+        // std::cout << lFrame << std::endl;
+        // std::cout << lFrame << std::endl;
         if (transition_from_up_movement)
         {
             transition_from_down_movement = false;
@@ -151,19 +177,21 @@ void MainCharacter::Animator(char direction)
                 GameObject::srcRect = {12, 51, 29, 49};
                 lFrame++;
             }
-            else if (lFrame == reference){
+            else if (lFrame == reference)
+            {
                 srcRect = {155, 52, 38, 48};
                 lFrame++;
             }
-            else if (lFrame == reference*2)
+            else if (lFrame == reference * 2)
             {
                 GameObject::srcRect = {303, 51, 45, 49};
                 lFrame = 1;
             }
-            else if (lFrame > reference*2){
+            else if (lFrame > reference * 2)
+            {
                 lFrame = 1;
             }
-            else 
+            else
             {
                 lFrame++;
             }
@@ -325,6 +353,7 @@ void MainCharacter::Animator(char direction)
             }
         }
     }
+
 }
 
 void MainCharacter::Update()
@@ -395,74 +424,12 @@ void MainCharacter::Update(char direction, int x, int y)
                 break;
             }
         }
-        previous_direction = direction;
+        if (direction!= 'n')
+        {
+            previous_direction = direction;
+        }
     }
 
-    // if (srcRect.y == 3 || srcRect.y == 4 || srcRect.y == 13)
-    // {
-    //     transition_from_up_movement = true;
-    //     switch (direction)
-    //     {
-    //     case 'l':
-    //         lFrame = 0;
-    //         break;
-    //     case 'r':
-    //         rFrame = 0;
-    //         break;
-    //     }
-    // }
-
-    // else if ((srcRect.x == 111 and srcRect.y == 52) || (srcRect.x == 252 and srcRect.y == 51) || (srcRect.x == 404 and srcRect.y == 52))
-    // {
-    //     transition_from_right_movement = true;
-    //     switch (direction)
-    //     {
-    //     case 'u':
-    //         uFrame = 0;
-    //         break;
-    //     case 'd':
-    //         dFrame = 0;
-    //         break;
-    //     }
-    // }
-
-    // else if ((srcRect.x == 12 and srcRect.y == 51) || (srcRect.x == 155 and srcRect.y == 52) || (srcRect.x == 303 and srcRect.y == 51))
-    // {
-    //     transition_from_left_movement = true;
-    //     transition_from_right_movement = false;
-    //     switch (direction)
-    //     {
-    //     case 'u':
-    //         uFrame = 0;
-    //         break;
-    //     case 'd':
-    //         dFrame = 0;
-    //         break;
-    //     }
-    // }
-
-    // else if ((srcRect.x == 51 and srcRect.y == 113) || (srcRect.x == 201 and srcRect.y == 110) || (srcRect.x == 351 and srcRect.y == 112))
-    // {
-    //     transition_from_up_movement = false;
-    //     transition_from_down_movement = true;
-    //     switch (direction)
-    //     {
-    //     case 'l':
-    //         uFrame = 0;
-    //         break;
-    //     case 'r':
-    //         dFrame = 0;
-    //         break;
-    //     }
-    // }
-    if (reference == 4)
-    {
-        std::cout << "sprinting" << std::endl;
-    }
-    else
-    {
-        std::cout << "not sprinting" << std::endl;
-    }
     Animator(direction);
 
     if (x <= 0)
@@ -561,6 +528,8 @@ void MainCharacter::Update(char direction, int x, int y)
             x_pos += 5;
         }
     }
+
+    Update();
 }
 
 void MainCharacter::Render()
@@ -578,4 +547,9 @@ void MainCharacter::Run(bool runs)
     {
         reference = 7;
     }
+}
+
+SDL_Rect *MainCharacter::getMoverRect()
+{
+    return &moverRect;
 }
