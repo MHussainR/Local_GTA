@@ -27,6 +27,7 @@ class AmbulanceMission : public Mission{
         AmbulanceMission(SDL_Renderer* ren);
         void Update();
         void Update(char direction, int x, int y, bool movex, bool movey);
+        void Update(int, int);
         void Render();
         void Render(int x, int y);
         void check();
@@ -35,7 +36,7 @@ class AmbulanceMission : public Mission{
         void setStatus(int, int);
         void Running(int x, int y);
         void setSpeedP(int val);
-        int getState();
+        bool getState();
         // void drawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2);
         
 };

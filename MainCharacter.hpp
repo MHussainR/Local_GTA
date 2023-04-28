@@ -14,6 +14,7 @@ class MainCharacter : public Characters
         void Animator(char) ;
         void Run(bool) override;
         SDL_Rect *getMoverRect();
+        bool in_car;
         friend class Physics;
 
     private:
@@ -21,4 +22,5 @@ class MainCharacter : public Characters
         bool transition_from_up_movement, transition_from_right_movement, transition_from_left_movement, transition_from_down_movement;
         char previous_direction;
         int reference;
+        
 };

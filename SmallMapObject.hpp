@@ -11,5 +11,6 @@ class SmallMapObject : public MapObject{
         void Render();
         void Update();
         void Update(char direction, bool movex, bool movey);
+        void Update(char, bool, bool, int, int);
         void draw_black_rect(SDL_Renderer* renderer, int x, int y, int w, int h);
 };

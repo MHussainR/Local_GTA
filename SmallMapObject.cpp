@@ -1,23 +1,27 @@
 #include "SmallMapObject.hpp"
 
-
-SmallMapObject::SmallMapObject(const char *textursheet, SDL_Renderer *ren, int x, int y):MapObject(textursheet, ren, x, y){
-    
+SmallMapObject::SmallMapObject(const char *textursheet, SDL_Renderer *ren, int x, int y) : MapObject(textursheet, ren, x, y)
+{
 }
 
-void SmallMapObject::Update(){
+void SmallMapObject::Update()
+{
     srcRect = {x_pos, y_pos, 2400, 1600};
-    moverRect = {0, 0, srcRect.w/10, srcRect.h/10};
+    moverRect = {0, 0, srcRect.w / 10, srcRect.h / 10};
     // MapObject::Update();
 }
 
-void SmallMapObject::Update(char direction, bool movex, bool movey){
+void SmallMapObject::Update(char direction, bool movex, bool movey)
+{
+   
     MapObject::Update(direction, movex, movey);
+    
 }
 
-void SmallMapObject::draw_black_rect(SDL_Renderer* renderer, int x, int y, int w, int h) {
-    SDL_Rect rect = { x, y, w, h };
-    
+void SmallMapObject::draw_black_rect(SDL_Renderer *renderer, int x, int y, int w, int h)
+{
+    SDL_Rect rect = {x, y, w, h};
+
     // draw the border
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(renderer, &rect);
@@ -31,8 +35,18 @@ void SmallMapObject::draw_black_rect(SDL_Renderer* renderer, int x, int y, int w
     SDL_RenderFillRect(renderer, &rect);
 }
 
-
-void SmallMapObject::Render(){
+void SmallMapObject::Update(char direction, bool movex, bool movey, int speedx, int speedy)
+{
+    this->game_speed_x = speedx;
+    this->game_speed_y = speedy;
+    if (direction != 'n')
+    {
+        Update(direction, movex, movey);
+    }
+    Update();
+}
+void SmallMapObject::Render()
+{
     // SDL_Rect rect = {0, 0, moverRect.w, moverRect.h};
     // SDL_RenderDrawRect(renderer, &rect);
     draw_black_rect(renderer, 0, 0, moverRect.w, moverRect.h);

@@ -8,7 +8,7 @@ MainCharacter::MainCharacter(const char *textursheet, SDL_Renderer *ren, int x, 
                                                                                          transition_from_left_movement(false),
                                                                                          transition_from_down_movement(false),
                                                                                          previous_direction('i'),
-                                                                                         reference(7)
+                                                                                         reference(7), in_car(false)
 {
     srcRect = {111, 52, 29, 49};
     moverRect = {600, 400, 30, 50};
@@ -428,67 +428,6 @@ void MainCharacter::Update(char direction, int x, int y)
         {
             previous_direction = direction;
         }
-
-    // if (srcRect.y == 3 || srcRect.y == 4 || srcRect.y == 13)
-    // {
-    //     transition_from_up_movement = true;
-    //     switch (direction)
-    //     {
-    //     case 'l':
-    //         lFrame = 0;
-    //         break;
-    //     case 'r':
-    //         rFrame = 0;
-    //         break;
-    //     }
-    // }
-
-    // else if ((srcRect.x == 111 and srcRect.y == 52) || (srcRect.x == 252 and srcRect.y == 51) || (srcRect.x == 404 and srcRect.y == 52))
-    // {
-    //     transition_from_right_movement = true;
-    //     switch (direction)
-    //     {
-    //     case 'u':
-    //         uFrame = 0;
-    //         break;
-    //     case 'd':
-    //         dFrame = 0;
-    //         break;
-    //     }
-    // }
-
-    // else if ((srcRect.x == 12 and srcRect.y == 51) || (srcRect.x == 155 and srcRect.y == 52) || (srcRect.x == 303 and srcRect.y == 51))
-    // {
-    //     transition_from_left_movement = true;
-    //     transition_from_right_movement = false;
-    //     switch (direction)
-    //     {
-    //     case 'u':
-    //         uFrame = 0;
-    //         break;
-    //     case 'd':
-    //         dFrame = 0;
-    //         break;
-    //     }
-    // }
-
-    // else if ((srcRect.x == 51 and srcRect.y == 113) || (srcRect.x == 201 and srcRect.y == 110) || (srcRect.x == 351 and srcRect.y == 112))
-    // {
-    //     transition_from_up_movement = false;
-    //     transition_from_down_movement = true;
-    //     switch (direction)
-    //     {
-    //     case 'l':
-    //         uFrame = 0;
-    //         break;
-    //     case 'r':
-    //         dFrame = 0;
-    //         break;
-    //     }
-    // }
-    if (reference == 4)
-    {
-        std::cout << "sprinting" << std::endl;
     }
 
     Animator(direction);
