@@ -64,22 +64,25 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     // for (int i = 0; i < 2;i++)
     // {
     // NonPlayerCharacters *NPC = new NonPlayerCharacters("assets/npcs.png", renderer, 900, 700);
-    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, 900, 400, 'd'));
-    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, 900, 1000, 'u'));
+    map = new MapObject("assets/map6.png", renderer, 1100, 400);
+    Co_Ordinate_System = CoOrdinateSystem::getInstance(map->getXpos(), map->getYpos());
+
+    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(400), 'd'));
+    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(1000), 'u'));
     // }
     // npc = new NonPlayerCharacters("assets/npcs.png", renderer, 900, 700);
     human = new MainCharacter("assets/players.png", renderer, 600, 400);
-    cars.push_back(new CarObject("assets/cars.png", renderer, 600 * 2 - 200, 400 * 2, "Normal"));
-    cars.push_back(new CarObject("assets/cars.png", renderer, 600 * 4 + 450, 400 * 5 + 50, "Taxi"));
+    cars.push_back(new CarObject("assets/cars.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1000), Co_Ordinate_System->setGlobalCoOrdinatey(800), "Normal"));
+    cars.push_back(new CarObject("assets/cars.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(2850), Co_Ordinate_System->setGlobalCoOrdinatey(2050), "Taxi"));
     // aMission = new CarObject("assets/cars.png", renderer, 600 * 2, 400 * 2, "Normal");
     // car1 = new CarObject("assets/cars.png", renderer, 600*4, 400*4, "Ambulance");
-    map = new MapObject("assets/map6.png", renderer, 0, 0);
+    
     smallMap = new SmallMapObject("assets/map6.png", renderer, 0, 0);
     screen = new MapObject("assets/title5.png", renderer, 0, 0);
     instruction = new MapObject("assets/ins2.png", renderer, 0, 0);
     loader = new MapObject("assets/loader.png", renderer, 0, 0);
     aMission = new AmbulanceMission(renderer);
-    box_3d = new Stacked_Sprites("assets/building_2_stack.png", renderer, 1405, 305, 0, 100, 200, 100, 20, 1, 5, 7);
+    box_3d = new Stacked_Sprites("assets/building_2_stack.png", renderer,Co_Ordinate_System->setGlobalCoOrdinatex(1405), Co_Ordinate_System->setGlobalCoOrdinatey(305), 0, 100, 200, 100, 20, 1, 5, 7);
 }
 
 void Game::handleEvents()
