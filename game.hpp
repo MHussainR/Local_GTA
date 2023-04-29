@@ -22,7 +22,7 @@ private:
     bool isRunning;
     SDL_Window *window;
     SDL_Renderer *renderer;
-    bool title = true, control = false, instructions = false, loading = false;
+    bool title = true, control = false, instructions = false, loading = false, collision = false;
     int dx = 0, dy = 0;
     char direction = 'n';
     CoOrdinateSystem *Co_Ordinate_System;

@@ -25,6 +25,8 @@ void NonPlayerCharacters::updateSpeed()
         this->dy = 0;
         break;
     }
+    this->initial_dx = dx;
+    this->initial_dy = dy;
 }
 
 
@@ -32,6 +34,8 @@ NonPlayerCharacters::NonPlayerCharacters(const char *textursheet, SDL_Renderer *
 {
     // char randomSelect[6] = "lrudn";
     // this->direction = randomSelect[rand() % 5];
+    this->initial_direction = d;
+    this->previous_direction = d;
     this->direction = d;
     updateSpeed();
     srcRect = {111, 52, 29, 49};

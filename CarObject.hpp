@@ -4,6 +4,8 @@
 // #include "Shapes.hpp"
 #include<string>
 
+class Physics;
+
 class CarObject : public GameObject
 {
     private:
@@ -38,5 +40,5 @@ class CarObject : public GameObject
         void setStatus(int x, int y);
         void setStatus(bool val);
         void set_speed(char);
-        
+        friend class Physics;
 };

@@ -64,25 +64,23 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     // for (int i = 0; i < 2;i++)
     // {
     // NonPlayerCharacters *NPC = new NonPlayerCharacters("assets/npcs.png", renderer, 900, 700);
-    map = new MapObject("assets/map6.png", renderer, 1100, 400);
+    map = new MapObject("assets/map6.png", renderer, 200, 800);
     Co_Ordinate_System = CoOrdinateSystem::getInstance(map->getXpos(), map->getYpos());
 
-    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(400), 'd'));
+    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(400), 'r'));
     npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(1000), 'u'));
-    // }
-    // npc = new NonPlayerCharacters("assets/npcs.png", renderer, 900, 700);
+    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(500), 'd'));
+
     human = new MainCharacter("assets/players.png", renderer, 600, 400);
-    cars.push_back(new CarObject("assets/cars.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1000), Co_Ordinate_System->setGlobalCoOrdinatey(800), "Normal"));
+    cars.push_back(new CarObject("assets/cars.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1200), Co_Ordinate_System->setGlobalCoOrdinatey(800), "Normal"));
     cars.push_back(new CarObject("assets/cars.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(2850), Co_Ordinate_System->setGlobalCoOrdinatey(2050), "Taxi"));
-    // aMission = new CarObject("assets/cars.png", renderer, 600 * 2, 400 * 2, "Normal");
-    // car1 = new CarObject("assets/cars.png", renderer, 600*4, 400*4, "Ambulance");
-    
+
     smallMap = new SmallMapObject("assets/map6.png", renderer, 0, 0);
     screen = new MapObject("assets/title5.png", renderer, 0, 0);
     instruction = new MapObject("assets/ins2.png", renderer, 0, 0);
     loader = new MapObject("assets/loader.png", renderer, 0, 0);
     aMission = new AmbulanceMission(renderer);
-    box_3d = new Stacked_Sprites("assets/building_2_stack.png", renderer,Co_Ordinate_System->setGlobalCoOrdinatex(1405), Co_Ordinate_System->setGlobalCoOrdinatey(305), 0, 100, 200, 100, 20, 1, 5, 7);
+    box_3d = new Stacked_Sprites("assets/building_2_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1405), Co_Ordinate_System->setGlobalCoOrdinatey(305), 0, 100, 200, 100, 20, 1, 5, 7);
 }
 
 void Game::handleEvents()
@@ -310,12 +308,12 @@ void Game::update()
         {
             Game::dy = 0;
         }
-        
+
         if (aMission->getStatus() && aMission->getState())
         {
             human->in_car = true;
         }
-        
+
         if (human->in_car)
         {
             if (Game::dx > 0)
@@ -345,35 +343,33 @@ void Game::update()
             }
         }
 
-        // if (Implement.collisionHandler(human, npc, Game::dx, Game::dy))
-        // {
-        //     // std::cout << Game::direction << " " << Game::dx << " " << Game::dy << std::endl;
-        //     // collision = true;
-        //     Game::direction = 'n';
-        //     Game::dx = 0;
-        //     Game::dy = 0;
-        // }
-        // (Implement.collisionHandler(npcArray, map));
-        // {
-        //     Game::direction = 'n';
-        //     Game::dx = 0;
-        //     Game::dy = 0;
-        // }
-        // {
-        // std::cout << Game::direction << " " << Game::dx << " " << Game::dy << std::endl;
-        // collision = true;
-        // Game::direction = 'n';
-        // Game::dx = 0;
-        // Game::dy = 0;
-        // }
-        // if (collision)
+        if (Implement.collisionHandler(human, npcArray, Game::dx, Game::dy))
+        {
+            Game::direction = 'n';
+            Game::dx = 0;
+            Game::dy = 0;
+        }
+
+
+        // if (Implement.collisionHandler(human, cars, map, Game::dx, Game::dy))
         // {
         //     Game::direction = 'n';
         //     Game::dx = 0;
         //     Game::dy = 0;
         // }
-        // if (not collision)
-        // {
+
+        Implement.collisionHandler(npcArray, Game::dx, Game::dy);
+
+        (Implement.collisionHandler(npcArray, map));
+
+        if (Implement.collisionHandler(human, map, Game::dx, Game::dy))
+        {
+            Game::direction = 'n';
+            Game::dx = 0;
+            Game::dy = 0;
+        }
+       
+
         map->Update(Game::direction, human->inside_box_x, human->inside_box_y, Game::dx, Game::dy);
         smallMap->Update(Game::direction, human->inside_box_x, human->inside_box_y, Game::dx, Game::dy);
         human->Update(Game::direction, map->getXpos(), map->getYpos());
@@ -382,12 +378,6 @@ void Game::update()
             npc->Update(Game::dx, Game::dy);
         }
 
-        // }
-
-        // npc->Update(map->get_gameSpeed(), map->getXpos(), map->getYpos());
-        // aMission->Update();
-
-        // car1->Update();
         for (CarObject *c : cars)
         {
             c->Update(Game::dx, Game::dy);
@@ -399,20 +389,8 @@ void Game::update()
         else
             aMission->check();
 
-        // smallMap->Update();
         box_3d->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
 
-        // aMission->Update();
-        // aMission->draw_circle(renderer, 600, 400, 100);
-        // aMission->srcRect = {616, 51, 200, 390};
-        // tree1->moverRect = {600, 400, 136, 192};
-        // tree2->Update();
-        // tree2->srcRect = {544, 3, 204, 237};
-        // title_screen->Update();
-
-        // map->moverRect = {0, 0, }
-        // tree->moverRect.x = move;
-        // move ++;
     }
 }
 

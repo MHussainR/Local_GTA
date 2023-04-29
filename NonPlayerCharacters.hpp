@@ -10,6 +10,8 @@ private:
     bool transition_from_up_movement, transition_from_right_movement, transition_from_left_movement, transition_from_down_movement;
     char previous_direction;
     int reference;
+    int initial_dx, initial_dy;
+    char initial_direction;
     int dx ;
     int dy ;
     char direction = 'd';
