@@ -11,6 +11,7 @@
 // using std::list;
 #include "NonPlayerCharacters.hpp"
 #include "Physics.hpp"
+#include "RayCaster.hpp"
 
 // Game::Game(){}
 // Game::~Game(){}
@@ -27,7 +28,17 @@ SmallMapObject *smallMap;
 MapObject *screen;
 MapObject *instruction;
 MapObject *loader;
-Stacked_Sprites *box_3d;
+Stacked_Sprites *box;
+Stacked_Sprites *flats;
+Stacked_Sprites *box_3d2;
+Stacked_Sprites *police_st;
+Stacked_Sprites *farm;
+Stacked_Sprites *hospital;
+Stacked_Sprites *park;
+Stacked_Sprites *house1;
+Stacked_Sprites *house2;
+Stacked_Sprites *parking;
+RayCaster *RayCast;
 std::list<CarObject *> cars;
 
 void Game::init(const char *title, int x_pos, int y_pos, int height, int width, bool fullscreen)
@@ -79,8 +90,18 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     screen = new MapObject("assets/title5.png", renderer, 0, 0);
     instruction = new MapObject("assets/ins2.png", renderer, 0, 0);
     loader = new MapObject("assets/loader.png", renderer, 0, 0);
-    aMission = new AmbulanceMission(renderer);
-    box_3d = new Stacked_Sprites("assets/building_2_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1405), Co_Ordinate_System->setGlobalCoOrdinatey(305), 0, 100, 200, 100, 20, 1, 5, 7);
+    aMission = new AmbulanceMission(renderer, map->getXpos(), map->getYpos());
+    box = new Stacked_Sprites("assets/block_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1000), Co_Ordinate_System->setGlobalCoOrdinatey(1100), 0, 100, 100, 100, 0, 25, 1, 1, 1);
+    flats = new Stacked_Sprites("assets/flats_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1400), Co_Ordinate_System->setGlobalCoOrdinatey(300), 0, 100, 200, 100, 180, 20, 1, 5, 7);
+    box_3d2 = new Stacked_Sprites("assets/building_4_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(4800), Co_Ordinate_System->setGlobalCoOrdinatey(1300), 0, 200, 240, 200, 180, 20, 1, 5, 3);
+    police_st = new Stacked_Sprites("assets/police_station_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1400), Co_Ordinate_System->setGlobalCoOrdinatey(2900), 0, 100, 175, 100, 180, 20, 1, 7, 8);
+    farm = new Stacked_Sprites("assets/farm_type_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(3100), Co_Ordinate_System->setGlobalCoOrdinatey(2900), 0, 100, 175, 100, 180, 20, 1, 5, 8);
+    hospital = new Stacked_Sprites("assets/hospital_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(4800), Co_Ordinate_System->setGlobalCoOrdinatey(200), 0, 160, 180, 160, 0, 20, 1, 5, 5);
+    park = new Stacked_Sprites("assets/park_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(3100), Co_Ordinate_System->setGlobalCoOrdinatey(300), 0, 100, 200, 100, 180, 20, 1, 5, 7);
+    house1 = new Stacked_Sprites("assets/building_5_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(2200), Co_Ordinate_System->setGlobalCoOrdinatey(1300), 0, 200, 200, 200, 270, 20, 1, 3, 3);
+    house2 = new Stacked_Sprites("assets/house_2_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(3900), Co_Ordinate_System->setGlobalCoOrdinatey(1300), 0, 200, 200, 200, 270, 20, 1, 3, 3);
+    parking = new Stacked_Sprites("assets/parking_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(300), Co_Ordinate_System->setGlobalCoOrdinatey(200), 0, 200, 200, 200, 0, 20, 1, 3, 4);
+    RayCast = new RayCaster(renderer);
 }
 
 void Game::handleEvents()
@@ -177,6 +198,13 @@ void Game::update()
         instruction->Update();
     }
 
+    else if (RayCast->getState()){
+        if (Game::event.type == SDL_QUIT)
+        {
+            isRunning = false;
+        }
+        RayCast->Update2(map->getMapAllowance(((human->getXpos() + map->getXpos()) / 100), (human->getYpos() + map->getYpos()) / 100));
+    }
     else
     {
 
@@ -288,7 +316,7 @@ void Game::update()
 
             if (Game::event.key.keysym.sym == SDLK_s)
             {
-                box_3d->Rotate();
+                // box_3d->Rotate();
             }
         }
 
@@ -318,22 +346,22 @@ void Game::update()
         {
             if (Game::dx > 0)
             {
-                Game::dx = 5;
+                Game::dx = 7;
                 Game::dy = 0;
             }
             else if (Game::dx < 0)
             {
-                Game::dx = -5;
+                Game::dx = -7;
                 Game::dy = 0;
             }
             else if (Game::dy > 0)
             {
-                Game::dy = 5;
+                Game::dy = 7;
                 Game::dx = 0;
             }
             else if (Game::dy < 0)
             {
-                Game::dy = -5;
+                Game::dy = -7;
                 Game::dx = 0;
             }
             else
@@ -349,7 +377,6 @@ void Game::update()
             Game::dx = 0;
             Game::dy = 0;
         }
-
 
         // if (Implement.collisionHandler(human, cars, map, Game::dx, Game::dy))
         // {
@@ -368,7 +395,6 @@ void Game::update()
             Game::dx = 0;
             Game::dy = 0;
         }
-       
 
         map->Update(Game::direction, human->inside_box_x, human->inside_box_y, Game::dx, Game::dy);
         smallMap->Update(Game::direction, human->inside_box_x, human->inside_box_y, Game::dx, Game::dy);
@@ -389,8 +415,17 @@ void Game::update()
         else
             aMission->check();
 
-        box_3d->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
-
+        // box->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
+        flats->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
+        box_3d2->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
+        RayCast->Update(map->getMapAllowance(((human->getXpos() + map->getXpos()) / 100), (human->getYpos() + map->getYpos()) / 100));
+        police_st->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
+        farm->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
+        hospital->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
+        park->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
+        house1->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
+        house2->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
+        parking->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
     }
 }
 
@@ -409,11 +444,27 @@ void Game::render()
     {
         instruction->Render();
     }
+    else if (RayCast->getState())
+    {
+        RayCast->Render();
+    }
     else
     {
         map->Render();
+        // aMission->Render(map->getXpos(), map->getYpos());
+
+        flats->Render(human->getXpos(), human->getYpos());
+        box_3d2->Render(human->getXpos(), human->getYpos());
+        police_st->Render(human->getXpos(), human->getYpos());
+        farm->Render(human->getXpos(), human->getYpos());
+        hospital->Render(human->getXpos(), human->getYpos());
+        park->Render(human->getXpos(), human->getYpos());
+        house1->Render(human->getXpos(), human->getYpos());
+        house2->Render(human->getXpos(), human->getYpos());
+        parking->Render(human->getXpos(), human->getYpos());
+        // box->Render(human->getXpos(), human->getYpos());
         aMission->Render(map->getXpos(), map->getYpos());
-        box_3d->Render(human->getXpos(), human->getYpos());
+
         // aMission->Render();
         // car1->Render();
         for (NonPlayerCharacters *npc : npcArray)
