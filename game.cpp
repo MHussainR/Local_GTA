@@ -10,7 +10,11 @@
 #include <list>
 // using std::list;
 #include "NonPlayerCharacters.hpp"
+#include "Health.hpp"
+#include "Money.hpp"
+#include "CircularMenu.hpp"
 #include "Physics.hpp"
+#include "Police.hpp"
 #include "RayCaster.hpp"
 
 // Game::Game(){}
@@ -39,6 +43,10 @@ Stacked_Sprites *house1;
 Stacked_Sprites *house2;
 Stacked_Sprites *parking;
 RayCaster *RayCast;
+Health *health;
+Money *money;
+CircularMenu *menu;
+Police *police;
 std::list<CarObject *> cars;
 
 void Game::init(const char *title, int x_pos, int y_pos, int height, int width, bool fullscreen)
@@ -82,6 +90,8 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(1000), 'u'));
     npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(500), 'd'));
 
+    police = new Police(Co_Ordinate_System, renderer);
+
     human = new MainCharacter("assets/players.png", renderer, 600, 400);
     cars.push_back(new CarObject("assets/cars.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1200), Co_Ordinate_System->setGlobalCoOrdinatey(800), "Normal"));
     cars.push_back(new CarObject("assets/cars.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(2850), Co_Ordinate_System->setGlobalCoOrdinatey(2050), "Taxi"));
@@ -91,13 +101,16 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     instruction = new MapObject("assets/ins2.png", renderer, 0, 0);
     loader = new MapObject("assets/loader.png", renderer, 0, 0);
     aMission = new AmbulanceMission(renderer, map->getXpos(), map->getYpos());
-    box = new Stacked_Sprites("assets/block_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1000), Co_Ordinate_System->setGlobalCoOrdinatey(1100), 0, 100, 100, 100, 0, 25, 1, 1, 1);
+    // box = new Stacked_Sprites("assets/block_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1000), Co_Ordinate_System->setGlobalCoOrdinatey(1100), 0, 100, 100, 100, 0, 25, 1, 1, 1);
     flats = new Stacked_Sprites("assets/flats_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1400), Co_Ordinate_System->setGlobalCoOrdinatey(300), 0, 100, 200, 100, 180, 20, 1, 5, 7);
     box_3d2 = new Stacked_Sprites("assets/building_4_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(4800), Co_Ordinate_System->setGlobalCoOrdinatey(1300), 0, 200, 240, 200, 180, 20, 1, 5, 3);
     police_st = new Stacked_Sprites("assets/police_station_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1400), Co_Ordinate_System->setGlobalCoOrdinatey(2900), 0, 100, 175, 100, 180, 20, 1, 7, 8);
     farm = new Stacked_Sprites("assets/farm_type_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(3100), Co_Ordinate_System->setGlobalCoOrdinatey(2900), 0, 100, 175, 100, 180, 20, 1, 5, 8);
     hospital = new Stacked_Sprites("assets/hospital_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(4800), Co_Ordinate_System->setGlobalCoOrdinatey(200), 0, 160, 180, 160, 0, 20, 1, 5, 5);
     park = new Stacked_Sprites("assets/park_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(3100), Co_Ordinate_System->setGlobalCoOrdinatey(300), 0, 100, 200, 100, 180, 20, 1, 5, 7);
+    health = new Health(renderer);
+    money = new Money(renderer);
+    menu = new CircularMenu(renderer,(width/2)+(human->getMoverRect()->w/2),(height/2)+(human->getMoverRect()->h/2));
     house1 = new Stacked_Sprites("assets/building_5_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(2200), Co_Ordinate_System->setGlobalCoOrdinatey(1300), 0, 200, 200, 200, 270, 20, 1, 3, 3);
     house2 = new Stacked_Sprites("assets/house_2_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(3900), Co_Ordinate_System->setGlobalCoOrdinatey(1300), 0, 200, 200, 200, 270, 20, 1, 3, 3);
     parking = new Stacked_Sprites("assets/parking_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(300), Co_Ordinate_System->setGlobalCoOrdinatey(200), 0, 200, 200, 200, 0, 20, 1, 3, 4);
@@ -165,6 +178,7 @@ void Game::update()
         {
             isRunning = false;
         }
+        
         if (Game::event.type == SDL_MOUSEBUTTONDOWN)
         {
             int xMouse, yMouse;
@@ -178,6 +192,7 @@ void Game::update()
                 instructions = true;
             }
         }
+        
         screen->Update();
     }
 
@@ -214,6 +229,7 @@ void Game::update()
         }
 
         const Uint8 *state = SDL_GetKeyboardState(NULL);
+        Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
 
         if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_UP])
         {
@@ -248,6 +264,8 @@ void Game::update()
             Game::dy = 0;
             Game::dx = -2;
             Game::direction = 'l';
+            health->setHealth(health->getHealth() + 1);
+            money->setMoney(money->getMoney() + 10000000);
         }
 
         else if (state[SDL_SCANCODE_UP])
@@ -262,6 +280,8 @@ void Game::update()
             Game::dx = 2;
             Game::dy = 0;
             Game::direction = 'r';
+            health->setHealth(health->getHealth() - 1);
+            money->setMoney(money->getMoney() - 10000);
         }
 
         else if (state[SDL_SCANCODE_DOWN])
@@ -318,8 +338,48 @@ void Game::update()
             {
                 // box_3d->Rotate();
             }
-        }
 
+            if (Game::event.key.keysym.sym == SDLK_m)
+            {
+                if (menu->getState())
+                {
+                    menu->setState(false);
+                }
+                else
+                {
+                    menu->setState(true);
+                }
+            }
+        }
+        
+        else if (Game::event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (menu->getState())
+            {
+                menu->setState(false);
+            }
+
+            if (Game::event.key.keysym.sym == SDLK_m)
+            {
+                if (menu->getState())
+                {
+                    menu->setState(false);
+                }
+                else
+                {
+                    menu->setState(true);
+                }
+            }
+        }
+        
+        else if (Game::event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (menu->getState())
+            {
+                menu->setState(false);
+            }
+        }
+        
         else
         {
             Game::dx = 0;
@@ -371,6 +431,8 @@ void Game::update()
             }
         }
 
+        
+
         if (Implement.collisionHandler(human, npcArray, Game::dx, Game::dy))
         {
             Game::direction = 'n';
@@ -403,6 +465,9 @@ void Game::update()
         {
             npc->Update(Game::dx, Game::dy);
         }
+        
+        police->followPath(map);
+        police->Update(Game::dx, Game::dy);
 
         for (CarObject *c : cars)
         {
@@ -495,6 +560,10 @@ void Game::render()
             human->Render();
         }
         smallMap->Render();
+        health->Render();
+        money->Render();
+        menu->Render(atan2(mouseY - (800 / 2), mouseX - (1200 / 2)) * 180 / M_PI, sqrt(pow((mouseX - (1200 / 2)), 2) + pow(mouseY - (800 / 2), 2)));
+        police->Render();
     }
     SDL_RenderPresent(renderer);
 }
@@ -506,4 +575,66 @@ void Game::clean()
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
     std::cout << "Game Cleaned" << std::endl;
+}
+
+Game::~Game()
+{
+    delete human;
+    human = nullptr;
+    delete aMission;
+    aMission = nullptr;
+    delete map;
+    map = nullptr;
+    delete smallMap;
+    smallMap = nullptr;
+    delete screen;
+    screen = nullptr;
+    delete instruction;
+    instruction = nullptr;
+    delete loader;
+    loader = nullptr;
+    delete box;
+    box = nullptr;
+    delete flats;
+    flats = nullptr;
+    delete box_3d2;
+    box_3d2 = nullptr;
+    delete police_st;
+    police_st = nullptr;
+    delete farm;
+    farm = nullptr;
+    delete hospital;
+    hospital = nullptr;
+    delete park;
+    park = nullptr;
+    delete house1;
+    house1 = nullptr;
+    delete house2;
+    house2 = nullptr;
+    delete parking;
+    parking = nullptr;
+    delete RayCast;
+    RayCast = nullptr;
+    delete health;
+    health = nullptr;
+    delete money;
+    money = nullptr;
+    delete menu;
+    menu = nullptr;
+    delete police;
+    police = nullptr;
+    delete Co_Ordinate_System;
+    Co_Ordinate_System = nullptr;
+    for (CarObject *t : cars)
+    {
+        delete t;
+        t = nullptr;
+    }
+    for (NonPlayerCharacters *n : npcArray)
+    {
+        delete n;
+        n = nullptr;
+    }
+    cars.clear();
+    npcArray.clear();
 }

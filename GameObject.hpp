@@ -7,7 +7,7 @@ class GameObject
 {
 public:
     GameObject(const char *texturesheet, SDL_Renderer *ren, int x, int y);
-    ~GameObject();
+    ~GameObject(){};
 
     virtual void Update();
     virtual void Update(char);

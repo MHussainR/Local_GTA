@@ -10,6 +10,7 @@ class CoOrdinateSystem
 
     public:
         CoOrdinateSystem(const CoOrdinateSystem &ob) = delete;
+        ~CoOrdinateSystem();
         static CoOrdinateSystem *getInstance(int, int);
         int setGlobalCoOrdinatex(int);
         int setGlobalCoOrdinatey(int);

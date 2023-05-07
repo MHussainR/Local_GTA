@@ -15,7 +15,7 @@ private:
     int dx ;
     int dy ;
     char direction = 'd';
-    void updateSpeed();
+    
 
 public:
     NonPlayerCharacters(const char *, SDL_Renderer *, int, int, char);
@@ -27,6 +27,13 @@ public:
     void Render() override;
     void Animator();
     void Run(bool) override;
+    char getDirection();
+    void setDirection(char);
+    // void setSpeed(char);
+    void updateSpeed(int);
+    int getDX();
+    int getDY();
+
     SDL_Rect *getMoverRect();
     friend class Physics;
 };

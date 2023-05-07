@@ -43,6 +43,8 @@
         "typeinfo": "cpp",
         "list": "cpp",
         "cstring": "cpp",
-        "*.ppm": "cpp"
+        "*.ppm": "cpp",
+        "ctime": "cpp",
+        "iomanip": "cpp"
     }
 }

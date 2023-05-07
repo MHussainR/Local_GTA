@@ -29,3 +29,9 @@ int CoOrdinateSystem::setGlobalCoOrdinatey(int globaly)
 {
     return globaly - this->localy;
 }
+
+CoOrdinateSystem::~CoOrdinateSystem()
+{
+    delete pointer_to_instance;
+    pointer_to_instance = nullptr;
+}
