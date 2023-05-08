@@ -5,8 +5,10 @@
 #include "CarObject.hpp"
 #include "MainCharacter.hpp"
 #include "AmbulanceMission.hpp"
+#include "TaxiMission.hpp"
 #include "SmallMapObject.hpp"
 #include "stacked_sprites.hpp"
+#include "cheat_codes.hpp"
 #include <list>
 // using std::list;
 #include "NonPlayerCharacters.hpp"
@@ -25,6 +27,7 @@ SDL_Event Game::event;
 std::list<NonPlayerCharacters *> npcArray;
 MainCharacter *human;
 AmbulanceMission *aMission;
+TaxiMission *tMission;
 // CarObject *aMission;
 // CarObject *car1;
 MapObject *map;
@@ -47,6 +50,7 @@ Health *health;
 Money *money;
 CircularMenu *menu;
 Police *police;
+Cheat_codes *c_codes;
 std::list<CarObject *> cars;
 
 void Game::init(const char *title, int x_pos, int y_pos, int height, int width, bool fullscreen)
@@ -101,6 +105,7 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     instruction = new MapObject("assets/ins2.png", renderer, 0, 0);
     loader = new MapObject("assets/loader.png", renderer, 0, 0);
     aMission = new AmbulanceMission(renderer, map->getXpos(), map->getYpos());
+    tMission = new TaxiMission(renderer, map->getXpos(), map->getYpos());
     // box = new Stacked_Sprites("assets/block_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1000), Co_Ordinate_System->setGlobalCoOrdinatey(1100), 0, 100, 100, 100, 0, 25, 1, 1, 1);
     flats = new Stacked_Sprites("assets/flats_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1400), Co_Ordinate_System->setGlobalCoOrdinatey(300), 0, 100, 200, 100, 180, 20, 1, 5, 7);
     box_3d2 = new Stacked_Sprites("assets/building_4_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(4800), Co_Ordinate_System->setGlobalCoOrdinatey(1300), 0, 200, 240, 200, 180, 20, 1, 5, 3);
@@ -110,11 +115,12 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     park = new Stacked_Sprites("assets/park_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(3100), Co_Ordinate_System->setGlobalCoOrdinatey(300), 0, 100, 200, 100, 180, 20, 1, 5, 7);
     health = new Health(renderer);
     money = new Money(renderer);
-    menu = new CircularMenu(renderer,(width/2)+(human->getMoverRect()->w/2),(height/2)+(human->getMoverRect()->h/2));
+    menu = new CircularMenu(renderer, (width / 2) + (human->getMoverRect()->w / 2), (height / 2) + (human->getMoverRect()->h / 2));
     house1 = new Stacked_Sprites("assets/building_5_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(2200), Co_Ordinate_System->setGlobalCoOrdinatey(1300), 0, 200, 200, 200, 270, 20, 1, 3, 3);
     house2 = new Stacked_Sprites("assets/house_2_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(3900), Co_Ordinate_System->setGlobalCoOrdinatey(1300), 0, 200, 200, 200, 270, 20, 1, 3, 3);
     parking = new Stacked_Sprites("assets/parking_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(300), Co_Ordinate_System->setGlobalCoOrdinatey(200), 0, 200, 200, 200, 0, 20, 1, 3, 4);
     RayCast = new RayCaster(renderer);
+    c_codes = new Cheat_codes();
 }
 
 void Game::handleEvents()
@@ -178,7 +184,7 @@ void Game::update()
         {
             isRunning = false;
         }
-        
+
         if (Game::event.type == SDL_MOUSEBUTTONDOWN)
         {
             int xMouse, yMouse;
@@ -192,7 +198,7 @@ void Game::update()
                 instructions = true;
             }
         }
-        
+
         screen->Update();
     }
 
@@ -213,7 +219,8 @@ void Game::update()
         instruction->Update();
     }
 
-    else if (RayCast->getState()){
+    else if (RayCast->getState())
+    {
         if (Game::event.type == SDL_QUIT)
         {
             isRunning = false;
@@ -329,9 +336,93 @@ void Game::update()
                     human->in_car = false;
                 }
                 aMission->setStatus(human->getXpos(), human->getYpos());
+                tMission->setStatus(human->getXpos(), human->getYpos());
 
                 // aMission->setStatus(human->getXpos(), human->getYpos());
                 // car1->setStatus(human->getXpos(), human->getYpos());
+            }
+            switch (Game::event.key.keysym.sym)
+            {
+            case SDLK_a:
+                c_codes->check('a');
+                break;
+            case SDLK_b:
+                c_codes->check('b');
+                break;
+            case SDLK_c:
+                c_codes->check('c');
+                break;
+            case SDLK_d:
+                c_codes->check('d');
+                break;
+            case SDLK_e:
+                c_codes->check('e');
+                break;
+            case SDLK_f:
+                c_codes->check('f');
+                break;
+            case SDLK_g:
+                c_codes->check('g');
+                break;
+            case SDLK_h:
+                c_codes->check('h');
+                break;
+            case SDLK_i:
+                c_codes->check('i');
+                break;
+            case SDLK_j:
+                c_codes->check('j');
+                break;
+            case SDLK_k:
+                c_codes->check('k');
+                break;
+            case SDLK_l:
+                c_codes->check('l');
+                break;
+            case SDLK_m:
+                c_codes->check('m');
+                break;
+            case SDLK_n:
+                c_codes->check('n');
+                break;
+            case SDLK_o:
+                c_codes->check('o');
+                break;
+            case SDLK_p:
+                c_codes->check('p');
+                break;
+            case SDLK_q:
+                c_codes->check('q');
+                break;
+            case SDLK_r:
+                c_codes->check('r');
+                break;
+            case SDLK_s:
+                c_codes->check('s');
+                break;
+            case SDLK_t:
+                c_codes->check('t');
+                break;
+            case SDLK_u:
+                c_codes->check('u');
+                break;
+            case SDLK_v:
+                c_codes->check('v');
+                break;
+            case SDLK_w:
+                c_codes->check('w');
+                break;
+            case SDLK_x:
+                c_codes->check('x');
+                break;
+            case SDLK_y:
+                c_codes->check('y');
+                break;
+            case SDLK_z:
+                c_codes->check('z');
+                break;
+            default:
+                break;
             }
 
             if (Game::event.key.keysym.sym == SDLK_s)
@@ -351,7 +442,7 @@ void Game::update()
                 }
             }
         }
-        
+
         else if (Game::event.type == SDL_MOUSEBUTTONDOWN)
         {
             if (menu->getState())
@@ -371,7 +462,7 @@ void Game::update()
                 }
             }
         }
-        
+
         else if (Game::event.type == SDL_MOUSEBUTTONDOWN)
         {
             if (menu->getState())
@@ -379,7 +470,7 @@ void Game::update()
                 menu->setState(false);
             }
         }
-        
+
         else
         {
             Game::dx = 0;
@@ -398,6 +489,11 @@ void Game::update()
         }
 
         if (aMission->getStatus() && aMission->getState())
+        {
+            human->in_car = true;
+        }
+
+        if (tMission->getStatus() && tMission->getState())
         {
             human->in_car = true;
         }
@@ -431,8 +527,6 @@ void Game::update()
             }
         }
 
-        
-
         if (Implement.collisionHandler(human, npcArray, Game::dx, Game::dy))
         {
             Game::direction = 'n';
@@ -465,7 +559,7 @@ void Game::update()
         {
             npc->Update(Game::dx, Game::dy);
         }
-        
+
         police->followPath(map);
         police->Update(Game::dx, Game::dy);
 
@@ -474,11 +568,17 @@ void Game::update()
             c->Update(Game::dx, Game::dy);
         }
         aMission->Update(Game::dx, Game::dy);
+        tMission->Update(map->getXpos(), map->getYpos());
 
         if (aMission->getState())
             aMission->Running(map->getXpos(), map->getYpos());
         else
             aMission->check();
+
+        if (tMission->getState())
+            tMission->Running(map->getXpos(), map->getYpos());
+        else
+            tMission->check();
 
         // box->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
         flats->Update(Game::dx, Game::dy, human->getXpos(), human->getYpos());
@@ -529,6 +629,7 @@ void Game::render()
         parking->Render(human->getXpos(), human->getYpos());
         // box->Render(human->getXpos(), human->getYpos());
         aMission->Render(map->getXpos(), map->getYpos());
+        tMission->Render(map->getXpos(), map->getYpos(), Game::dx, Game::dy);
 
         // aMission->Render();
         // car1->Render();
@@ -555,6 +656,9 @@ void Game::render()
         }
         if (aMission->getStatus())
             i = 1;
+        else if (tMission->getStatus())
+            i = 1;
+
         if (i == 0)
         {
             human->Render();
@@ -624,7 +728,7 @@ Game::~Game()
     delete police;
     police = nullptr;
     delete Co_Ordinate_System;
-    Co_Ordinate_System = nullptr;
+    // Co_Ordinate_System = nullptr;
     for (CarObject *t : cars)
     {
         delete t;

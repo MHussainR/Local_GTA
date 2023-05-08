@@ -131,7 +131,7 @@ bool Physics::collisionHandler(MainCharacter *main_character, NonPlayerCharacter
 
         else if (NPC->direction == 'd')
         {
-            std::cout << main_character->moverRect.x + main_character->moverRect.w << NPC->moverRect.x << std::endl;
+            // std::cout << main_character->moverRect.x + main_character->moverRect.w << NPC->moverRect.x << std::endl;
             if (NPC->moverRect.y - NPC->dy + speedy * 2 <= (main_character->moverRect.y))
             {
                 NPC->dx = 0;
