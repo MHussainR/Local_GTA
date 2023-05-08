@@ -10,10 +10,12 @@ private:
     bool transition_from_up_movement, transition_from_right_movement, transition_from_left_movement, transition_from_down_movement;
     char previous_direction;
     int reference;
+    int initial_dx, initial_dy;
+    char initial_direction;
     int dx ;
     int dy ;
     char direction = 'd';
-    void updateSpeed();
+    
 
 public:
     NonPlayerCharacters(const char *, SDL_Renderer *, int, int, char);
@@ -25,6 +27,13 @@ public:
     void Render() override;
     void Animator();
     void Run(bool) override;
+    char getDirection();
+    void setDirection(char);
+    // void setSpeed(char);
+    void updateSpeed(int);
+    int getDX();
+    int getDY();
+
     SDL_Rect *getMoverRect();
     friend class Physics;
 };

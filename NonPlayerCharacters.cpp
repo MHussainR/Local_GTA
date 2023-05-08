@@ -1,30 +1,32 @@
 #include "NonPlayerCharacters.hpp"
 
-void NonPlayerCharacters::updateSpeed()
+void NonPlayerCharacters::updateSpeed(int speed)
 {
     switch (this->direction)
     {
     case 'l':
-        this->dx = -1;
+        this->dx = -speed;
         this->dy = 0;
         break;
     case 'r':
-        this->dx = 1;
+        this->dx = speed;
         this->dy = 0;
         break;
     case 'u':
         this->dx = 0;
-        this->dy = -1;
+        this->dy = -speed;
         break;
     case 'd':
         this->dx = 0;
-        this->dy = 1;
+        this->dy = speed;
         break;
     case 'n':
         this->dx = 0;
         this->dy = 0;
         break;
     }
+    this->initial_dx = dx;
+    this->initial_dy = dy;
 }
 
 
@@ -32,8 +34,10 @@ NonPlayerCharacters::NonPlayerCharacters(const char *textursheet, SDL_Renderer *
 {
     // char randomSelect[6] = "lrudn";
     // this->direction = randomSelect[rand() % 5];
+    this->initial_direction = d;
+    this->previous_direction = d;
     this->direction = d;
-    updateSpeed();
+    updateSpeed(1);
     srcRect = {111, 52, 29, 49};
     moverRect = {x, y, 30, 50};
 }
@@ -517,4 +521,24 @@ void NonPlayerCharacters::Run(bool runs)
 SDL_Rect *NonPlayerCharacters::getMoverRect()
 {
     return &moverRect;
+}
+
+char NonPlayerCharacters::getDirection(){
+    return this->direction;
+}
+
+void NonPlayerCharacters::setDirection(char direction)
+{
+    this->direction = direction;
+    updateSpeed(5);
+}
+
+int NonPlayerCharacters::getDX()
+{
+    return this->dx;
+}
+
+int NonPlayerCharacters::getDY()
+{
+    return this->dy;
 }

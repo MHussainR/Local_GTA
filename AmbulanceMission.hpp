@@ -24,7 +24,8 @@ class AmbulanceMission : public Mission{
         FontManager* font1;
         // SDL_FreeSurface(tempSurface);
     public:
-        AmbulanceMission(SDL_Renderer* ren);
+        AmbulanceMission(SDL_Renderer* ren, int, int);
+        ~AmbulanceMission();
         void Update();
         void Update(char direction, int x, int y, bool movex, bool movey);
         void Update(int, int);

@@ -10,12 +10,12 @@
 
 #include <iostream>
 
-AmbulanceMission::AmbulanceMission(SDL_Renderer *ren) : Mission(ren)
+AmbulanceMission::AmbulanceMission(SDL_Renderer *ren, int mapx, int mapy) : Mission(ren)
 {
-    Ambulance = new CarObject("assets/cars.png", renderer, 600 * 8 + 50, 400 * 2, "Ambulance");
+    Ambulance = new CarObject("assets/cars.png", renderer, 4850-mapx, 800 - mapy, "Ambulance");
     picked = false;
     failed = false;
-    patient = new CarObject("assets/npcs.png", renderer, 600 * 2 + 300, 400 * 9 + 100);
+    patient = new CarObject("assets/npcs.png", renderer, 1500-mapx, 3700-mapy);
     patient->srcRect = {50, 64, 49, 28};
     flip = SDL_FLIP_NONE;
     pivot = {Ambulance->moverRect.h / 2, 49 / 2};
@@ -30,6 +30,13 @@ AmbulanceMission::AmbulanceMission(SDL_Renderer *ren) : Mission(ren)
     // font = TTF_OpenFont("font.ttf", 28);
     // FontManager::instance().loadFont("fonts/Orbitron-VariableFont_wght.ttf", 32, "Orbitron");
     // font = TTF_OpenFont("arial.ttf", 24);
+}
+
+AmbulanceMission::~AmbulanceMission(){
+    delete Ambulance;
+    delete patient;
+    delete font;
+    delete font1;
 }
 
 void AmbulanceMission::Update()

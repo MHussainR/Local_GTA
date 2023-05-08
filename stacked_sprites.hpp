@@ -3,6 +3,7 @@
 #include "TextureManager.hpp"
 #include "game.hpp"
 #include "Shapes.hpp"
+#include <map>
 #include <vector>
 
 class Stacked_Sprites
@@ -20,9 +21,13 @@ private:
     int num_layers;
     int step;
     int game_speed_x, game_speed_y;
+    std::map<float, float> sin_map;
+    std::map<float, float> cos_map;
+    // std::map<std::pair<float, float>, std::pair<float, float>> memo;
 
 public:
-    Stacked_Sprites(const char *textursheet, SDL_Renderer *ren, int x, int y, int srcx, int srcy, int srcw, int srch, int nl, int step, int delt, int scale);
+    Stacked_Sprites(const char *textursheet, SDL_Renderer *ren, int x, int y, int srcx, int srcy, int srcw, int srch, int ang, int nl, int step, int delt, int scale);
+    ~Stacked_Sprites();
     void Update(char direction, int x, int y, bool movex, bool movey);
     void Update(int x, int y);
     void Update(int, int, int, int);
