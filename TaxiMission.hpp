@@ -16,7 +16,8 @@ private:
     bool picked1, picked2;
     bool failed;
     SDL_Rect position;
-    CarObject *passanger1, *passanger2;
+    CarObject *passanger1;
+    CarObject *passanger2;
     SDL_Texture *arrow;
     SDL_Point pivot;
     double arrow_angle, position_angle;

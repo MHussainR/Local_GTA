@@ -568,7 +568,7 @@ void Game::update()
             c->Update(Game::dx, Game::dy);
         }
         aMission->Update(Game::dx, Game::dy);
-        tMission->Update(map->getXpos(), map->getYpos());
+        tMission->Update(Game::dx, Game::dy);
 
         if (aMission->getState())
             aMission->Running(map->getXpos(), map->getYpos());

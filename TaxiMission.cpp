@@ -57,8 +57,8 @@ void TaxiMission::Update(int x, int y)
     // aMoverRect = {600 - 53 / 2, 400 - 49 / 2, 53, 49};
     // patient->moverRect.w = 49;
     // patient->moverRect.h = 28;
-    aMoverRect = {Taxi->getXpos(), Taxi->getYpos() + Taxi->moverRect.h / 2, aSrcRect.w, aSrcRect.h};
-    pMoverRect = {x-900, y-2700, pSrcRect.w, pSrcRect.h};
+    aMoverRect = {Taxi->moverRect.x, Taxi->moverRect.y + Taxi->moverRect.h / 2, 53, 49};
+    // pMoverRect = {x-900, y-2700, pSrcRect.w, pSrcRect.h};
     
 }
 
