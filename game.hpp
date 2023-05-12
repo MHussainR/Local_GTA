@@ -23,7 +23,7 @@ private:
     bool isRunning;
     SDL_Window *window;
     SDL_Renderer *renderer;
-    bool title = true, control = false, instructions = false, loading = false, collision = false, game_start_music = true, death_var = false, car_mod_var = false;
+    bool title = true, control = false, instructions = false, loading = true, collision = false, game_start_music = true, death_var = false, car_mod_var = false;
     int dx = 0, dy = 0;
     char direction = 'n';
     CoOrdinateSystem *Co_Ordinate_System;

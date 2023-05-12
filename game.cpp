@@ -298,13 +298,13 @@ void Game::update()
 
     else
     {
-        // if (game_start_music)
-        // {
-        //     if (!game_start->IsPlaying())
-        //         game_start->Play(1);
-        //     else
-        //         game_start_music = false;
-        // }
+        if (game_start_music)
+        {
+            if (!game_start->IsPlaying())
+                game_start->Play(1);
+            else
+                game_start_music = false;
+        }
         if (Game::event.type == SDL_QUIT)
         {
             isRunning = false;
@@ -704,6 +704,8 @@ void Game::update()
         {
             death_var = true;
             death_screen->death();
+            if (death_screen->get_death_state())
+                isRunning = false;
             // std::cout << "death" << '\n';
         }
         // else

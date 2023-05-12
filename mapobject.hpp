@@ -32,11 +32,13 @@ class MapObject : public GameObject
 
         int getSpeed();
         void set_speed(int);
+        bool get_death_state();
+
     protected:
         int game_speed_x;
         int game_speed_y;
     private:
-        
+        bool death_state;
         int game_speed;
 
         int gameMap[40][60] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},

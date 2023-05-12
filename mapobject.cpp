@@ -55,7 +55,7 @@ void MapObject::Update(char direction, bool movex, bool movey)
     //         if (y_pos != 3200)
     //             y_pos += game_speed_y;
     //     }
-    // } 
+    // }
     // if (movex == false){
     //     if (direction == 'l'){
     //         if (x_pos != 0)
@@ -67,29 +67,29 @@ void MapObject::Update(char direction, bool movex, bool movey)
     // }
     // if (movey == false)
     // {
-        if (direction == 'u')
-        {
-            if (y_pos + game_speed_y >= 0)
-                y_pos += game_speed_y;
-        }
-        else if (direction == 'd')
-        {
-            if (y_pos + game_speed_y <= 3200)
-                y_pos += game_speed_y;
-        }
+    if (direction == 'u')
+    {
+        if (y_pos + game_speed_y >= 0)
+            y_pos += game_speed_y;
+    }
+    else if (direction == 'd')
+    {
+        if (y_pos + game_speed_y <= 3200)
+            y_pos += game_speed_y;
+    }
     // }
     // if (movex == false)
     // {
-        if (direction == 'l')
-        {
-            if (x_pos + game_speed_x >= 0)
-                x_pos += game_speed_x;
-        }
-        else if (direction == 'r')
-        {
-            if (x_pos + game_speed_x <= 4800)
-                x_pos += game_speed_x;
-        }
+    if (direction == 'l')
+    {
+        if (x_pos + game_speed_x >= 0)
+            x_pos += game_speed_x;
+    }
+    else if (direction == 'r')
+    {
+        if (x_pos + game_speed_x <= 4800)
+            x_pos += game_speed_x;
+    }
     // // }
     // x_pos++;
     // y_pos++;
@@ -273,20 +273,32 @@ int MapObject::getMapAllowance(int i, int j)
 //     return game_speed_y;
 // }
 
-int MapObject::getSpeed(){
+int MapObject::getSpeed()
+{
     return game_speed;
 }
 
-void MapObject::set_speed(int val){
+void MapObject::set_speed(int val)
+{
 
     game_speed = val;
 }
 
-void MapObject::death(){
+void MapObject::death()
+{
     static int frame = 0;
     if (frame >= 140)
         srcRect = {0, 0, 1200, 800};
-    else 
-        srcRect = {0, 800, 1200, 800};   
-        frame ++;
+    else
+        srcRect = {0, 800, 1200, 800};
+        frame++;
+    if (frame==260)
+    {
+        death_state = true;
+    }
+}
+
+bool MapObject::get_death_state()
+{
+    return death_state;
 }

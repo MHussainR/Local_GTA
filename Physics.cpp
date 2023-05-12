@@ -234,117 +234,119 @@ void Physics::collisionHandler(std::list<NonPlayerCharacters *> npcList, int spe
 
 bool Physics::collisionHandler(MainCharacter *main_character, MapObject *map, int speedx, int speedy)
 {
+    if (!main_character->in_car) 
+    {
+        std::list<Bullets *>::iterator current_index;
+        for (current_index = main_character->bullets.begin(); current_index != main_character->bullets.end(); current_index++)
+        {
+            if ((*current_index)->getDirection() == 'u')
+            {
+                if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+                else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+            }
+            else if ((*current_index)->getDirection() == 'd')
+            {
+                if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+                else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+            }
+            else if ((*current_index)->getDirection() == 'r')
+            {
+                if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+                else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+            }
+            else if ((*current_index)->getDirection() == 'l')
+            {
+                if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+                else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+            }
+        }
 
-    std::list<Bullets *>::iterator current_index;
-    for (current_index = main_character->bullets.begin(); current_index != main_character->bullets.end(); current_index++)
-    {
-        if ((*current_index)->getDirection() == 'u')
+        if (speedx > 0)
         {
-            if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+            if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x + main_character->moverRect.w) / 100, (map->getYpos() + main_character->moverRect.y) / 100) == 0)
             {
-                delete (*current_index);
-                (*current_index) = NULL;
-                current_index = main_character->bullets.erase(current_index);
+                return true;
             }
-            else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+            else if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x + main_character->moverRect.w) / 100, (map->getYpos() + main_character->moverRect.y + main_character->moverRect.h) / 100) == 0)
             {
-                delete (*current_index);
-                (*current_index) = NULL;
-                current_index = main_character->bullets.erase(current_index);
+                return true;
             }
         }
-        else if ((*current_index)->getDirection() == 'd')
+        else if (speedx < 0)
         {
-            if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+            if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x) / 100, (map->getYpos() + main_character->moverRect.y) / 100) == 0)
             {
-                delete (*current_index);
-                (*current_index) = NULL;
-                current_index = main_character->bullets.erase(current_index);
+                return true;
             }
-            else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+            else if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x) / 100, (map->getYpos() + main_character->moverRect.y + main_character->moverRect.h) / 100) == 0)
             {
-                delete (*current_index);
-                (*current_index) = NULL;
-                current_index = main_character->bullets.erase(current_index);
+                return true;
             }
         }
-        else if ((*current_index)->getDirection() == 'r')
+        else if (speedy > 0)
         {
-            if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+            if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x) / 100, (map->getYpos() + main_character->moverRect.y + main_character->moverRect.h) / 100) == 0)
             {
-                delete (*current_index);
-                (*current_index) = NULL;
-                current_index = main_character->bullets.erase(current_index);
+                return true;
             }
-            else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+            else if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x + main_character->moverRect.w) / 100, (map->getYpos() + main_character->moverRect.y + main_character->moverRect.h) / 100) == 0)
             {
-                delete (*current_index);
-                (*current_index) = NULL;
-                current_index = main_character->bullets.erase(current_index);
+                return true;
             }
         }
-        else if ((*current_index)->getDirection() == 'l')
+        else if (speedy < 0)
         {
-            if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+            if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x) / 100, (map->getYpos() + main_character->moverRect.y) / 100) == 0)
             {
-                delete (*current_index);
-                (*current_index) = NULL;
-                current_index = main_character->bullets.erase(current_index);
+                return true;
             }
-            else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+            else if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x + main_character->moverRect.w) / 100, (map->getYpos() + main_character->moverRect.y) / 100) == 0)
             {
-                delete (*current_index);
-                (*current_index) = NULL;
-                current_index = main_character->bullets.erase(current_index);
+                return true;
             }
         }
+        return false;
     }
-
-    if (speedx > 0)
-    {
-        if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x + main_character->moverRect.w) / 100, (map->getYpos() + main_character->moverRect.y) / 100) == 0)
-        {
-            return true;
-        }
-        else if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x + main_character->moverRect.w) / 100, (map->getYpos() + main_character->moverRect.y + main_character->moverRect.h) / 100) == 0)
-        {
-            return true;
-        }
-    }
-    else if (speedx < 0)
-    {
-        if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x) / 100, (map->getYpos() + main_character->moverRect.y) / 100) == 0)
-        {
-            return true;
-        }
-        else if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x) / 100, (map->getYpos() + main_character->moverRect.y + main_character->moverRect.h) / 100) == 0)
-        {
-            return true;
-        }
-    }
-    else if (speedy > 0)
-    {
-        if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x) / 100, (map->getYpos() + main_character->moverRect.y + main_character->moverRect.h) / 100) == 0)
-        {
-            return true;
-        }
-        else if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x + main_character->moverRect.w) / 100, (map->getYpos() + main_character->moverRect.y + main_character->moverRect.h) / 100) == 0)
-        {
-            return true;
-        }
-    }
-    else if (speedy < 0)
-    {
-        if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x) / 100, (map->getYpos() + main_character->moverRect.y) / 100) == 0)
-        {
-            return true;
-        }
-        else if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x + main_character->moverRect.w) / 100, (map->getYpos() + main_character->moverRect.y) / 100) == 0)
-        {
-            return true;
-        }
-    }
-    return false;
 }
 
 void Physics::collisionHandler(NonPlayerCharacters *npc, MapObject *map)
@@ -491,6 +493,3 @@ bool Physics::collisionHandler(MainCharacter *main_character, std::list<CarObjec
     }
     return flag;
 }
-
-
-
