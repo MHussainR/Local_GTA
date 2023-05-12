@@ -4,7 +4,8 @@ ShotgunBullets::ShotgunBullets(const char *texturesheet, SDL_Renderer *ren, int 
 {
     dx = 0;
     dy = 0;
-    bulletspeed = 5;
+    bulletspeed = 11;
+    this->direction = direction;
 
     if (direction == 'r' || direction == 'n' || direction == 'i')
         srcRect = {57, 11, 10, 5};
@@ -26,7 +27,9 @@ void ShotgunBullets::Render()
 
 void ShotgunBullets::Update()
 {
-    moverRect = {x_pos, y_pos, 15, 15};
+    time++;
+    time /= 30;
+    moverRect = {x_pos, y_pos, 9, 9};
 }
 
 void ShotgunBullets::Update(char direction, int speedx, int speedy)
@@ -60,7 +63,7 @@ void ShotgunBullets::Fire(char direction)
     }
 }
 
-SDL_Rect* ShotgunBullets::getMoverRect()
+SDL_Rect *ShotgunBullets::getMoverRect()
 {
     return &moverRect;
 }

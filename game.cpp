@@ -109,9 +109,9 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     map = new MapObject("assets/map6.png", renderer, 200, 800);
     Co_Ordinate_System = CoOrdinateSystem::getInstance(map->getXpos(), map->getYpos());
 
-    npcArray.push_back(new NonPlayerCharacters("assets/hackers.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(400), 'r'));
+    // npcArray.push_back(new NonPlayerCharacters("assets/hackers.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(400), 'r'));
     npcArray.push_back(new NonPlayerCharacters("assets/hackers.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(1000), 'r'));
-    npcArray.push_back(new NonPlayerCharacters("assets/hackers.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(500), 'd'));
+    // npcArray.push_back(new NonPlayerCharacters("assets/hackers.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(500), 'd'));
 
     // police = new Police(Co_Ordinate_System, renderer);
 
@@ -281,6 +281,7 @@ void Game::update()
         }
         RayCast->Update2(map->getMapAllowance(((human->getXpos() + map->getXpos()) / 100), (human->getYpos() + map->getYpos()) / 100));
     }
+
     else if (car_mod_var)
     {
         if (Game::event.type == SDL_QUIT)
@@ -294,15 +295,16 @@ void Game::update()
         temp_car->modification(money);
         // controls->Update();
     }
+
     else
     {
-        if (game_start_music)
-        {
-            if (!game_start->IsPlaying())
-                game_start->Play(1);
-            else
-                game_start_music = false;
-        }
+        // if (game_start_music)
+        // {
+        //     if (!game_start->IsPlaying())
+        //         game_start->Play(1);
+        //     else
+        //         game_start_music = false;
+        // }
         if (Game::event.type == SDL_QUIT)
         {
             isRunning = false;
@@ -311,8 +313,18 @@ void Game::update()
         const Uint8 *state = SDL_GetKeyboardState(NULL);
         Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
 
+        if (human->firing)
+        {
+            human->firing = false;
+        }
+
         if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_UP])
         {
+            if (state[SDL_SCANCODE_SPACE])
+            {
+                human->firing = true;
+                human->Fire();
+            }
             Game::dy = -5;
             Game::dx = 0;
             Game::direction = 'u';
@@ -320,6 +332,11 @@ void Game::update()
 
         else if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_DOWN])
         {
+            if (state[SDL_SCANCODE_SPACE])
+            {
+                human->firing = true;
+                human->Fire();
+            }
             Game::dy = 5;
             Game::dx = 0;
             Game::direction = 'd';
@@ -327,6 +344,11 @@ void Game::update()
 
         else if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_RIGHT])
         {
+            if (state[SDL_SCANCODE_SPACE])
+            {
+                human->firing = true;
+                human->Fire();
+            }
             Game::dy = 0;
             Game::dx = 5;
             Game::direction = 'r';
@@ -334,6 +356,11 @@ void Game::update()
 
         else if (state[SDL_SCANCODE_LSHIFT] && state[SDL_SCANCODE_LEFT])
         {
+            if (state[SDL_SCANCODE_SPACE])
+            {
+                human->firing = true;
+                human->Fire();
+            }
             Game::dy = 0;
             Game::dx = -5;
             Game::direction = 'l';
@@ -341,6 +368,11 @@ void Game::update()
 
         else if (state[SDL_SCANCODE_LEFT])
         {
+            if (state[SDL_SCANCODE_SPACE])
+            {
+                human->firing = true;
+                human->Fire();
+            }
             Game::dy = 0;
             Game::dx = -2;
             Game::direction = 'l';
@@ -350,6 +382,11 @@ void Game::update()
 
         else if (state[SDL_SCANCODE_UP])
         {
+            if (state[SDL_SCANCODE_SPACE])
+            {
+                human->firing = true;
+                human->Fire();
+            }
             Game::dx = 0;
             Game::dy = -2;
             Game::direction = 'u';
@@ -357,6 +394,11 @@ void Game::update()
 
         else if (state[SDL_SCANCODE_RIGHT])
         {
+            if (state[SDL_SCANCODE_SPACE])
+            {
+                human->firing = true;
+                human->Fire();
+            }
             Game::dx = 2;
             Game::dy = 0;
             Game::direction = 'r';
@@ -366,6 +408,11 @@ void Game::update()
 
         else if (state[SDL_SCANCODE_DOWN])
         {
+            if (state[SDL_SCANCODE_SPACE])
+            {
+                human->firing = true;
+                human->Fire();
+            }
             Game::dx = 0;
             Game::dy = 2;
             Game::direction = 'd';
@@ -384,16 +431,53 @@ void Game::update()
             }
         }
 
-        if (state[SDL_SCANCODE_Q])
+        else if (state[SDL_SCANCODE_Q])
         {
             human->setReload();
         }
 
-        else if (Game::event.type == SDL_KEYDOWN)
+        else if (state[SDL_SCANCODE_SPACE])
         {
-            if (Game::event.key.keysym.sym == SDLK_f)
+            human->firing = true;
+            human->Fire();
+        }
+        else
+        {
+            Game::dx = 0;
+            Game::dy = 0;
+            Game::direction = 'n';
+        }
+
+        if (Game::event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (menu->getState())
             {
-                bool flag = false;
+                human->setGuntype(menu->getGun(atan2(mouseY - (800 / 2), mouseX - (1200 / 2)) * 180 / M_PI, sqrt(pow((mouseX - (1200 / 2)), 2) + pow(mouseY - (800 / 2), 2))));
+                menu->setState(false);
+            }
+        }
+        bool flag = false;
+        if (Game::event.type == SDL_KEYDOWN)
+        {
+            switch (Game::event.key.keysym.sym)
+            {
+            case SDLK_a:
+                c_codes->check('a', health, money);
+                break;
+            case SDLK_b:
+                c_codes->check('b', health, money);
+                break;
+            case SDLK_c:
+                c_codes->check('c', health, money);
+                break;
+            case SDLK_d:
+                c_codes->check('d', health, money);
+                break;
+            case SDLK_e:
+                c_codes->check('e', health, money);
+                break;
+            case SDLK_f:
+                c_codes->check('f', health, money);
                 for (CarObject *c : cars)
                 {
                     c->setStatus(human->getXpos(), human->getYpos());
@@ -415,29 +499,6 @@ void Game::update()
                 }
                 aMission->setStatus(human->getXpos(), human->getYpos());
                 tMission->setStatus(human->getXpos(), human->getYpos());
-
-                // aMission->setStatus(human->getXpos(), human->getYpos());
-                // car1->setStatus(human->getXpos(), human->getYpos());
-            }
-            switch (Game::event.key.keysym.sym)
-            {
-            case SDLK_a:
-                c_codes->check('a', health, money);
-                break;
-            case SDLK_b:
-                c_codes->check('b', health, money);
-                break;
-            case SDLK_c:
-                c_codes->check('c', health, money);
-                break;
-            case SDLK_d:
-                c_codes->check('d', health, money);
-                break;
-            case SDLK_e:
-                c_codes->check('e', health, money);
-                break;
-            case SDLK_f:
-                c_codes->check('f', health, money);
                 break;
             case SDLK_g:
                 c_codes->check('g', health, money);
@@ -510,77 +571,6 @@ void Game::update()
             default:
                 break;
             }
-
-            // if (Game::event.key.keysym.sym == SDLK_m)
-            // {
-            //     if (menu->getState())
-            //     {
-            //         menu->setState(false);
-            //     }
-            //     else
-            //     {
-            //         menu->setState(true);
-            //     }
-            // }
-        
-
-            // if (Game::event.key.keysym.sym == SDLK_m)
-            // {
-            //     if (menu->getState())
-            //     {
-            //         menu->setState(false);
-            //     }
-            //     else
-            //     {
-            //         menu->setState(true);
-            //     }
-            // }
-            {
-                if (Game::event.key.keysym.sym == SDLK_SPACE)
-                {
-                    human->firing = true;
-                    human->Fire();
-                }
-                else
-                {
-                    human->firing = false;
-                }
-            }
-        }
-
-        else if (Game::event.type == SDL_MOUSEBUTTONDOWN)
-        {
-            if (menu->getState())
-            {
-                menu->setState(false);
-            }
-
-            if (Game::event.key.keysym.sym == SDLK_m)
-            {
-                if (menu->getState())
-                {
-                    menu->setState(false);
-                }
-                else
-                {
-                    menu->setState(true);
-                }
-            }
-        }
-
-        else if (Game::event.type == SDL_MOUSEBUTTONDOWN)
-        {
-            if (menu->getState())
-            {
-                menu->setState(false);
-            }
-        }
-
-        else
-        {
-            Game::dx = 0;
-            Game::dy = 0;
-            Game::direction = 'n';
         }
 
         if (human->inside_box_x)
@@ -694,7 +684,7 @@ void Game::update()
             }
             if (map->getMapAllowance(((human->getXpos() + map->getXpos()) / 100), (human->getYpos() + map->getYpos()) / 100) == -2)
                 temp = 1;
-            else 
+            else
                 temp = 0;
         }
         aMission->Update(Game::dx, Game::dy);

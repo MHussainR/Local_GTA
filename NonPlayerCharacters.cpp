@@ -30,7 +30,7 @@ void NonPlayerCharacters::updateSpeed(int speed)
 }
 
 
-NonPlayerCharacters::NonPlayerCharacters(const char *textursheet, SDL_Renderer *ren, int x, int y, char d) : Characters(textursheet, ren, x, y), frame(0), reference(25),death(false)
+NonPlayerCharacters::NonPlayerCharacters(const char *textursheet, SDL_Renderer *ren, int x, int y, char d) : Characters(textursheet, ren, x, y), frame(0), reference(20),death(false)
 {
     // char randomSelect[6] = "lrudn";
     // this->direction = randomSelect[rand() % 5];
@@ -56,7 +56,6 @@ void NonPlayerCharacters::Render()
 
 void NonPlayerCharacters::Animator()
 {
-
     if (this->direction == 'n')
     {
         if (this->previous_direction == 'r')
@@ -81,18 +80,40 @@ void NonPlayerCharacters::Animator()
     {
         if (frame == 0)
         {
-            srcRect = {1007, 645, 135, 95};
+            srcRect = {1217, 655, 69, 101};
+            // srcRect = {1007, 645, 135, 95};
             frame++;
         }
         else if (frame == reference)
         {
+            srcRect = {1165, 788, 121, 104};
+            // srcRect = {1007, 645, 135, 95};
+            frame++;
+        }
+        else if (frame == reference*2)
+        {
+            srcRect = {1007, 645, 135, 95};
+            // srcRect = {831, 645, 120, 104};
+            frame++;
+        }
+        else if (frame == reference * 3)
+        {
             srcRect = {1217, 655, 69, 101};
             frame++;
         }
-        else if (frame == reference * 2)
+        else if (frame == reference *4)
         {
-            GameObject::srcRect = {844, 797, 136, 95};
-            frame = 1;
+            srcRect = {831, 645, 120, 104};
+            frame++;
+        }
+        else if (frame == reference *5)
+        {
+            srcRect = {844, 797, 136, 95};
+            frame++;
+        }
+        else if (frame == reference *6)
+        {
+            frame = 0;
         }
         else
         {

@@ -4,7 +4,8 @@ HandGunBullets::HandGunBullets(const char *texturesheet, SDL_Renderer *ren, int 
 {
     dx = 0;
     dy = 0;
-    bulletspeed = 8;
+    bulletspeed = 11;
+    this->direction = direction;
 
     if (direction == 'r' || direction == 'n' || direction == 'i')
         srcRect = {41, 11, 10, 5};
@@ -26,7 +27,9 @@ void HandGunBullets::Render()
 
 void HandGunBullets::Update()
 {
-    moverRect = {x_pos, y_pos, 15, 15};
+    time++;
+    time /= 30;
+    moverRect = {x_pos, y_pos, 9, 9};
 }
 
 void HandGunBullets::Update(char direction, int speedx, int speedy)

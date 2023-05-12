@@ -7,7 +7,8 @@ MainCharacter::MainCharacter(const char *textursheet, SDL_Renderer *ren, int x, 
                                                                                          reloadAR(false), reloadHG(false), reloadSG(false), reloading(false),
                                                                                          previous_direction('i'),
                                                                                          reference(5), in_car(false), gunType("AR"),
-                                                                                         firing(false), fireRateAR(75), lastFireTimeAR(0), bullets_ar(30), firingFrame(1)
+                                                                                         firing(false), fireRateAR(75), lastFireTimeAR(0), bullets_ar(30), firingFrame(1),
+                                                                                         lastFireTimeHG(0), fireRateHG(500), bullets_hg(15)
 
 {
     srcRect = {0, 409, 177, 105};
@@ -18,6 +19,11 @@ MainCharacter::MainCharacter(const char *textursheet, SDL_Renderer *ren, int x, 
     t2 = TextureManager::LoadTexture("assets/Player_sprites_ver.png", renderer);
     srcRectFoot = {4333, 82, 98, 114};
     moverRectFoot = {((moverRect.x + moverRect.w) / 2) - ((srcRectFoot.x + (srcRectFoot.w / 2)) / 2), ((moverRect.y + moverRect.h) / 2) - ((srcRectFoot.y + (srcRectFoot.h / 3)) / 2), srcRectFoot.w / 3, srcRectFoot.h / 3};
+}
+
+void MainCharacter::setGuntype(std::string type)
+{
+    this->gunType = type;
 }
 
 void MainCharacter::Animator(char direction)
@@ -390,7 +396,7 @@ void MainCharacter::Animator(char direction)
 }
 
 void MainCharacter::Update()
-{    
+{
     moverRect = {x_pos, y_pos, srcRect.w / 2, srcRect.h / 2};
     if (firingFrame == 2)
     {
@@ -398,7 +404,7 @@ void MainCharacter::Update()
     }
     else if (firingFrame == 1)
     {
-        moverRect.x += 4;
+        moverRect.x += 2;
     }
     if (direction == 'i')
     {
@@ -453,7 +459,6 @@ void MainCharacter::Update()
             moverRectFoot = {x_pos + ((moverRect.w / 2) - ((srcRectFoot.w / 2)) / 3) - 2, y_pos + ((moverRect.h / 2) - (srcRectFoot.h / 7)) + 2, srcRectFoot.w / 3, srcRectFoot.h / 3};
     }
 
-    
     // moverRectFoot = {((moverRect.x + moverRect.w) / 2) - ((srcRectFoot.x + srcRectFoot.w) / 2), y_pos + ((moverRect.y + moverRect.h) / 2) - ((srcRectFoot.y + srcRectFoot.h) / 2), srcRectFoot.w / 3, srcRectFoot.h / 3};
 }
 
@@ -650,7 +655,6 @@ void MainCharacter::Animator_reloading()
                 reloadFrameAR++;
             }
         }
-    
     }
 
     else if (gunType == "SG" && reloadSG)
@@ -883,6 +887,7 @@ void MainCharacter::Animator_reloading()
             {
                 srcRect = {1189, 4066, 179, 132};
                 reloadFrameHG = 0;
+                bullets_hg = 15;
                 reloadHG = false;
                 reloading = false;
             }
@@ -929,6 +934,7 @@ void MainCharacter::Animator_reloading()
             {
                 srcRect = {3128, 4684, 179, 132};
                 reloadFrameHG = 0;
+                bullets_hg = 15;
                 reloadHG = false;
                 reloading = false;
             }
@@ -975,6 +981,7 @@ void MainCharacter::Animator_reloading()
             {
                 srcRect = {458, 3132, 132, 179};
                 reloadFrameHG = 0;
+                bullets_hg = 15;
                 reloadHG = false;
                 reloading = false;
             }
@@ -1022,6 +1029,7 @@ void MainCharacter::Animator_reloading()
                 srcRect = {1076, 1193, 132, 179};
                 reloadFrameHG = 0;
                 reloadHG = false;
+                bullets_hg = 15;
                 reloading = false;
             }
             else
@@ -1247,24 +1255,35 @@ void MainCharacter::Fire()
     else if (gunType == "SG")
     {
         if (this->previous_direction == 'r' || this->previous_direction == 'n')
-            bullets.push_back(new ShotgunBullets("assets/bullets.png", renderer, x_pos + moverRect.w, y_pos + moverRect.h - 20, this->previous_direction));
+            bullets.push_back(new ShotgunBullets("assets/bullets.png", renderer, x_pos + moverRect.w, y_pos + moverRect.h - 17, this->previous_direction));
         else if (this->previous_direction == 'l')
-            bullets.push_back(new ShotgunBullets("assets/bullets.png", renderer, x_pos - 9, y_pos + 5, this->previous_direction));
+            bullets.push_back(new ShotgunBullets("assets/bullets.png", renderer, x_pos - 9, y_pos + 8, this->previous_direction));
         else if (this->previous_direction == 'u')
-            bullets.push_back(new ShotgunBullets("assets/bullets.png", renderer, x_pos + moverRect.w - 20, y_pos - 9, this->previous_direction));
+            bullets.push_back(new ShotgunBullets("assets/bullets.png", renderer, x_pos + moverRect.w - 17, y_pos - 9, this->previous_direction));
         else if (this->previous_direction == 'd')
-            bullets.push_back(new ShotgunBullets("assets/bullets.png", renderer, x_pos + 7, y_pos + moverRect.h, this->previous_direction));
+            bullets.push_back(new ShotgunBullets("assets/bullets.png", renderer, x_pos + 9, y_pos + moverRect.h, this->previous_direction));
     }
     else if (gunType == "HG")
     {
-        if (this->previous_direction == 'r' || this->previous_direction == 'n')
-            bullets.push_back(new HandGunBullets("assets/bullets.png", renderer, x_pos + moverRect.w, y_pos + moverRect.h - 20, this->previous_direction));
-        else if (this->previous_direction == 'l')
-            bullets.push_back(new HandGunBullets("assets/bullets.png", renderer, x_pos - 9, y_pos + 5, this->previous_direction));
-        else if (this->previous_direction == 'u')
-            bullets.push_back(new HandGunBullets("assets/bullets.png", renderer, x_pos + moverRect.w - 20, y_pos - 9, this->previous_direction));
-        else if (this->previous_direction == 'd')
-            bullets.push_back(new HandGunBullets("assets/bullets.png", renderer, x_pos + 7, y_pos + moverRect.h, this->previous_direction));
+        Uint32 currentTime = SDL_GetTicks();
+        if ((bullets_hg > 0) && (!reloading) && (currentTime - lastFireTimeHG >= fireRateHG))
+        {
+            lastFireTimeHG = currentTime;
+            if (this->previous_direction == 'r' || this->previous_direction == 'n')
+                bullets.push_back(new HandGunBullets("assets/bullets.png", renderer, x_pos + moverRect.w, y_pos + moverRect.h - 17, this->previous_direction));
+            else if (this->previous_direction == 'l')
+                bullets.push_back(new HandGunBullets("assets/bullets.png", renderer, x_pos - 9, y_pos + 8, this->previous_direction));
+            else if (this->previous_direction == 'u')
+                bullets.push_back(new HandGunBullets("assets/bullets.png", renderer, x_pos + moverRect.w - 17, y_pos - 9, this->previous_direction));
+            else if (this->previous_direction == 'd')
+                bullets.push_back(new HandGunBullets("assets/bullets.png", renderer, x_pos + 9, y_pos + moverRect.h, this->previous_direction));
+            bullets_hg--;
+        }
+        else if (bullets_hg == 0)
+        {
+            reloadHG = true;
+            reloading = true;
+        }
     }
 }
 

@@ -6,6 +6,9 @@ CircularMenu::CircularMenu(SDL_Renderer *renderer, int centred_x, int centred_y)
     this->renderer = renderer;
     this->menu_texture = TextureManager::LoadTexture("assets/circular menu.png", renderer);
     this->glow = TextureManager::LoadTexture("assets/circular menu_3.png", renderer);
+    this->ar = TextureManager::LoadTexture("assets/AR.png", renderer);
+    this->hg = TextureManager::LoadTexture("assets/HG.png", renderer);
+    this->sg = TextureManager::LoadTexture("assets/SG.png", renderer);
     this->radius = 550;
     this->centerX = centred_x;
     this->centerY = centred_y;
@@ -13,9 +16,39 @@ CircularMenu::CircularMenu(SDL_Renderer *renderer, int centred_x, int centred_y)
     moverRect.y = centred_y - radius / 2;
     moverRect2.x = centred_x - (1200) / 2;
     moverRect2.y = centred_y - (1200) / 2;
-    this->NUM_GUNS = 8;
+    this->NUM_GUNS = 3;
     this->sectors = (2 * M_PI) / NUM_GUNS;
     this->is_open = false;
+}
+
+std::string CircularMenu::getGun(double _angle, int _radius)
+{
+    if (this->is_open)
+    {
+        if(_radius < 275 && _radius > ((this->radius - 298) / 2))
+        {
+            if (_angle > 0)
+            {
+                _angle = _angle - 360;
+            }
+
+            _angle = -_angle;
+            _angle = _angle * (M_PI / 180);
+            int region = _angle / sectors;
+            switch (region)
+            {
+            case 0:
+                return "AR";
+                break;
+            case 1:
+                return "HG";
+                break;
+            case 2:
+                return "SG";
+                break;
+            }
+        }
+    }
 }
 
 void CircularMenu::Render(double _angle, int _radius)
@@ -143,7 +176,10 @@ void CircularMenu::Render(double _angle, int _radius)
             //     SDL_RenderCopyEx(renderer, glow, &srcRect2, &tt , atan2(vertices[i + 1].y - vertices[i].y, vertices[i + 1].x - vertices[i].x) * 180.0 / M_PI, NULL, SDL_FLIP_NONE);
             // }
             // SDL_RenderCopy(renderer, glow, &srcRect2, &moverRect2);
+
         }
+        moverAR = {radius - 200, radius - 50, 40, 40};
+        SDL_RenderCopy(renderer, ar, NULL, &moverAR);
     }
 }
 

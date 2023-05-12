@@ -15,4 +15,5 @@ class ShotgunBullets : public Bullets
         SDL_Rect *getMoverRect();
         int getBulletSpeed();
         char getDirection();
+        int time;
 };

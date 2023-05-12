@@ -29,7 +29,8 @@ class MainCharacter : public Characters
         bool in_car;
         bool firing;
         std::list<Bullets *> bullets;
-        
+        void setGuntype(std::string);
+
         friend class Physics;
 
     private:
@@ -42,5 +43,7 @@ class MainCharacter : public Characters
         char direction;
         int reference;
         const Uint32 fireRateAR;
+        const Uint32 fireRateHG;
         Uint32 lastFireTimeAR;
+        Uint32 lastFireTimeHG;
 };
