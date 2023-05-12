@@ -18,6 +18,7 @@
 #include "Physics.hpp"
 #include "Police.hpp"
 #include "RayCaster.hpp"
+#include "Guns.hpp"
 
 // Game::Game(){}
 // Game::~Game(){}
@@ -49,9 +50,10 @@ RayCaster *RayCast;
 Health *health;
 Money *money;
 CircularMenu *menu;
-Police *police;
+// Police *police;
 Cheat_codes *c_codes;
 std::list<CarObject *> cars;
+Guns *guns;
 
 void Game::init(const char *title, int x_pos, int y_pos, int height, int width, bool fullscreen)
 {
@@ -90,13 +92,13 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     map = new MapObject("assets/map6.png", renderer, 200, 800);
     Co_Ordinate_System = CoOrdinateSystem::getInstance(map->getXpos(), map->getYpos());
 
-    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(400), 'r'));
-    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(1000), 'u'));
-    npcArray.push_back(new NonPlayerCharacters("assets/npcs.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(500), 'd'));
+    npcArray.push_back(new NonPlayerCharacters("assets/hackers.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(400), 'r'));
+    npcArray.push_back(new NonPlayerCharacters("assets/hackers.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(1000), 'r'));
+    npcArray.push_back(new NonPlayerCharacters("assets/hackers.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1120), Co_Ordinate_System->setGlobalCoOrdinatey(500), 'd'));
 
-    police = new Police(Co_Ordinate_System, renderer);
+    // police = new Police(Co_Ordinate_System, renderer);
 
-    human = new MainCharacter("assets/players.png", renderer, 600, 400);
+    human = new MainCharacter("assets/Player_sprites.png", renderer, 600, 400);
     cars.push_back(new CarObject("assets/cars.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(1200), Co_Ordinate_System->setGlobalCoOrdinatey(800), "Normal"));
     cars.push_back(new CarObject("assets/cars.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(2850), Co_Ordinate_System->setGlobalCoOrdinatey(2050), "Taxi"));
 
@@ -121,6 +123,8 @@ void Game::init(const char *title, int x_pos, int y_pos, int height, int width, 
     parking = new Stacked_Sprites("assets/parking_stack.png", renderer, Co_Ordinate_System->setGlobalCoOrdinatex(300), Co_Ordinate_System->setGlobalCoOrdinatey(200), 0, 200, 200, 200, 0, 20, 1, 3, 4);
     RayCast = new RayCaster(renderer);
     c_codes = new Cheat_codes();
+
+    guns = new Guns("assets/AR.png", renderer, human->getMoverRect()->x, human->getMoverRect()->y, Game::direction);
 }
 
 void Game::handleEvents()
@@ -311,6 +315,11 @@ void Game::update()
             }
         }
 
+        if (state[SDL_SCANCODE_Q])
+        {
+            human->setReload();
+        }
+
         else if (Game::event.type == SDL_KEYDOWN)
         {
             if (Game::event.key.keysym.sym == SDLK_f)
@@ -441,6 +450,17 @@ void Game::update()
                     menu->setState(true);
                 }
             }
+            {
+                if (Game::event.key.keysym.sym == SDLK_SPACE)
+                {
+                    human->firing = true;
+                    human->Fire();
+                }
+                else
+                {
+                    human->firing = false;
+                }
+            }
         }
 
         else if (Game::event.type == SDL_MOUSEBUTTONDOWN)
@@ -554,14 +574,15 @@ void Game::update()
 
         map->Update(Game::direction, human->inside_box_x, human->inside_box_y, Game::dx, Game::dy);
         smallMap->Update(Game::direction, human->inside_box_x, human->inside_box_y, Game::dx, Game::dy);
-        human->Update(Game::direction, map->getXpos(), map->getYpos());
+        human->Update(Game::direction, map->getXpos(), map->getYpos(), Game::dx, Game::dy);
+        guns->Update(Game::direction, Game::dx, Game::dy);
         for (NonPlayerCharacters *npc : npcArray)
         {
             npc->Update(Game::dx, Game::dy);
         }
 
-        police->followPath(map);
-        police->Update(Game::dx, Game::dy);
+        // police->followPath(map);
+        // police->Update(Game::dx, Game::dy);
 
         for (CarObject *c : cars)
         {
@@ -662,12 +683,13 @@ void Game::render()
         if (i == 0)
         {
             human->Render();
+            // guns->Render();
         }
         smallMap->Render();
         health->Render();
         money->Render();
         menu->Render(atan2(mouseY - (800 / 2), mouseX - (1200 / 2)) * 180 / M_PI, sqrt(pow((mouseX - (1200 / 2)), 2) + pow(mouseY - (800 / 2), 2)));
-        police->Render();
+        // police->Render();
     }
     SDL_RenderPresent(renderer);
 }
@@ -725,8 +747,8 @@ Game::~Game()
     money = nullptr;
     delete menu;
     menu = nullptr;
-    delete police;
-    police = nullptr;
+    // delete police;
+    // police = nullptr;
     delete Co_Ordinate_System;
     // Co_Ordinate_System = nullptr;
     for (CarObject *t : cars)

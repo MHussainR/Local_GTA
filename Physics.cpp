@@ -8,23 +8,56 @@
 
 bool Physics::collisionHandler(MainCharacter *main_character, NonPlayerCharacters *NPC, int speedx, int speedy)
 {
+    std::list<Bullets *>::iterator current_index;
+    for (current_index = main_character->bullets.begin(); current_index != main_character->bullets.end(); current_index++)
+    {
+        if (SDL_HasIntersection(((*current_index)->getMoverRect()), &(NPC->moverRect)))
+        {
+            if ((*current_index)->getDirection() == 'u')
+            {
+                if (((*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) >= (NPC->moverRect.y + NPC->moverRect.h - ((*current_index)->getBulletSpeed() * 2) - NPC->dy))
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+            }
+            else if ((*current_index)->getDirection() == 'd')
+            {
+                if (((*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) <= (NPC->moverRect.y + NPC->moverRect.h + ((*current_index)->getBulletSpeed() * 2) - NPC->dy))
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+            }
+            else if ((*current_index)->getDirection() == 'r')
+            {
+                if (((*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) <= (NPC->moverRect.x + NPC->moverRect.w + ((*current_index)->getBulletSpeed() * 2) - NPC->dx))
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+            }
+            else if ((*current_index)->getDirection() == 'l')
+            {
+                if (((*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) >= (NPC->moverRect.x + ((*current_index)->getBulletSpeed() * 2) - NPC->dx))
+                {
+                    delete (*current_index);
+                    (*current_index) = NULL;
+                    current_index = main_character->bullets.erase(current_index);
+                }
+            }
+        }
+    }
+
     if (SDL_HasIntersection(&(main_character->moverRect), &(NPC->moverRect)))
     {
         if (NPC->direction == 'n')
         {
-            //     // std::cout << "gg" << std::endl;
-            //     if (speedx != 0)
-            //     {
-            //         SDL_Rect newt = {NPC->moverRect.x - speedx , NPC->moverRect.y, NPC->moverRect.w, NPC->moverRect.h};
-            //         if (SDL_HasIntersection( &(main_character->moverRect) , &(newt) ))
-            //         {
-            //             return true;
-            //         }
-            //         return false;
-            //     }
             if (speedx > 0)
             {
-                // std::cout << main_character->moverRect.x << " " << NPC->moverRect.x  << std::endl;
                 if ((main_character->moverRect.x) <= (NPC->moverRect.x))
                 {
                     return true;
@@ -55,39 +88,7 @@ bool Physics::collisionHandler(MainCharacter *main_character, NonPlayerCharacter
                 }
                 return false;
             }
-
             return false;
-
-            // else if (speedx < 0)
-            // {
-            //     if (main_character->moverRect.x >= (NPC->moverRect.x + NPC->moverRect.w + speedx))
-            //     {
-            //         return true;
-            //     }
-            // if (speedx>0)
-            //     return true;
-            // return false;
-            // }
-
-            // else if (speedy > 0)
-            // {
-            //     if ((main_character->moverRect.y+main_character->moverRect.h) <= (NPC->moverRect.y + speedy))
-            //     {
-            //         return true;
-            //     }
-            //     return false;
-            // }
-
-            // else if (speedy < 0)
-            // {
-            //     if (main_character->moverRect.y >= (NPC->moverRect.y + NPC->moverRect.h + speedy))
-            //     {
-            //         return true;
-            //     }
-            //     return false;
-            // }
-
-            // return false;
         }
 
         else if (NPC->direction == 'r')
@@ -131,7 +132,6 @@ bool Physics::collisionHandler(MainCharacter *main_character, NonPlayerCharacter
 
         else if (NPC->direction == 'd')
         {
-            // std::cout << main_character->moverRect.x + main_character->moverRect.w << NPC->moverRect.x << std::endl;
             if (NPC->moverRect.y - NPC->dy + speedy * 2 <= (main_character->moverRect.y))
             {
                 NPC->dx = 0;
@@ -146,7 +146,6 @@ bool Physics::collisionHandler(MainCharacter *main_character, NonPlayerCharacter
 
     else
     {
-        // std::cout << NPC->moverRect.x << "  "<< main_character->moverRect.x << std::endl;
         NPC->dx = NPC->initial_dx;
         NPC->dy = NPC->initial_dy;
         NPC->previous_direction = 'n';
@@ -235,6 +234,72 @@ void Physics::collisionHandler(std::list<NonPlayerCharacters *> npcList, int spe
 
 bool Physics::collisionHandler(MainCharacter *main_character, MapObject *map, int speedx, int speedy)
 {
+
+    std::list<Bullets *>::iterator current_index;
+    for (current_index = main_character->bullets.begin(); current_index != main_character->bullets.end(); current_index++)
+    {
+        if ((*current_index)->getDirection() == 'u')
+        {
+            if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+            {
+                delete (*current_index);
+                (*current_index) = NULL;
+                current_index = main_character->bullets.erase(current_index);
+            }
+            else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+            {
+                delete (*current_index);
+                (*current_index) = NULL;
+                current_index = main_character->bullets.erase(current_index);
+            }
+        }
+        else if ((*current_index)->getDirection() == 'd')
+        {
+            if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+            {
+                delete (*current_index);
+                (*current_index) = NULL;
+                current_index = main_character->bullets.erase(current_index);
+            }
+            else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+            {
+                delete (*current_index);
+                (*current_index) = NULL;
+                current_index = main_character->bullets.erase(current_index);
+            }
+        }
+        else if ((*current_index)->getDirection() == 'r')
+        {
+            if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+            {
+                delete (*current_index);
+                (*current_index) = NULL;
+                current_index = main_character->bullets.erase(current_index);
+            }
+            else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x + (*current_index)->getMoverRect()->w) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+            {
+                delete (*current_index);
+                (*current_index) = NULL;
+                current_index = main_character->bullets.erase(current_index);
+            }
+        }
+        else if ((*current_index)->getDirection() == 'l')
+        {
+            if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y) / 100) == 0)
+            {
+                delete (*current_index);
+                (*current_index) = NULL;
+                current_index = main_character->bullets.erase(current_index);
+            }
+            else if (map->getMapAllowance((map->getXpos() + (*current_index)->getMoverRect()->x) / 100, (map->getYpos() + (*current_index)->getMoverRect()->y + (*current_index)->getMoverRect()->h) / 100) == 0)
+            {
+                delete (*current_index);
+                (*current_index) = NULL;
+                current_index = main_character->bullets.erase(current_index);
+            }
+        }
+    }
+
     if (speedx > 0)
     {
         if (map->getMapAllowance((map->getXpos() + main_character->moverRect.x + main_character->moverRect.w) / 100, (map->getYpos() + main_character->moverRect.y) / 100) == 0)
@@ -426,4 +491,6 @@ bool Physics::collisionHandler(MainCharacter *main_character, std::list<CarObjec
     }
     return flag;
 }
+
+
 

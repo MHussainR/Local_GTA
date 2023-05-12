@@ -30,7 +30,7 @@ void NonPlayerCharacters::updateSpeed(int speed)
 }
 
 
-NonPlayerCharacters::NonPlayerCharacters(const char *textursheet, SDL_Renderer *ren, int x, int y, char d) : Characters(textursheet, ren, x, y), frame(0), reference(25)
+NonPlayerCharacters::NonPlayerCharacters(const char *textursheet, SDL_Renderer *ren, int x, int y, char d) : Characters(textursheet, ren, x, y), frame(0), reference(25),death(false)
 {
     // char randomSelect[6] = "lrudn";
     // this->direction = randomSelect[rand() % 5];
@@ -46,7 +46,7 @@ NonPlayerCharacters::NonPlayerCharacters(const char *textursheet, SDL_Renderer *
 
 void NonPlayerCharacters::Update()
 {
-    moverRect = {x_pos, y_pos, srcRect.w, srcRect.h};
+    moverRect = {x_pos, y_pos, srcRect.w/2, srcRect.h/2};
 }
 
 void NonPlayerCharacters::Render()
@@ -61,19 +61,19 @@ void NonPlayerCharacters::Animator()
     {
         if (this->previous_direction == 'r')
         {
-            srcRect = {111, 52, 29, 49};
+            srcRect = {1217, 655, 69, 101};
         }
         else if (this->previous_direction == 'l')
         {
-            srcRect = {12, 51, 29, 49};
+            srcRect = {847, 300, 69, 101};
         }
         else if (this->previous_direction == 'u')
         {
-            srcRect = {51, 13, 49, 29};
+            srcRect = {73, 264, 101, 70};
         }
         else if (this->previous_direction == 'd')
         {
-            srcRect = {51, 113, 49, 29};
+            srcRect = {499, 814, 101, 70};
         }
         frame = 0;
     }
@@ -81,17 +81,17 @@ void NonPlayerCharacters::Animator()
     {
         if (frame == 0)
         {
-            srcRect = {111, 52, 29, 49};
+            srcRect = {1007, 645, 135, 95};
             frame++;
         }
         else if (frame == reference)
         {
-            srcRect = {252, 51, 48, 50};
+            srcRect = {1217, 655, 69, 101};
             frame++;
         }
         else if (frame == reference * 2)
         {
-            GameObject::srcRect = {404, 52, 50, 50};
+            GameObject::srcRect = {844, 797, 136, 95};
             frame = 1;
         }
         else
@@ -104,17 +104,17 @@ void NonPlayerCharacters::Animator()
     {
         if (frame == 0)
         {
-            GameObject::srcRect = {12, 51, 29, 49};
+            GameObject::srcRect = {816, 442, 136, 95};
             frame++;
         }
         else if (frame == reference)
         {
-            srcRect = {155, 52, 38, 48};
+            srcRect = {847, 300, 69, 101};
             frame++;
         }
         else if (frame == reference * 2)
         {
-            GameObject::srcRect = {303, 51, 45, 49};
+            GameObject::srcRect = {979, 290, 135, 95};
             frame = 1;
         }
         else
@@ -127,17 +127,17 @@ void NonPlayerCharacters::Animator()
     {
         if (frame == 0)
         {
-            GameObject::srcRect = {51, 13, 49, 29};
+            GameObject::srcRect = {63, 408, 95, 136};
             frame++;
         }
         else if (frame == reference)
         {
-            srcRect = {201, 4, 49, 38};
+            srcRect = {73, 264, 101, 70};
             frame++;
         }
         else if (frame == reference * 2)
         {
-            GameObject::srcRect = {351, 3, 49, 37};
+            GameObject::srcRect = {215, 571, 95, 136};
             frame = 1;
         }
         else
@@ -150,17 +150,17 @@ void NonPlayerCharacters::Animator()
     {
         if (frame == 0)
         {
-            GameObject::srcRect = {51, 113, 49, 29};
+            GameObject::srcRect = {515, 604, 95, 136};
             frame++;
         }
         else if (frame == reference)
         {
-            srcRect = {201, 110, 49, 38};
+            srcRect = {499, 814, 101, 70};
             frame++;
         }
         else if (frame == reference * 2)
         {
-            GameObject::srcRect = {351, 112, 49, 37};
+            GameObject::srcRect = {363, 441, 95, 136};
             frame = 1;
         }
         else
@@ -169,318 +169,6 @@ void NonPlayerCharacters::Animator()
         }
     }
 
-    // if (direction == 'r')
-    // {
-    //     if (transition_from_up_movement)
-    //     {
-    //         transition_from_down_movement = false;
-    //         if (rFrame == 0)
-    //         {
-    //             srcRect = {251, 0, 48, 50};
-    //             rFrame++;
-    //         }
-    //         else if (rFrame == (reference))
-    //         {
-    //             srcRect = {404, 0, 46, 50};
-    //             rFrame = 1;
-    //             transition_from_up_movement = false;
-    //         }
-    //         else if (rFrame > (reference))
-    //         {
-    //             rFrame = 0;
-    //         }
-    //         else
-    //         {
-    //             rFrame++;
-    //         }
-    //     }
-
-    //     else if (transition_from_down_movement)
-    //     {
-    //         transition_from_up_movement = false;
-    //         if (rFrame == 0)
-    //         {
-    //             srcRect = {252, 100, 48, 48};
-    //             rFrame++;
-    //         }
-    //         else if (rFrame == (reference))
-    //         {
-    //             srcRect = {401, 104, 49, 46};
-    //             rFrame = 1;
-    //             transition_from_down_movement = false;
-    //         }
-    //         else if (rFrame > (reference))
-    //         {
-    //             rFrame = 0;
-    //         }
-    //         else
-    //         {
-    //             rFrame++;
-    //         }
-    //     }
-
-    //     else
-    //     {
-    //         if (rFrame == 0)
-    //         {
-    //             srcRect = {111, 52, 29, 49};
-    //             rFrame++;
-    //         }
-    //         else if (rFrame == reference)
-    //         {
-    //             srcRect = {252, 51, 48, 50};
-    //             rFrame++;
-    //         }
-    //         else if (rFrame == reference * 2)
-    //         {
-    //             GameObject::srcRect = {404, 52, 50, 50};
-    //             rFrame = 1;
-    //         }
-    //         else if (rFrame > reference * 2)
-    //         {
-    //             rFrame = 1;
-    //         }
-    //         else
-    //         {
-    //             rFrame++;
-    //         }
-    //     }
-    // }
-
-    // else if (direction == 'l')
-    // {
-    //     std::cout << lFrame << std::endl;
-    //     if (transition_from_up_movement)
-    //     {
-    //         transition_from_down_movement = false;
-    //         if (lFrame == 0)
-    //         {
-    //             srcRect = {151, 0, 48, 50};
-    //             lFrame++;
-    //         }
-    //         else if (lFrame == (reference))
-    //         {
-    //             srcRect = {300, 0, 49, 50};
-    //             lFrame = 1;
-    //             transition_from_up_movement = false;
-    //         }
-    //         else if (lFrame > (reference))
-    //         {
-    //             lFrame = 0;
-    //         }
-    //         else
-    //         {
-    //             lFrame++;
-    //         }
-    //     }
-
-    //     else if (transition_from_down_movement)
-    //     {
-    //         transition_from_up_movement = false;
-    //         if (lFrame == 0)
-    //         {
-    //             srcRect = {151, 103, 49, 47};
-    //             lFrame++;
-    //         }
-    //         else if (lFrame == (reference))
-    //         {
-    //             srcRect = {303, 103, 45, 49};
-    //             lFrame = 1;
-    //             transition_from_down_movement = false;
-    //         }
-    //         else if (lFrame > (reference))
-    //         {
-    //             lFrame = 0;
-    //         }
-    //         else
-    //         {
-    //             lFrame++;
-    //         }
-    //     }
-
-    //     else
-    //     {
-    //         if (lFrame == 0)
-    //         {
-    //             GameObject::srcRect = {12, 51, 29, 49};
-    //             lFrame++;
-    //         }
-    //         else if (lFrame == reference)
-    //         {
-    //             srcRect = {155, 52, 38, 48};
-    //             lFrame++;
-    //         }
-    //         else if (lFrame == reference * 2)
-    //         {
-    //             GameObject::srcRect = {303, 51, 45, 49};
-    //             lFrame = 1;
-    //         }
-    //         else if (lFrame > reference * 2)
-    //         {
-    //             lFrame = 1;
-    //         }
-    //         else
-    //         {
-    //             lFrame++;
-    //         }
-    //     }
-    // }
-
-    // else if (direction == 'u')
-    // {
-    //     if (transition_from_right_movement)
-    //     {
-    //         transition_from_left_movement = false;
-    //         if (uFrame == 0)
-    //         {
-    //             srcRect = {251, 0, 48, 50};
-    //             uFrame++;
-    //         }
-    //         else if (uFrame == (reference))
-    //         {
-    //             srcRect = {404, 0, 46, 50};
-    //             uFrame = 1;
-    //             transition_from_right_movement = false;
-    //         }
-    //         else if (uFrame > (reference))
-    //         {
-    //             uFrame = 0;
-    //         }
-    //         else
-    //         {
-    //             uFrame++;
-    //         }
-    //     }
-
-    //     else if (transition_from_left_movement)
-    //     {
-    //         transition_from_right_movement = false;
-    //         if (uFrame == 0)
-    //         {
-    //             srcRect = {151, 0, 48, 50};
-    //             uFrame++;
-    //         }
-    //         else if (uFrame == (reference))
-    //         {
-    //             srcRect = {300, 0, 49, 50};
-    //             uFrame = 1;
-    //             transition_from_left_movement = false;
-    //         }
-    //         else if (uFrame > (reference))
-    //         {
-    //             uFrame = 0;
-    //         }
-    //         else
-    //         {
-    //             uFrame++;
-    //         }
-    //     }
-
-    //     else
-    //     {
-    // if (uFrame == 0)
-    // {
-    //     GameObject::srcRect = {51, 13, 49, 29};
-    //     uFrame++;
-    // }
-    // else if (uFrame == reference)
-    // {
-    //     srcRect = {201, 4, 49, 38};
-    //     uFrame++;
-    // }
-    // else if (uFrame == reference * 2)
-    // {
-    //     GameObject::srcRect = {351, 3, 49, 37};
-    //     uFrame = 1;
-    // }
-    // else if (uFrame > reference * 2)
-    // {
-    //     uFrame = 1;
-    // }
-    // else
-    // {
-    //     uFrame++;
-    // }
-    //     }
-    // }
-
-    // else if (direction == 'd')
-    // {
-    //     if (transition_from_right_movement)
-    //     {
-    //         transition_from_left_movement = false;
-    //         if (dFrame == 0)
-    //         {
-    //             srcRect = {252, 100, 48, 48};
-    //             dFrame++;
-    //         }
-    //         else if (dFrame == (reference))
-    //         {
-    //             srcRect = {401, 104, 49, 46};
-    //             dFrame = 1;
-    //             transition_from_right_movement = false;
-    //         }
-    //         else if (dFrame > (reference))
-    //         {
-    //             dFrame = 0;
-    //         }
-    //         else
-    //         {
-    //             dFrame++;
-    //         }
-    //     }
-
-    //     else if (transition_from_left_movement)
-    //     {
-    //         transition_from_right_movement = false;
-    //         if (dFrame == 0)
-    //         {
-    //             srcRect = {151, 103, 49, 47};
-    //             dFrame++;
-    //         }
-    //         else if (dFrame == (reference))
-    //         {
-    //             srcRect = {303, 103, 45, 49};
-    //             dFrame = 1;
-    //             transition_from_left_movement = false;
-    //         }
-    //         else if (dFrame > (reference))
-    //         {
-    //             dFrame = 0;
-    //         }
-    //         else
-    //         {
-    //             dFrame++;
-    //         }
-    //     }
-
-    //     else
-    //     {
-    // if (dFrame == 0)
-    // {
-    //     GameObject::srcRect = {51, 113, 49, 29};
-    //     dFrame++;
-    // }
-    // else if (dFrame == reference)
-    // {
-    //     srcRect = {201, 110, 49, 38};
-    //     dFrame++;
-    // }
-    // else if (dFrame == reference * 2)
-    // {
-    //     GameObject::srcRect = {351, 112, 49, 37};
-    //     dFrame = 1;
-    // }
-    // else if (dFrame > reference * 2)
-    // {
-    //     dFrame = 1;
-    // }
-    // else
-    // {
-    //     dFrame++;
-    // }
-    //     }
-    // }
 }
 
 void NonPlayerCharacters::Update(int speed_x, int speed_y)
@@ -541,4 +229,16 @@ int NonPlayerCharacters::getDX()
 int NonPlayerCharacters::getDY()
 {
     return this->dy;
+}
+
+void NonPlayerCharacters::reduceHealth(int min)
+{
+    if (health - min >=0)
+    {
+        health -= min;
+    }
+    else 
+    {
+        health = 0;
+    }
 }

@@ -59,8 +59,8 @@ void CircularMenu::Render(double _angle, int _radius)
 
             // if (x<x2 && y<y2)
             // {
-            moverRect2.x = x - (radius/2);
-            moverRect2.y = y - (radius/2);
+            // moverRect2.x = x;
+            // moverRect2.y = y;
             // = {x, y, x2, y2};
             // }
             // else if (x2 < x && y < y2)
@@ -75,21 +75,55 @@ void CircularMenu::Render(double _angle, int _radius)
             // {
             //     moverRect2 = {x2, y2, x, y};
             // }
-            // SDL_SetRenderDrawColor(renderer, 77, 77, 255, 255);
-            // int numSegments = (int)(abs((((region + 1) * 2 * M_PI) / NUM_GUNS) - ((region * 2 * M_PI) / NUM_GUNS)) / (M_PI / 180.0)) * 2;
-            // double angleStep = (((((region + 1) * sectors)) - ((region * sectors)))) / numSegments;
-            // double angle2 = ((region * 2 * M_PI) / NUM_GUNS);
-            // for (int i = 0; i < numSegments; i++)
-            // {
-            //     int point1x = centerX + (int)((radius / 2) * cos(angle2));
-            //     int point1y = centerY - (int)((radius / 2) * sin(angle2));
-            //     angle2 += angleStep;
-            //     int point2x = centerX + (int)((radius / 2) * cos(angle2));
-            //     int point2y = centerY - (int)((radius / 2) * sin(angle2));
+            SDL_SetRenderDrawColor(renderer, 77, 77, 255, 255);
+            int numSegments = (int)(abs((((region + 1) * 2 * M_PI) / NUM_GUNS) - ((region * 2 * M_PI) / NUM_GUNS)) / (M_PI / 180.0)) * 2;
+            double angleStep = (((((region + 1) * sectors)) - ((region * sectors)))) / numSegments;
+            double angle2 = ((region * 2 * M_PI) / NUM_GUNS);
+            for (int i = 0; i < numSegments; i++)
+            {
+                int point1x = centerX + (int)((radius / 2) * cos(angle2));
+                int point1y = centerY - (int)((radius / 2) * sin(angle2));
+                angle2 += angleStep;
+                int point2x = centerX + (int)((radius / 2) * cos(angle2));
+                int point2y = centerY - (int)((radius / 2) * sin(angle2));
 
-            //     SDL_RenderDrawLine(renderer, point1x, point1y, point2x, point2y);
-            // }
-            // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                SDL_RenderDrawLine(renderer, point1x, point1y, point2x, point2y);
+            }
+            angle2 = ((region * 2 * M_PI) / NUM_GUNS);
+            for (int i = 0; i < numSegments; i++)
+            {
+                int point1x = centerX + (int)(((radius-1) / 2) * cos(angle2));
+                int point1y = centerY - (int)(((radius-1) / 2) * sin(angle2));
+                angle2 += angleStep;
+                int point2x = centerX + (int)(((radius-1) / 2) * cos(angle2));
+                int point2y = centerY - (int)(((radius-1) / 2) * sin(angle2));
+
+                SDL_RenderDrawLine(renderer, point1x, point1y, point2x, point2y);
+            }
+            angle2 = ((region * 2 * M_PI) / NUM_GUNS);
+            for (int i = 0; i < numSegments; i++)
+            {
+                int point1x = centerX + (int)(((radius+1) / 2) * cos(angle2));
+                int point1y = centerY - (int)(((radius+1) / 2) * sin(angle2));
+                angle2 += angleStep;
+                int point2x = centerX + (int)(((radius+1) / 2) * cos(angle2));
+                int point2y = centerY - (int)(((radius+1) / 2) * sin(angle2));
+
+                SDL_RenderDrawLine(renderer, point1x, point1y, point2x, point2y);
+            }
+            angle2 = ((region * 2 * M_PI) / NUM_GUNS);
+            for (int i = 0; i < numSegments; i++)
+            {
+                int point1x = centerX + (int)(((radius + 2) / 2) * cos(angle2));
+                int point1y = centerY - (int)(((radius + 2) / 2) * sin(angle2));
+                angle2 += angleStep;
+                int point2x = centerX + (int)(((radius + 2) / 2) * cos(angle2));
+                int point2y = centerY - (int)(((radius + 2) / 2) * sin(angle2));
+
+                SDL_RenderDrawLine(renderer, point1x, point1y, point2x, point2y);
+            }
+
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             // int segments = (int)(abs((((region + 1) * 2 * M_PI) / NUM_GUNS) - ((region * 2 * M_PI) / NUM_GUNS)) / (M_PI / 180.0)) * 2;
             // float angleStep = (((region + 1) * sectors) - (region * sectors)) / segments;
             // std::vector<SDL_FPoint> vertices;
@@ -108,7 +142,7 @@ void CircularMenu::Render(double _angle, int _radius)
             //     SDL_Rect tt = {(int)(vertices[i].x - 4 / 2), (int)(vertices[i].y - 4 / 2), 4, 4};
             //     SDL_RenderCopyEx(renderer, glow, &srcRect2, &tt , atan2(vertices[i + 1].y - vertices[i].y, vertices[i + 1].x - vertices[i].x) * 180.0 / M_PI, NULL, SDL_FLIP_NONE);
             // }
-            SDL_RenderCopy(renderer, glow, &srcRect2, &moverRect2);
+            // SDL_RenderCopy(renderer, glow, &srcRect2, &moverRect2);
         }
     }
 }

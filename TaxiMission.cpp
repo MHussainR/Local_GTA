@@ -115,7 +115,7 @@ void TaxiMission::Render(int x, int y, int x1, int y1)
             frame++;
         }
     }
-    shape->Draw_circle(renderer, 1000-x, 1000-y, 250);
+    // shape->Draw_circle(renderer, 1000-x, 1000-y, 250);
 
     // AmbulanceMission::drawLine(renderer, patient->getXpos(), patient->getYpos(), Ambulance->getXpos(), Ambulance->getYpos());
 }
