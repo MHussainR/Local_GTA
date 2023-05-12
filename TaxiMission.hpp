@@ -4,6 +4,7 @@
 #include "GameObject.hpp"
 #include "FontManager.hpp"
 #include "Shapes.hpp"
+#include "Money.hpp"
 #include <SDL_ttf.h>
 #include <string>
 
@@ -12,14 +13,15 @@ class TaxiMission : public Mission
 private:
     CarObject *Taxi;
     SDL_RendererFlip flip1, flip2;
-    int x_pos, y_pos;
-    bool picked1, picked2;
+    int x_pos, y_pos, a_x_pos, a_y_pos;
+    bool picked1, picked2, p1_comp;
     bool failed;
     SDL_Rect position;
     CarObject *passanger1;
     CarObject *passanger2;
     SDL_Texture *arrow;
-    SDL_Point pivot;
+    SDL_Point apivot;
+    SDL_Point ppivot;
     double arrow_angle, position_angle;
     SDL_Rect aSrcRect, aMoverRect, pSrcRect, pMoverRect;
     FontManager *font;
@@ -36,7 +38,7 @@ public:
     void set_speed(int val);
     bool getStatus();
     void setStatus(int, int);
-    void Running(int x, int y);
+    void Running(int x, int y, Money* money);
     void setSpeedP(int val);
     bool getState();
 };

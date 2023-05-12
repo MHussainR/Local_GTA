@@ -4,6 +4,7 @@
 #include "cheat_codes.hpp"
 #include <SDL_ttf.h>
 
+class Cheat_codes;
 class Health
 {
     private:

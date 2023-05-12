@@ -4,6 +4,7 @@
 #include "FontManager.hpp"
 #include <string.h>
 #include <cstring>
+#include "Money.hpp"
 // #include "font.hpp"
 #include <cmath>
 // #include <SDL2/SDL.h>
@@ -15,7 +16,7 @@ AmbulanceMission::AmbulanceMission(SDL_Renderer *ren, int mapx, int mapy) : Miss
     Ambulance = new CarObject("assets/cars.png", renderer, 4850-mapx, 800 - mapy, "Ambulance");
     picked = false;
     failed = false;
-    patient = new CarObject("assets/npcs.png", renderer, 1500-mapx, 3700-mapy);
+    patient = new CarObject("assets/npcs.png", renderer, 1200 -mapx, 3300 -mapy);
     patient->srcRect = {50, 64, 49, 28};
     flip = SDL_FLIP_NONE;
     pivot = {Ambulance->moverRect.h / 2, 49 / 2};
@@ -168,7 +169,7 @@ void AmbulanceMission::setSpeedP(int val)
     patient->set_speed(val);
 }
 
-void AmbulanceMission::Running(int x, int y)
+void AmbulanceMission::Running(int x, int y, Money* money)
 {
     if (timer == 0)
     {
@@ -206,6 +207,7 @@ void AmbulanceMission::Running(int x, int y)
             completed = true;
             isRunning = false;
             Ambulance->setStatus(false);
+            money->addMoney(10000);
             // std::cout << "Mission completed" << '\n';
             Ambulance->moverRect.x = 600 * 8 + 50;
             Ambulance->moverRect.y = 400 * 2;

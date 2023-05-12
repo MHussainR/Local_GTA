@@ -3,6 +3,7 @@
 #include "CarObject.hpp"
 #include "GameObject.hpp"
 #include "FontManager.hpp"
+#include "Money.hpp"
 #include <SDL_ttf.h>
 #include <string>
 
@@ -34,7 +35,7 @@ class AmbulanceMission : public Mission{
         void set_speed(int val);
         bool getStatus();
         void setStatus(int, int);
-        void Running(int x, int y);
+        void Running(int x, int y, Money* money);
         void setSpeedP(int val);
         bool getState();
         

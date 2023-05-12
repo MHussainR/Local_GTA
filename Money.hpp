@@ -1,9 +1,12 @@
 #pragma once
 // #include "game.hpp"
 #include "FontManager.hpp"
+#include "cheat_codes.hpp"
+#include "CarObject.hpp"
 #include <SDL_ttf.h>
 #include <iomanip>
 
+class Cheat_codes;
 class Money
 {
 private:
@@ -19,6 +22,9 @@ public:
     void Render();
     void setMoney(int);
     int getMoney();
+    void addMoney(int);
     void Reset(){};
     ~Money();
+    friend class Cheat_codes;
+    friend class CarObject;
 };
