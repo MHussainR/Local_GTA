@@ -1,0 +1,601 @@
+<diagram program="umletino" version="15.1"><zoom_level>6</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>234</x><y>1038</y><w>180</w><h>84</h></coordinates><panel_attributes>&lt;&lt; Characters &gt;&gt;
+--
++ Characters(const char *, SDL_Renderer*, int, int);
++ virtual Update() = 0 :  void
++ virtual Update(char, int, int) = 0 :  void;
++ virtual Update(char, int, int, int, int) :  void
++ virtual Render() = 0 :  void
++ virtual Run(bool) = 0 : void
++ virtual getMoverRect() :  SDL_Rect*</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>414</x><y>1128</y><w>198</w><h>474</h></coordinates><panel_attributes>MainCharacter
+--
+- lFrame: int 
+- rFrame: int
+- uFrame: int 
+- dFrame: int 
+- reloadFrameAR: int 
+- reloadFrameHG: int 
+- reloadFrameSG: int 
+- firingFrame: int
+- bullets_ar: int
+- magazine_ar: int 
+- capacity_ar: int
+- bullets_hg: int 
+- magazine_hg: int 
+- capacity_hg:int
+- bullets_sg: int 
+- magazine_sg: int 
+- capacity_sg: int
+- reloadSG: bool 
+- reloadHG: bool 
+- reloadAR: bool 
+- reloading: bool
+- previous_direction: char
+- direction: char
+- reference: int
+- fireRateAR: const Uint32
+- fireRateHG: const Uint32
+- lastFireTimeAR: Uint32
+- lastFireTimeHG: Uint32
++ foot1: SDL_Texture *
++ foot2: SDL_Texture *
++ t1: SDL_Texture *
++ t2: SDL_Texture *
++ srcRectFoot: SDL_Rect 
++ moverRectFoot: SDL_Rect 
++ gunType: std::string 
++ in_car: bool 
++ firing: bool 
++ bullets: std::list&lt;Bullets *&gt; 
+--
++ MainCharacter(const char *, SDL_Renderer *, int, int)
++ Update() : void
++ Update(char, int, int) : void
++ Update(char, int, int, int, int) : void
++ Render() : void
++ Animator_reloading(): void
++ Animator(char): void
++ Run(bool) : void
++ Fire(): void
++ setReload(): void
++ getMoverRect(): SDL_Rect *
++ setGuntype(std::string): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>324</x><y>1116</y><w>102</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;10;190;150;190</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>1140</y><w>240</w><h>264</h></coordinates><panel_attributes>NonPlayerCharacters
+--
+- frame: int
+- reloadFrameAR: int 
+- reloadFrameHG: int 
+- reloadFrameSG: int 
+- previous_direction: char
+- direction: char
+- reference: int
+- initial_dx: int
+- initial_dy: int
+- initial_direction: char
++ health: bool 
+--
++ NonPlayerCharacters(const char *, SDL_Renderer *, int, int, char)
++ Update() : void 
++ Update(char, int, int, bool, bool): void 
++ Update(char, int, int): void 
++ Update(int, int): void 
++ Render() : void 
++ Animator(): void 
++ Run(bool) override: void 
++ getDirection(): char 
++ setDirection(char): void 
++ updateSpeed(int): void 
++ getDX(): int 
++ getDY(): int 
++ reduceHealth(int): void 
++ getMoverRect(): SDL_Rect *</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>234</x><y>1116</y><w>72</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>100;10;100;190;10;190</additional_attributes></element><element><id>UMLClass</id><coordinates><x>780</x><y>1440</y><w>228</w><h>168</h></coordinates><panel_attributes>&lt;&lt; Bullets &gt;&gt;
+--
+# dx: int 
+# dy: int 
+# direction: char 
+# reloading: bool 
+# bulletspeed: int 
+--
+Bullets(const char *texturesheet, SDL_Renderer *ren, int x, int y)
++ Update() : virtual void 
++ Update(char: void 
++ Update(char, int, int) : virtual void 
++ Render() : virtual void 
++ Reset() : virtual void 
++ Fire(char) : virtual void 
++ ~Bullets() : virtual 
++ getMoverRect() : virtual SDL_Rect *
++ getDirection() : virtual char 
++ getBulletSpeed() : virtual int </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>516</x><y>1632</y><w>234</w><h>126</h></coordinates><panel_attributes>ARBullets
+--
++ time: int
+--
++ ARBullets(const char *, SDL_Renderer *, int, int, char)
++ ~ARBullets()
++ Update(): void 
++ Update(char, int, int): void 
++ Render(): void 
++ Fire(char): void 
++ Reset(): void 
++ getMoverRect(): SDL_Rect *
++ getBulletSpeed(): int 
++ getDirection(): char </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>762</x><y>1632</y><w>234</w><h>126</h></coordinates><panel_attributes>ShotgunBullets
+--
++ time: int
+--
++ ShotgunBullets(const char *, SDL_Renderer *, int, int, char)
++ ~ShotgunBullets()
++ Update(): void 
++ Update(char, int, int): void 
++ Render(): void 
++ Fire(char): void 
++ Reset(): void 
++ getMoverRect(): SDL_Rect *
++ getBulletSpeed(): int 
++ getDirection(): char </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1008</x><y>1632</y><w>216</w><h>126</h></coordinates><panel_attributes>ShotgunBullets
+--
++ time: int
+--
++ HandGunBullets(const char *, SDL_Renderer *, int, int, char)
++ ~handGunBullets()
++ Update(): void 
++ Update(char, int, int): void 
++ Render(): void 
++ Fire(char): void 
++ Reset(): void 
++ getMoverRect(): SDL_Rect *
++ getBulletSpeed(): int 
++ getDirection(): char </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>1602</y><w>18</w><h>42</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;10;50</additional_attributes></element><element><id>Relation</id><coordinates><x>624</x><y>1488</y><w>168</w><h>156</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>260;20;10;20;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>1002</x><y>1488</y><w>132</w><h>156</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;200;10;200;240</additional_attributes></element><element><id>Relation</id><coordinates><x>606</x><y>1320</y><w>294</w><h>132</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;20;470;20;470;200</additional_attributes></element><element><id>UMLClass</id><coordinates><x>816</x><y>384</y><w>234</w><h>42</h></coordinates><panel_attributes>TextureManager
+--
+
+--
++ LoadTexture(const char, SDL_Renderer *) : static SDL_Texture *</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>546</x><y>774</y><w>234</w><h>192</h></coordinates><panel_attributes>GameObject
+--
++ inside_box_x: bool
++ inside_box_y: bool
++ moverRect: SDL_Rect
++ srcRect: SDL_Rect
+# x_pos: int 
+# y_pos: int 
+# objTexture: SDL_Texture *
+# renderer: SDL_Renderer *
+--
++ GameObject(const char *, SDL_Renderer *, int, int)
++ ~GameObject()
++ Update(): virtual void 
++ Update(char): virtual void 
++ Update(char, int, int): virtual void 
++ Render(): virtual void 
++ getXpos(): int 
++ getYpos(): int 
++ Reset(): virtual void 
++ getObjTexture(): SDL_Texture* </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>336</x><y>960</y><w>294</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>470;10;470;60;10;60;10;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1116</x><y>1050</y><w>234</w><h>372</h></coordinates><panel_attributes>CarObject
+--
+- angle : double 
+- stolen : bool 
+- flip : SDL_RendererFlip 
+- car_speed : int 
+- pivot : SDL_Point 
+- initial_dx : int 
+- initial_dy : int 
+- initial_direction : char 
+- dx : int 
+- dy : int 
+- direction : char 
+- shape : Shapes* 
+- intersects : bool 
+- modification_state : bool 
+- type : std::string 
+- mod_bg : SDL_Texture* 
+- mod_car_src: SDL_Rect
+- mod_car_move : SDL_Rect 
+- font : FontManager* 
+- mod_price : int 
+--
++ CarObject(const char*, SDL_Renderer*, int, int, std::string)
++ CarObject(const char*, SDL_Renderer* , int, int)
++ Update(): void 
++ Update(char direction, int x, int y, bool movex, bool movey): void 
++ Update(int, int): void 
++ Render(int x, int y): void 
++ Render(): void 
++ Render(SDL_Rect rect): void 
++ Reset(): void 
++ Rotation(int x, int y): void 
++ modification(Money * m): void 
++ get_modification_state(): bool 
++ set_modification_state(bool): void 
++ modification_render(): void 
++ getStatus(): bool 
++ setStatus(int x, int y): void 
++ setStatus(bool val): void 
++ set_speed(char): void </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1512</x><y>1362</y><w>174</w><h>114</h></coordinates><panel_attributes>&lt;&lt; Missions &gt;&gt;
+--
+# isRunning: bool 
+# completed: bool 
+# timer: int 
+# renderer: SDL_Renderer* 
+--
++ Mission(SDL_Renderer*)
++ check() = 0 : virtual void 
++ Running() : virtual void 
++ setStatus(bool) : void 
++ Update() : virtual void 
++ Render() : virtual void 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1368</x><y>1542</y><w>234</w><h>282</h></coordinates><panel_attributes>AmbulanceMission
+--
+- Ambulance: CarObject* 
+- flip: SDL_RendererFlip 
+- x_pos: int
+- y_pos: int 
+- picked: bool 
+- failed: bool 
+- position: SDL_Rect 
+- patient: CarObject* 
+- arrow: SDL_Texture* 
+- pivot: SDL_Point 
+- arrow_angle: double 
+- aSrcRect: SDL_Rect
+- aMoverRect: SDL_Rect 
+- font: FontManager* 
+- font1: FontManager* 
+--
++ AmbulanceMission(SDL_Renderer*, int, int)
++ ~AmbulanceMission()
++ Update(): void 
++ Update(char direction, int x, int y, bool movex, bool movey): void 
++ Update(int, int): void 
++ Render(): void 
++ Render(int x, int y): void 
++ check(): void 
++ set_speed(int val): void 
++ getStatus(): bool 
++ setStatus(int, int): void 
++ Running(int, int, Money*): void 
++ setSpeedP(int): void 
++ getState(): bool </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1608</x><y>1542</y><w>240</w><h>372</h></coordinates><panel_attributes>TaxiMission
+--
+- Taxi: CarObject *
+- flip1: SDL_RendererFlip 
+- flip2: SDL_RendererFlip 
+- x_pos: int
+- y_pos: int 
+- a_x_pos: int 
+- a_y_pos: int
+- picked1: bool
+- picked2: bool 
+- p1_comp: bool 
+- failed: bool 
+- position: SDL_Rect 
+- passanger1: CarObject *
+- passanger2: CarObject *
+- arrow: SDL_Texture *
+- apivot: SDL_Point 
+- ppivot: SDL_Point 
+- arrow_angle: double 
+- position_angle: double 
+- aSrcRect: SDL_Rect 
+- aMoverRect: SDL_Rect 
+- pSrcRect: SDL_Rect 
+- pMoverRect: SDL_Rect 
+- font: FontManager *
+- font1: FontManager *
+- shape: Shapes* 
+--
++ TaxiMission(SDL_Renderer *, int, int)
++ ~TaxiMission()
++ Update(char direction, int x, int y, bool movex, bool movey): void 
++ Update(int, int): void 
++ Render(int x, int y, int x1, int y1): void 
++ check(): void 
++ set_speed(int val): void 
++ getStatus(): bool 
++ setStatus(int, int): void 
++ Running(int x, int y, Money* money): void 
++ setSpeedP(int val): void 
++ getState(): bool </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1596</x><y>1470</y><w>120</w><h>84</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;10;80;180;80;180;120</additional_attributes></element><element><id>Relation</id><coordinates><x>1500</x><y>1506</y><w>114</w><h>48</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;60;10;20;170;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2634</x><y>762</y><w>234</w><h>252</h></coordinates><panel_attributes>RayCaster
+--
+- renderer: SDL_Renderer *
+- inside: bool 
+- x_pos: int 
+- y_pos: int 
+- shape: Shapes *
+- mapX: int 
+- mapY: int 
+- mapS: int 
+- deltax: float 
+- deltay: float 
+- angle: float 
+- mapview: bool 
+- map[600]: int 
+- map_parking[600] : int 
+- map_police_station[600]: int 
+- map_house[600]: int 
+- textures [20*20] : int 
+--
++ RayCaster(SDL_Renderer *ren);
++ ~RayCaster();
++ Render(): void 
++ Update(int val): void 
++ Update2(int val): void 
++ getState(): bool 
++ drawRays3d(): void </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>336</x><y>504</y><w>378</w><h>114</h></coordinates><panel_attributes>Physics
+--
+
+--
++ collisionHandler(MainCharacter *, MapObject *, int, int): bool 
++ collisionHandler(MainCharacter *, NonPlayerCharacters *, int, int): bool 
++ collisionHandler(MainCharacter *, std::list&lt;NonPlayerCharacters *&gt;, int, int): bool 
++ collisionHandler(MainCharacter *, CarObject *, MapObject *, int, int): bool 
++ collisionHandler(MainCharacter *, std::list&lt;CarObject *&gt;, MapObject*, int, int): bool 
++ collisionHandler(std::list&lt;NonPlayerCharacters *&gt;, MapObject *): void 
++ collisionHandler(std::list&lt;NonPlayerCharacters *&gt;, int, int): void 
++ collisionHandler(NonPlayerCharacters *, MapObject *): void </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1860</x><y>978</y><w>234</w><h>186</h></coordinates><panel_attributes>MapObject
+--
++ frame: int
+# game_speed_x: int
+# game_speed_y: int
+- death_state: bool
+- game_speed: int
+- gameMap[40][60] : int
+--
++ Update(char ): void 
++ Update(char , bool , bool ): void 
++ Update(char , bool , bool , int , int ): void 
++ Render(): void 
++ Update(): void 
++ load(): void 
++ getMapCoordinates(): int *
++ getMapAllowance(int, int): int 
++ death(): void 
++ getSpeed(): int 
++ set_speed(int): void 
++ get_death_state(): bool </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2118</x><y>1152</y><w>234</w><h>96</h></coordinates><panel_attributes>MapObject
+--
+- moverRect: SDL_Rect
+--
++ void Render(): void 
++ void Update(): void 
++ void Update(char , bool , bool ): void 
++ void Update(char, bool, bool, int, int): void 
++ void draw_black_rect(SDL_Renderer* , int , int , int , int ): void </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2088</x><y>1020</y><w>108</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;160;10;160;220</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1092</x><y>456</y><w>234</w><h>144</h></coordinates><panel_attributes>MusicManager
+--
+_music: MixMusic *
+
+--
++ MusicManager() :     
++ MusicManager(const char* )
++ ~MusicManager()
++ Load(const std::string &amp;): bool 
++ Load(): bool 
++ Play(): void 
++ Play(int ): void 
++ Pause(): void 
++ Resume(): void 
++ Stop(): void 
++ IsPlaying(): bool </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2160</x><y>198</y><w>246</w><h>144</h></coordinates><panel_attributes>FontManager
+--
+- m_fonts: std::map&lt;std::string, TTF_Font*&gt; 
+- m_path: std::string 
+--
++ FontManager()
++ ~FontManager()
++ instance() : static FontManager&amp; 
++ loadFont(const std::string&amp; , int , const std::string&amp; ): bool 
++ getFont(const std::string&amp; ): TTF_Font* 
++ renderText(SDL_Renderer*, const char*,int,int,int, SDL_Color): void 
++ setFont(const std::string ): void </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1344</x><y>30</y><w>234</w><h>114</h></coordinates><panel_attributes>Cheat_codes
+--
+- flag: int 
+- code: std::string 
+- code1: std::string 
+- code1_count: int 
+- code2: std::string 
+- code2_count: int 
+--
++ Cheat_codes()
++ check(char letter, Health* h, Money* m): void 
++ Update(): void </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1896</x><y>564</y><w>234</w><h>108</h></coordinates><panel_attributes>CoOrdinateSystem
+--
+- localx: int 
+- localy: int 
+- pointer_to_instance: static CoOrdinateSystem *
+--
+- CoOrdinateSystem(int, int)
++ CoOrdinateSystem(const CoOrdinateSystem &amp;ob) = delete
++ ~CoOrdinateSystem()
++ getInstance(int, int): static CoOrdinateSystem *
++ setGlobalCoOrdinatex(int): int 
++ setGlobalCoOrdinatey(int): int </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1830</x><y>186</y><w>234</w><h>288</h></coordinates><panel_attributes>CircularMenu
+--
+- number_of_guns: int 
+- radius: int 
+- is_open: bool 
+- centerY: int 
+- centerX: int 
+- NUM_GUNS: int 
+- renderer: SDL_Renderer *
+- menu_texture: SDL_Texture *
+- glow: SDL_Texture *
+- srcRect: SDL_Rect 
+- moverRect: SDL_Rect 
+- srcRect2 :SDL_Rect 
+- moverRect2: SDL_Rect 
+- sectors: double 
+- ar: SDL_Texture* 
+- moverAR: SDL_Rect 
+- moverHG : SDL_Rect 
+- moverSG : SDL_Rect 
+- moverMid : SDL_Rect 
+- hg: SDL_Texture *
+- sg: SDL_Texture *
+- mid: SDL_Texture *
+- srcRect3 = {}: SDL_Rect 
+--
++ CircularMenu(SDL_Renderer *, int, int):         
++ Render(double angle, int radius): void 
++ setState(bool): void 
++ getState(): bool 
++ getGun(double, int): std::string </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1182</x><y>246</y><w>234</w><h>150</h></coordinates><panel_attributes>Health
+--
+- font: FontManager *
+- health: int 
+- healthim1: SDL_Texture *
+- healthim2: SDL_Texture *
+- renderer: SDL_Renderer *
+- srcRect1[8]: SDL_Rect 
+- mvrRect[15]: SDL_Rect 
+- bar[37]: SDL_Rect 
+--
++ Health(SDL_Renderer *):         
++ Render(): void 
++ setHealth(int): void 
++ getHealth(): int 
++ ~Health():         </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1464</x><y>240</y><w>234</w><h>156</h></coordinates><panel_attributes>Money
+--
+- font: FontManager *
+- money: int 
+- healthim1: SDL_Texture *
+- renderer: SDL_Renderer *
+- srcRect: SDL_Rect 
+- mvrRect: SDL_Rect 
+
+--
++ Money(SDL_Renderer *):     
++ Render(): void 
++ setMoney(int): void 
++ getMoney(): int 
++ addMoney(int): void 
++ ~Money():     </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2232</x><y>738</y><w>324</w><h>288</h></coordinates><panel_attributes>Stacked_Sprites
+--
+- texture: SDL_Texture *
+- renderer: SDL_Renderer *
+- srcRects[20]: SDL_Rect 
+- moverRects[20]: SDL_Rect 
+- angle: int 
+- flip: SDL_RendererFlip 
+- x_pos: int 
+- y_pos: int 
+- game_speed: int 
+- shape: Shapes *
+- delta: int 
+- scale: int 
+- num_layers: int 
+- step: int 
+- game_speed_x: int 
+- game_speed_y: int 
+- sin_map: std::map&lt;float, float&gt; 
+- cos_map: std::map&lt;float, float&gt; 
+--
++ Stacked_Sprites(const char *, SDL_Renderer *, int, int, int, int , int , int , int , int , int , int , int )
++ ~Stacked_Sprites()  
++ Update(char , int x, int y, bool , bool ): void 
++ Update(int x, int y): void 
++ Update(int, int, int, int): void 
++ Rotate(): void 
++ Render(): void 
++ Render(int, int): void 
++ set_speed(int speed): void </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1494</x><y>654</y><w>306</w><h>276</h></coordinates><panel_attributes>Game
+--
+- isRunning: bool 
+- window: SDL_Window *
+- renderer: SDL_Renderer *
+- title: bool 
+- control: bool 
+- instructions: bool 
+- loading: bool 
+- collision: bool 
+- game_start_music: bool 
+- death_var: bool 
+- car_mod_var: bool 
+- dx: int 
+- dy: int 
+- direction: char 
+- Co_Ordinate_System: CoOrdinateSystem *
+- mouseX: int 
+- mouseY: int 
++ event: static SDL_Event 
+--
++ Game():     
++ ~Game():     
++ init(const char *title, int x_pos, int y_pos, int height, int width, bool fullscreen): void 
++ handleEvents(): void 
++ update(): void 
++ render(): void 
++ clean(): void 
++ running(): bool </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>612</x><y>990</y><w>300</w><h>462</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;480;10;480;750</additional_attributes></element><element><id>Relation</id><coordinates><x>888</x><y>984</y><w>336</w><h>78</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;540;20;540;110</additional_attributes></element><element><id>Relation</id><coordinates><x>1794</x><y>780</y><w>54</w><h>774</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;70;10;60;1270</additional_attributes></element><element><id>Relation</id><coordinates><x>1452</x><y>780</y><w>54</w><h>774</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>70;10;20;10;10;1270</additional_attributes></element><element><id>Relation</id><coordinates><x>1302</x><y>726</y><w>204</w><h>336</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>320;10;10;10;10;540</additional_attributes></element><element><id>Relation</id><coordinates><x>84</x><y>708</y><w>1422</w><h>444</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>2350;10;10;30;10;720</additional_attributes></element><element><id>Relation</id><coordinates><x>468</x><y>744</y><w>1038</w><h>396</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>1710;20;10;20;10;640</additional_attributes></element><element><id>Relation</id><coordinates><x>1794</x><y>756</y><w>114</w><h>234</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;10;170;370</additional_attributes></element><element><id>Relation</id><coordinates><x>1794</x><y>744</y><w>426</w><h>420</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;690;10;690;680</additional_attributes></element><element><id>Relation</id><coordinates><x>1344</x><y>1206</y><w>438</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>710;560;710;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1422</x><y>1206</y><w>36</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;560;10;10;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1794</x><y>726</y><w>534</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;20;870;10;870;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1794</x><y>714</y><w>870</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;20;1430;10;1430;80</additional_attributes></element><element><id>Relation</id><coordinates><x>708</x><y>564</y><w>798</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>1310;230;20;230;20;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1320</x><y>540</y><w>186</w><h>162</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>290;250;50;250;50;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1026</x><y>348</y><w>168</w><h>48</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+</panel_attributes><additional_attributes>260;20;10;20;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>750</x><y>408</y><w>78</w><h>378</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=0..*
+m2=1
+</panel_attributes><additional_attributes>10;610;10;10;110;10</additional_attributes></element><element><id>Relation</id><coordinates><x>504</x><y>726</y><w>264</w><h>414</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1</panel_attributes><additional_attributes>10;670;10;10;420;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1758</x><y>450</y><w>84</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;340;10;10;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1044</x><y>402</y><w>798</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+</panel_attributes><additional_attributes>1310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1692</x><y>378</y><w>72</w><h>288</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>100;460;100;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1410</x><y>372</y><w>342</w><h>294</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>550;470;550;390;40;390;40;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1002</x><y>222</y><w>474</w><h>174</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+</panel_attributes><additional_attributes>770;100;730;100;730;20;10;20;10;270</additional_attributes></element><element><id>Relation</id><coordinates><x>1572</x><y>126</y><w>168</w><h>540</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>260;880;260;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>438</x><y>612</y><w>30</w><h>528</h></coordinates><panel_attributes>lt=&lt;&lt;.
+m1=1
+m2=1
+</panel_attributes><additional_attributes>10;860;20;10</additional_attributes></element><element><id>Relation</id><coordinates><x>12</x><y>594</y><w>336</w><h>558</h></coordinates><panel_attributes>lt=&lt;&lt;.
+m1=0..*
+m2=1
+</panel_attributes><additional_attributes>10;910;10;10;540;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1242</x><y>0</y><w>114</w><h>258</h></coordinates><panel_attributes>lt=&lt;&lt;-
+                                              
+
+
+
+
+
+
+
+                                            1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+  1</panel_attributes><additional_attributes>10;410;10;150;170;150</additional_attributes></element><element><id>Relation</id><coordinates><x>1572</x><y>78</y><w>72</w><h>174</h></coordinates><panel_attributes>lt=&lt;&lt;.
+m1=1
+m2=1
+
+ </panel_attributes><additional_attributes>90;270;90;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1050</x><y>120</y><w>306</w><h>942</h></coordinates><panel_attributes>lt=&lt;&lt;.
+m1=1..*
+m2=1</panel_attributes><additional_attributes>130;1550;130;1420;10;1420;20;10;490;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1794</x><y>630</y><w>114</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;130;120;130;120;10;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1674</x><y>12</y><w>498</w><h>276</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;380;10;20;740;20;740;440;810;440</additional_attributes></element><element><id>Relation</id><coordinates><x>1464</x><y>288</y><w>1518</w><h>1716</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;2560;10;2830;2510;2840;2490;10;1570;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1728</x><y>1908</y><w>18</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>432</x><y>1074</y><w>402</w><h>372</h></coordinates><panel_attributes>lt=&lt;&lt;.
+m1=0..*</panel_attributes><additional_attributes>630;600;630;10;10;10</additional_attributes></element></diagram>
