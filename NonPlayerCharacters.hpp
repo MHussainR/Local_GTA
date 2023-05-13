@@ -15,7 +15,7 @@ private:
     int dx ;
     int dy ;
     char direction = 'd';
-    
+    int health;
 
 public:
     NonPlayerCharacters(const char *, SDL_Renderer *, int, int, char);
@@ -33,6 +33,8 @@ public:
     void updateSpeed(int);
     int getDX();
     int getDY();
+    void reduceHealth(int);
+    bool death;
 
     SDL_Rect *getMoverRect();
     friend class Physics;

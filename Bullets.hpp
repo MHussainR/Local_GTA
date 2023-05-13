@@ -4,14 +4,23 @@
 
 class Bullets: public GameObject
 {
-    private:
+    protected:
+        int dx;
+        int dy;
+        char direction;
+        bool reloading;
+        int bulletspeed;
 
     public:
         Bullets(const char *texturesheet, SDL_Renderer *ren, int x, int y);
-        Bullets(const char *texturesheet, SDL_Renderer *ren, int x, int y, std::string type);
-        void Update(){};
+        virtual void Update() = 0;
         void Update(char){};
-        void Update(char, int, int){};
-        void Render(){};
-        void Reset(){};
+        virtual void Update(char, int, int) = 0;
+        virtual void Render() = 0;
+        virtual void Reset() = 0;
+        virtual void Fire(char) = 0;
+        virtual ~Bullets(){}
+        virtual SDL_Rect *getMoverRect() = 0;
+        virtual char getDirection() = 0;
+        virtual int getBulletSpeed() = 0;
 };

@@ -13,7 +13,7 @@ Stacked_Sprites::Stacked_Sprites(const char *textursheet, SDL_Renderer *ren, int
     scale = scal;
     num_layers = nl;
     this->step = step;
-    #pragma omp parallel for
+#pragma omp parallel for
     {
         for (int i = 0; i < num_layers; i += step)
         {
@@ -29,72 +29,39 @@ Stacked_Sprites::Stacked_Sprites(const char *textursheet, SDL_Renderer *ren, int
     // memo = std::map<std::pair<float, float>, std::pair<float, float>>();
 }
 
-Stacked_Sprites::~Stacked_Sprites(){
+Stacked_Sprites::~Stacked_Sprites()
+{
     delete shape;
 }
 
 void Stacked_Sprites::Update(int x, int y)
 {
-
+    // Calculate the distance between the Stacked_Sprites and the target coordinates.
     float dist = shape->Distance(x_pos + moverRects[0].w / 2, y_pos + moverRects[0].h / 2, x, y);
 
     if (dist < 1500)
     {
-
+        // Calculate the angle (theta) between the Stacked_Sprites and the target coordinates.
         float theta = -(std::atan2((x_pos + moverRects[0].w / 2 - x), (y_pos + moverRects[0].h / 2 - y))) + M_PI_2;
 
-        // float sin_theta = sin_map[theta];
-        // float cos_theta = cos_map[theta];
-
-        // if (sin_map[theta] == 0.0){
-        //     sin_map.insert(std::pair<float, float>(theta, std::sin(theta)));
-        //     // std::cout << std::sin(theta) << " " << sin_map[theta] <<'\n';
-        //     // sin_theta = std::sin(theta);
-        // }
-
-        // if (cos_map[theta] == 0.0){
-        //     cos_map.insert(std::pair<float, float>(theta, std::cos(theta)));
-        //     cos_theta = std::cos(theta);
-        // }
-
-        // float sin_theta = sin_map[theta];
-        // float cos_theta = cos_map[theta];
-
+        // Calculate the sine and cosine values of the angle.
         float sin_theta = std::sin(theta);
         float cos_theta = std::cos(theta);
 
-// std::cout << theta << " " << sin_theta << " " << sin_map[theta] << '\n';
-        #pragma omp parallel for
+#pragma omp parallel for
         {
             for (int i = 0; i < num_layers; i += step)
             {
+                // Update the mover rectangles based on the angle and delta values.
                 moverRects[i] = {x_pos + int(i * delta * cos_theta), y_pos + int(i * delta * sin_theta), srcRects[i].w * scale, srcRects[i].h * scale};
             }
         }
     }
 }
 
-// void Stacked_Sprites::Update(int x, int y){
-//     float theta  = -(std::atan2((x_pos + moverRects[0].w/2 - x),(y_pos + moverRects[0].h/2 - y))) + M_PI_2;
-
-//     std::pair<float, float> key = std::make_pair(theta, delta);
-//     if (memo.find(key) != memo.end()) {
-//         for (int i = 0; i < num_layers; i+=step){
-//             moverRects[i] = {x_pos+int(i*memo[key].first), y_pos+int(i*memo[key].second), srcRects[i].w*scale, srcRects[i].h*scale};
-//         }
-//     } else {
-//         float sin_theta = std::sin(theta);
-//         float cos_theta = std::cos(theta);
-
-//         for (int i = 0; i < num_layers; i+=step){
-//             moverRects[i] = {x_pos+int(i*delta*cos_theta), y_pos+int(i*delta*sin_theta), srcRects[i].w*scale, srcRects[i].h*scale};
-//         }
-//         memo[key] = std::make_pair(cos_theta, sin_theta);
-//     }
-// }
-
 void Stacked_Sprites::Update(char direction, int x, int y, bool movex, bool movey)
 {
+    // Update the Stacked_Sprites' position based on the provided direction and movement flags.
     // angle += 2;
     if (movey == false)
     {
@@ -123,9 +90,9 @@ void Stacked_Sprites::Update(char direction, int x, int y, bool movex, bool move
         }
     }
 }
-
 void Stacked_Sprites::Update(int speedx, int speedy, int hx, int hy)
 {
+    // Update the Stacked_Sprites' position based on the provided speed values.
     y_pos = y_pos - speedy;
     x_pos = x_pos - speedx;
     // Update(direction, x, y, movex, movey);
@@ -134,16 +101,19 @@ void Stacked_Sprites::Update(int speedx, int speedy, int hx, int hy)
 
 void Stacked_Sprites::set_speed(int speed)
 {
+    // Set the game speed of the Stacked_Sprites.
     this->game_speed = speed;
 }
 
 void Stacked_Sprites::Rotate()
 {
+    // Rotate the Stacked_Sprites.
     angle += 2;
 }
 
 void Stacked_Sprites::Render()
 {
+    // Render the Stacked_Sprites.
     for (int i = 0; i < num_layers; i += step)
     {
         SDL_RenderCopyEx(renderer, texture, &srcRects[i], &moverRects[i], angle, NULL, flip);
@@ -152,6 +122,7 @@ void Stacked_Sprites::Render()
 
 void Stacked_Sprites::Render(int x, int y)
 {
+    // Render the Stacked_Sprites only if the target coordinates are within a certain distance.
     float dist = shape->Distance(x_pos + moverRects[0].w / 2, y_pos + moverRects[0].h / 2, x, y);
 
     if (dist <= 1500)

@@ -10,7 +10,6 @@ Money::Money(SDL_Renderer *renderer)
     healthim1 = TextureManager::LoadTexture("assets/icons8-dollars-64.png", renderer);
     srcRect = {3, 2, 58, 60};
     mvrRect = {932, 50, 45, 45};
-    
 }
 
 void Money::Render()
@@ -49,4 +48,9 @@ Money::~Money()
 {
     delete this->font;
     font = nullptr;
+}
+
+void Money::addMoney(int val)
+{
+    this->money += val;
 }

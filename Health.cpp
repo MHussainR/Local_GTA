@@ -9,6 +9,8 @@ Health::Health(SDL_Renderer *renderer)
     font->setFont("fonts/Orbitron-VariableFont_wght.ttf");
     healthim1 = TextureManager::LoadTexture("assets/spritesheet.png", renderer);
     healthim2 = TextureManager::LoadTexture("assets/health.png", renderer);
+
+    // Initialize source rectangles
     srcRect1[0] = {267, 11, 206, 337};
     srcRect1[1] = {37, 11, 220, 337};
     srcRect1[2] = {483, 11, 206, 337};
@@ -17,6 +19,8 @@ Health::Health(SDL_Renderer *renderer)
     srcRect1[5] = {794, 105, 111, 149};
     srcRect1[6] = {915, 105, 98, 149};
     srcRect1[7] = {5, 105, 22, 149};
+
+    // Initialize mover rectangles
     mvrRect[0] = {940, 100, 20, 30};
     for (int i = 1; i < 11; i++)
     {
@@ -27,6 +31,7 @@ Health::Health(SDL_Renderer *renderer)
     mvrRect[13] = {1020, 130, 150, 30};
     mvrRect[14] = {945, 115, 20, 20};
 
+    // Initialize bar rectangles
     bar[0] = {948, 108, 6, 14};
     for (int i = 1; i < 36; i++)
     {
@@ -37,6 +42,7 @@ Health::Health(SDL_Renderer *renderer)
 
 void Health::Render()
 {
+    // Render background elements
     for (int i = 0; i < 12; i++)
     {
         if (i == 0)
@@ -47,6 +53,7 @@ void Health::Render()
             SDL_RenderCopy(renderer, healthim1, &(srcRect1[1]), &(mvrRect[i]));
     }
 
+    // Render health bar segments
     for (int i = 0; i < (health / 2.7027027027027); i++)
     {
         if (i == 0)
@@ -57,10 +64,12 @@ void Health::Render()
             SDL_RenderCopy(renderer, healthim1, &(srcRect1[7]), &(bar[i]));
     }
 
+    // Render additional elements
     SDL_RenderCopy(renderer, healthim1, &(srcRect1[3]), &(mvrRect[12]));
     SDL_RenderCopy(renderer, healthim1, &(srcRect1[4]), &(mvrRect[13]));
     SDL_RenderCopy(renderer, healthim2, NULL, &(mvrRect[14]));
 
+    // Render health text
     font->renderText(renderer, ("health: " + std::to_string(health) + "/100").c_str(), 1052, 130, 13, {255, 255, 255, 255});
 }
 

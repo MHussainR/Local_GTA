@@ -1,8 +1,10 @@
 #pragma once
 // #include "game.hpp"
 #include "FontManager.hpp"
+#include "cheat_codes.hpp"
 #include <SDL_ttf.h>
 
+class Cheat_codes;
 class Health
 {
     private:
@@ -22,4 +24,5 @@ class Health
         int getHealth();
         void Reset(){};
         ~Health();
+        friend class Cheat_codes;
 };

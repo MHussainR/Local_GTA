@@ -1,11 +1,12 @@
 #pragma once
 #include "game.hpp"
 #include "GameObject.hpp"
-// #include "Shapes.hpp"
+#include "Shapes.hpp"
+#include "FontManager.hpp"
 #include<string>
 
 class Physics;
-
+class Money;
 class CarObject : public GameObject
 {
     private:
@@ -20,6 +21,14 @@ class CarObject : public GameObject
         int dx = 0;
         int dy = 0;
         char direction = 'n';
+        Shapes* shape;
+        bool intersects;
+        bool modification_state;
+        std::string type;
+        SDL_Texture* mod_bg;
+        SDL_Rect mod_car_src, mod_car_move;
+        FontManager* font;
+        int mod_price;
 
         // Shapes* shape;
 
@@ -32,7 +41,14 @@ class CarObject : public GameObject
         void Update(int, int);
         void Render(int x, int y);
         void Render();
+        void Render(SDL_Rect rect);
         void Reset();
+        void Rotation(int x, int y);
+        void modification(Money * m);
+        bool get_modification_state();
+        void set_modification_state(bool);
+        void modification_render();
+        // void RotatePoint(SDL_Point& point, double rad);
         // void draw_circle(SDL_Renderer*, int, int , int);
         // void load();
         // int frame = 0;

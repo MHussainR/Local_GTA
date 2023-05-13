@@ -1,5 +1,4 @@
 #include "CoOrdinateSystem.hpp"
-
 CoOrdinateSystem *CoOrdinateSystem::pointer_to_instance;
 
 CoOrdinateSystem::CoOrdinateSystem(int localx, int localy)
@@ -23,10 +22,13 @@ CoOrdinateSystem *CoOrdinateSystem::getInstance(int localx, int localy)
 
 int CoOrdinateSystem::setGlobalCoOrdinatex(int globalx)
 {
+    // Convert the global x-coordinate to local x-coordinate
     return globalx - this->localx;
 }
+
 int CoOrdinateSystem::setGlobalCoOrdinatey(int globaly)
 {
+    // Convert the global y-coordinate to local y-coordinate
     return globaly - this->localy;
 }
 

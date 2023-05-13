@@ -47,32 +47,50 @@ void MapObject::Update(char direction)
 
 void MapObject::Update(char direction, bool movex, bool movey)
 {
+    // if (movey == false){
+    //     if (direction == 'u'){
+    //         if (y_pos != 0)
+    //             y_pos -= game_speed_y;
+    //     } else if (direction == 'd'){
+    //         if (y_pos != 3200)
+    //             y_pos += game_speed_y;
+    //     }
+    // }
+    // if (movex == false){
+    //     if (direction == 'l'){
+    //         if (x_pos != 0)
+    //             x_pos -= game_speed_x;
+    //     } else if (direction == 'r'){
+    //         if (x_pos != 4800)
+    //             x_pos += game_speed_x;
+    //     }
+    // }
     // if (movey == false)
     // {
-        if (direction == 'u')
-        {
-            if (y_pos + game_speed_y >= 0)
-                y_pos += game_speed_y;
-        }
-        else if (direction == 'd')
-        {
-            if (y_pos + game_speed_y <= 3200)
-                y_pos += game_speed_y;
-        }
+    if (direction == 'u')
+    {
+        if (y_pos + game_speed_y >= 0)
+            y_pos += game_speed_y;
+    }
+    else if (direction == 'd')
+    {
+        if (y_pos + game_speed_y <= 3200)
+            y_pos += game_speed_y;
+    }
     // }
     // if (movex == false)
     // {
-        if (direction == 'l')
-        {
-            if (x_pos + game_speed_x >= 0)
-                x_pos += game_speed_x;
-        }
-        else if (direction == 'r')
-        {
-            if (x_pos + game_speed_x <= 4800)
-                x_pos += game_speed_x;
-        }
-    // }
+    if (direction == 'l')
+    {
+        if (x_pos + game_speed_x >= 0)
+            x_pos += game_speed_x;
+    }
+    else if (direction == 'r')
+    {
+        if (x_pos + game_speed_x <= 4800)
+            x_pos += game_speed_x;
+    }
+    // // }
     // x_pos++;
     // y_pos++;
     // std::cout << x_pos << " " << y_pos << std::endl;
@@ -101,32 +119,32 @@ void MapObject::Render()
 
 void MapObject::load()
 {
-    if (frame <= 60)
+    if (frame <= 120)
     {
         srcRect = {0, 0, 1200, 800};
         frame++;
     }
-    else if (frame <= 120)
+    else if (frame <= 240)
     {
         srcRect = {1200, 0, 1200, 800};
         frame++;
     }
-    else if (frame <= 180)
+    else if (frame <= 360)
     {
         srcRect = {0, 800, 1200, 800};
         frame++;
     }
-    else if (frame <= 240)
+    else if (frame <= 480)
     {
         srcRect = {1200, 800, 1200, 800};
         frame++;
     }
-    else if (frame <= 300)
+    else if (frame <= 600)
     {
         srcRect = {0, 1600, 1200, 800};
         frame++;
     }
-    else if (frame <= 360)
+    else if (frame <= 720)
     {
         srcRect = {1200, 1600, 1200, 800};
         frame++;
@@ -142,64 +160,64 @@ void MapObject::load()
     // if ((frame >= 50 && frame <= 360) && (frame % 60 >= 0 && frame % 60 <= 10)) {
     //     SDL_SetTextureAlphaMod(objTexture, 128);
     // }
-    if (frame >= 50 && frame <= 60)
+    if (frame >= 100 && frame <= 120)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((-25.5 * frame) + 1530));
+        SDL_SetTextureAlphaMod(objTexture, ((-12.75 * frame) + 1530));
     }
 
-    if (frame >= 110 && frame <= 120)
+    if (frame >= 220 && frame <= 240)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((-25.5 * frame) + (1530 * 2)));
+        SDL_SetTextureAlphaMod(objTexture, ((-12.75 * frame) + (1530 * 2)));
     }
 
-    if (frame >= 170 && frame <= 180)
+    if (frame >= 340 && frame <= 360)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((-25.5 * frame) + (1530 * 3)));
+        SDL_SetTextureAlphaMod(objTexture, ((-12.75 * frame) + (1530 * 3)));
     }
 
-    if (frame >= 230 && frame <= 240)
+    if (frame >= 460 && frame <= 480)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((-25.5 * frame) + (1530 * 4)));
+        SDL_SetTextureAlphaMod(objTexture, ((-12.75 * frame) + (1530 * 4)));
     }
 
-    if (frame >= 290 && frame <= 300)
+    if (frame >= 580 && frame <= 600)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((-25.5 * frame) + (1530 * 5)));
+        SDL_SetTextureAlphaMod(objTexture, ((-12.75 * frame) + (1530 * 5)));
     }
 
-    if (frame >= 350 && frame <= 360)
+    if (frame >= 700 && frame <= 720)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((-25.5 * frame) + (1530 * 6)));
+        SDL_SetTextureAlphaMod(objTexture, ((-12.75 * frame) + (1530 * 6)));
     }
     //////////////////////////
-    if (frame >= 60 && frame <= 70)
+    if (frame >= 120 && frame <= 140)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((25.5 * frame) - 1530));
+        SDL_SetTextureAlphaMod(objTexture, ((12.75 * frame) - 1530));
     }
 
-    if (frame >= 120 && frame <= 130)
+    if (frame >= 240 && frame <= 260)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((25.5 * frame) - (1530 * 2)));
+        SDL_SetTextureAlphaMod(objTexture, ((12.75 * frame) - (1530 * 2)));
     }
 
-    if (frame >= 180 && frame <= 190)
+    if (frame >= 360 && frame <= 380)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((25.5 * frame) - (1530 * 3)));
+        SDL_SetTextureAlphaMod(objTexture, ((12.75 * frame) - (1530 * 3)));
     }
 
-    if (frame >= 240 && frame <= 250)
+    if (frame >= 480 && frame <= 500)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((25.5 * frame) - (1530 * 4)));
+        SDL_SetTextureAlphaMod(objTexture, ((12.75 * frame) - (1530 * 4)));
     }
 
-    if (frame >= 300 && frame <= 310)
+    if (frame >= 600 && frame <= 620)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((25.5 * frame) - (1530 * 5)));
+        SDL_SetTextureAlphaMod(objTexture, ((12.75 * frame) - (1530 * 5)));
     }
 
-    if (frame >= 360)
+    if (frame >= 720)
     {
-        SDL_SetTextureAlphaMod(objTexture, ((25.5 * frame) - (1530 * 6)));
+        SDL_SetTextureAlphaMod(objTexture, ((12.75 * frame) - (1530 * 6)));
     }
     // if ((frame >= 40 && frame <= 60) ||
     //     (frame >= 100 && frame <= 120) ||
@@ -208,7 +226,7 @@ void MapObject::load()
     //     (frame >= 280 && frame <= 300) ||
     //     (frame >= 340 && frame <= 360))  {
 
-    //     int alpha_mod = ((-25.5 * frame) + (1530 * ((frame - 40) / 60)));
+    //     int alpha_mod = ((-12.75 * frame) + (1530 * ((frame - 40) / 60)));
     //     SDL_SetTextureAlphaMod(objTexture, alpha_mod);
     //     std::cout << alpha_mod << std::endl;
     // }
@@ -220,22 +238,12 @@ void MapObject::load()
     //     (frame >= 300 && frame <= 320) ||
     //     (frame >= 360)) {
 
-    //     int alpha_mod = ((25.5 * frame) - (1530 * ((frame - 50) / 60)));
+    //     int alpha_mod = ((12.75 * frame) - (1530 * ((frame - 50) / 60)));
     //     SDL_SetTextureAlphaMod(objTexture, alpha_mod);
     // }
 
     // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 }
-
-// void MapObject::set_speedx(int speed)
-// {
-//     this->game_speed_x = speed;
-// }
-
-// void MapObject::set_speedy(int speed)
-// {
-//     this->game_speed_y = speed;
-// }
 
 void MapObject::Reset()
 {
@@ -265,11 +273,32 @@ int MapObject::getMapAllowance(int i, int j)
 //     return game_speed_y;
 // }
 
-int MapObject::getSpeed(){
+int MapObject::getSpeed()
+{
     return game_speed;
 }
 
-void MapObject::set_speed(int val){
+void MapObject::set_speed(int val)
+{
 
     game_speed = val;
+}
+
+void MapObject::death()
+{
+    static int frame = 0;
+    if (frame >= 140)
+        srcRect = {0, 0, 1200, 800};
+    else
+        srcRect = {0, 800, 1200, 800};
+        frame++;
+    if (frame==260)
+    {
+        death_state = true;
+    }
+}
+
+bool MapObject::get_death_state()
+{
+    return death_state;
 }

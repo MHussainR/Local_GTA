@@ -3,6 +3,7 @@
 #include "CarObject.hpp"
 #include "GameObject.hpp"
 #include "FontManager.hpp"
+#include "Money.hpp"
 #include <SDL_ttf.h>
 #include <string>
 
@@ -13,7 +14,6 @@ class AmbulanceMission : public Mission{
         int x_pos, y_pos;
         bool picked;
         bool failed;
-        // TTF_Font* font;
         SDL_Rect position;
         CarObject* patient;
         SDL_Texture* arrow;
@@ -22,7 +22,7 @@ class AmbulanceMission : public Mission{
         SDL_Rect aSrcRect, aMoverRect;
         FontManager* font;
         FontManager* font1;
-        // SDL_FreeSurface(tempSurface);
+
     public:
         AmbulanceMission(SDL_Renderer* ren, int, int);
         ~AmbulanceMission();
@@ -35,9 +35,8 @@ class AmbulanceMission : public Mission{
         void set_speed(int val);
         bool getStatus();
         void setStatus(int, int);
-        void Running(int x, int y);
+        void Running(int x, int y, Money* money);
         void setSpeedP(int val);
         bool getState();
-        // void drawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2);
         
 };

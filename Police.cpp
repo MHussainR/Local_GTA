@@ -564,7 +564,7 @@ void Police::Update(int speedx, int speedy)
 
 void Police::followPath(MapObject *map)
 {
-    std::cout << npc_police->getMoverRect()->x + npc_police->getMoverRect()->w + map->getXpos() << std::endl;
+    // std::cout << npc_police->getMoverRect()->x + npc_police->getMoverRect()->w + map->getXpos() << std::endl;
     if (((npc_police->getMoverRect()->x + npc_police->getMoverRect()->w + map->getXpos()) / 100 != path[taken][1]) || ((npc_police->getMoverRect()->y + npc_police->getMoverRect()->h + map->getYpos()) / 100 != path[taken][0]))
     {
         taken++;
