@@ -1,5 +1,4 @@
 #include "HandGunBullets.hpp"
-
 HandGunBullets::HandGunBullets(const char *texturesheet, SDL_Renderer *ren, int x, int y, char direction) : Bullets(texturesheet, ren, x, y)
 {
     dx = 0;
@@ -7,6 +6,7 @@ HandGunBullets::HandGunBullets(const char *texturesheet, SDL_Renderer *ren, int 
     bulletspeed = 11;
     this->direction = direction;
 
+    // Set the source rectangle based on the bullet's direction
     if (direction == 'r' || direction == 'n' || direction == 'i')
         srcRect = {41, 11, 10, 5};
     else if (direction == 'l')
@@ -41,6 +41,7 @@ void HandGunBullets::Update(char direction, int speedx, int speedy)
 
 void HandGunBullets::Fire(char direction)
 {
+    // Set the bullet's velocity based on the direction
     if (direction == 'r' || direction == 'n')
     {
         this->dx = bulletspeed;
@@ -63,7 +64,7 @@ void HandGunBullets::Fire(char direction)
     }
 }
 
-SDL_Rect* HandGunBullets::getMoverRect()
+SDL_Rect *HandGunBullets::getMoverRect()
 {
     return &moverRect;
 }

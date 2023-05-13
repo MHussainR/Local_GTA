@@ -12,54 +12,47 @@ Cheat_codes::Cheat_codes()
     code2_count = 0;
 }
 
-void Cheat_codes::check(char letter, Health *h, Money* m)
+void Cheat_codes::check(char letter, Health *h, Money *m)
 {
+    // Concatenate the entered letter to the code string
     code += letter;
     static int check = 0;
     std::cout << letter;
 
-    // if (letter == code1[check] | letter == code2[check])
-    // {
-    //     if (letter == code1[check]){
-    //         code1_count ++;
-    //         // code += letter;
-    //         check ++;
-    //     }
-    //     else if(letter == code2[check]){
-    //         code2_count ++;
-    //         check++;
-    //     }
-    // }
-    // else
-    // {
-    //     code1_count = 0;
-    //     code2_count = 0;
-    //     check = 0;
-    // }
-    if (letter == code1[code1_count]){
+    // Check for matches with cheat codes
+    if (letter == code1[code1_count])
+    {
         code1_count++;
     }
-    else{
+    else
+    {
         code1_count = 0;
     }
 
-    if (letter == code2[code2_count]){
-        code2_count ++;
+    if (letter == code2[code2_count])
+    {
+        code2_count++;
     }
-    else {
+    else
+    {
         code2_count = 0;
     }
 
+    // Check if a cheat code has been entered completely
     if (code1_count == 7)
     {
+        // Activate cheat code 1: Reset health to 100
         h->setHealth(100);
     }
-    if (code2_count == 6){
+    if (code2_count == 6)
+    {
+        // Activate cheat code 2: Set money to a large amount
         m->setMoney(99999999);
     }
 }
 
 void Cheat_codes::Update()
 {
+    // Perform any necessary updates
     static int time;
 }

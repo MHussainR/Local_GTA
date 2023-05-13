@@ -25,7 +25,7 @@ std::string CircularMenu::getGun(double _angle, int _radius)
 {
     if (this->is_open)
     {
-        if(_radius < 275 && _radius > ((this->radius - 298) / 2))
+        if (_radius < 275 && _radius > ((this->radius - 298) / 2))
         {
             if (_angle > 0)
             {
@@ -125,22 +125,22 @@ void CircularMenu::Render(double _angle, int _radius)
             angle2 = ((region * 2 * M_PI) / NUM_GUNS);
             for (int i = 0; i < numSegments; i++)
             {
-                int point1x = centerX + (int)(((radius-1) / 2) * cos(angle2));
-                int point1y = centerY - (int)(((radius-1) / 2) * sin(angle2));
+                int point1x = centerX + (int)(((radius - 1) / 2) * cos(angle2));
+                int point1y = centerY - (int)(((radius - 1) / 2) * sin(angle2));
                 angle2 += angleStep;
-                int point2x = centerX + (int)(((radius-1) / 2) * cos(angle2));
-                int point2y = centerY - (int)(((radius-1) / 2) * sin(angle2));
+                int point2x = centerX + (int)(((radius - 1) / 2) * cos(angle2));
+                int point2y = centerY - (int)(((radius - 1) / 2) * sin(angle2));
 
                 SDL_RenderDrawLine(renderer, point1x, point1y, point2x, point2y);
             }
             angle2 = ((region * 2 * M_PI) / NUM_GUNS);
             for (int i = 0; i < numSegments; i++)
             {
-                int point1x = centerX + (int)(((radius+1) / 2) * cos(angle2));
-                int point1y = centerY - (int)(((radius+1) / 2) * sin(angle2));
+                int point1x = centerX + (int)(((radius + 1) / 2) * cos(angle2));
+                int point1y = centerY - (int)(((radius + 1) / 2) * sin(angle2));
                 angle2 += angleStep;
-                int point2x = centerX + (int)(((radius+1) / 2) * cos(angle2));
-                int point2y = centerY - (int)(((radius+1) / 2) * sin(angle2));
+                int point2x = centerX + (int)(((radius + 1) / 2) * cos(angle2));
+                int point2y = centerY - (int)(((radius + 1) / 2) * sin(angle2));
 
                 SDL_RenderDrawLine(renderer, point1x, point1y, point2x, point2y);
             }
@@ -176,7 +176,6 @@ void CircularMenu::Render(double _angle, int _radius)
             //     SDL_RenderCopyEx(renderer, glow, &srcRect2, &tt , atan2(vertices[i + 1].y - vertices[i].y, vertices[i + 1].x - vertices[i].x) * 180.0 / M_PI, NULL, SDL_FLIP_NONE);
             // }
             // SDL_RenderCopy(renderer, glow, &srcRect2, &moverRect2);
-
         }
         moverAR = {radius - 200, radius - 50, 40, 40};
         SDL_RenderCopy(renderer, ar, NULL, &moverAR);
