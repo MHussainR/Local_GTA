@@ -36,46 +36,46 @@ To compile and run this project, you need to have a C++ compiler and the SDL2 li
     ./Local_GTA
 
 ## Usage
--Controls:
-    -Movement: Use arrow keys to navigate.
-    -Action: Spacebar for interactions.
-    -Missions: Follow on-screen instructions for mission-specific controls.
--Cheat Codes: Implemented in 'cheat_codes.cpp', can be activated during gameplay.
+- Controls:
+    - Movement: Use arrow keys to navigate.
+    - Action: Spacebar for interactions.
+    - Missions: Follow on-screen instructions for mission-specific controls.
+- Cheat Codes: Implemented in 'cheat_codes.cpp', can be activated during gameplay.
 
 ## Project Structure
--Main Files:
-    -'main.cpp': Entry point of the game.
-    -'game.cpp', game.hpp: Core game logic.
-    -'AI.cpp', 'AI.hpp': AI logic for NPCs.
+- Main Files:
+    - 'main.cpp': Entry point of the game.
+    - 'game.cpp', game.hpp: Core game logic.
+    - 'AI.cpp', 'AI.hpp': AI logic for NPCs.
 
--Missions:
+- Missions:
 
-    -'AmbulanceMission.cpp', 'AmbulanceMission.hpp'
-    -'TaxiMission.cpp', 'TaxiMission.hpp'
+    - 'AmbulanceMission.cpp', 'AmbulanceMission.hpp'
+    - 'TaxiMission.cpp', 'TaxiMission.hpp'
 
--Weapons:
+- Weapons:
 
-    -'ARBullets.cpp', 'ARBullets.hpp'
-    -'HandGunBullets.cpp', 'HandGunBullets.hpp'
-    -'ShotgunBullets.cpp', 'ShotgunBullets.hpp'
+    - 'ARBullets.cpp', 'ARBullets.hpp'
+    - 'HandGunBullets.cpp', 'HandGunBullets.hpp'
+    - 'ShotgunBullets.cpp', 'ShotgunBullets.hpp'
 
--Graphics:
+- Graphics:
 
-    -'RayCaster.cpp', 'RayCaster.hpp': Implements ray casting.
-    -'stacked_sprites.cpp', 'stacked_sprites.hpp': Implements sprite stacking.
+    - 'RayCaster.cpp', 'RayCaster.hpp': Implements ray casting.
+    - 'stacked_sprites.cpp', 'stacked_sprites.hpp': Implements sprite stacking.
 
--Utilities:
+- Utilities:
 
-    -'FontManager.cpp', 'FontManager.hpp'
-    -'TextureManager.cpp', 'TextureManager.hpp'
-    -'MusicManager.cpp', 'MusicManager.hpp'
+    - 'FontManager.cpp', 'FontManager.hpp'
+    - 'TextureManager.cpp', 'TextureManager.hpp'
+    - 'MusicManager.cpp', 'MusicManager.hpp'
 
--Assets:
+- Assets:
 
-    -'assets/': Contains images and textures.
-    -'fonts/': Contains font files.
-    -'Music/': Contains audio files.
+    - 'assets/': Contains images and textures.
+    - 'fonts/': Contains font files.
+    - 'Music/': Contains audio files.
 
--Documentation:
+- Documentation:
 
-    'UML.pdf', 'UML.png': UML diagrams for the project structure.
+    - 'UML.pdf', 'UML.png': UML diagrams for the project structure.
